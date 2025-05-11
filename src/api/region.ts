@@ -1,14 +1,14 @@
-import { useQuery } from "@tanstack/react-query";
-import { axiosInstance } from "./axiosInstance";
+import { useQuery } from '@tanstack/react-query'
+import { axiosInstance } from './axiosInstance'
 
 export const useGetRegions = () => {
   const getRegions = async () => {
-    const res = await axiosInstance.get("/region", { showToast: false });
-    return res.data.regions as Region[];
-  };
+    const res = await axiosInstance.get('/region', { showToast: false })
+    return res.data.regions as Array<Region>
+  }
 
   return useQuery({
-    queryKey: ["Regions"],
+    queryKey: ['Regions'],
     queryFn: getRegions,
-  });
-};
+  })
+}

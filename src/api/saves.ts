@@ -1,27 +1,27 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { axiosInstance } from "./axiosInstance";
+import { useMutation, useQuery } from '@tanstack/react-query'
+import { axiosInstance } from './axiosInstance'
 
-const token = localStorage.getItem("token");
+const token = localStorage.getItem('token')
 export const useGetSavedProducts = () => {
   const getSavedProducts = async () => {
-    const res = await axiosInstance.get("/saves", { showToast: false });
-    return res.data.savedProducts as SavedItem[];
-  };
+    const res = await axiosInstance.get('/saves', { showToast: false })
+    return res.data.savedProducts as Array<SavedItem>
+  }
 
   return useQuery({
-    queryKey: ["Saves"],
+    queryKey: ['Saves'],
     queryFn: getSavedProducts,
     retry: false,
     enabled: !!token,
-  });
-};
+  })
+}
 
 export const useSaveProduct = () => {
   return useMutation({
     mutationFn: (productId: string) => {
-      return axiosInstance.post("/saves", {
+      return axiosInstance.post('/saves', {
         productId,
-      });
+      })
     },
-  });
-};
+  })
+}

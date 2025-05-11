@@ -1,14 +1,14 @@
-import "axios";
+import 'axios'
 
-declare module "axios" {
+declare module 'axios' {
   export interface AxiosRequestConfig {
-    showToast?: boolean;
+    showToast?: boolean
   }
 }
 
 interface ApiErrorResponse<> {
-  status: boolean;
-  message: string;
-  error: any;
-  order?: any;
+  status: boolean
+  message: string
+  error: any
+  order?: any
 }

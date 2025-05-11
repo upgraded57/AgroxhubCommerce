@@ -1,4 +1,4 @@
-import { HiOutlineEnvelope } from "react-icons/hi2";
+import { HiOutlineEnvelope } from 'react-icons/hi2'
 
 export default function BeASeller() {
   return (
@@ -26,5 +26,5 @@ export default function BeASeller() {
         </form>
       </div>
     </div>
-  );
+  )
 }

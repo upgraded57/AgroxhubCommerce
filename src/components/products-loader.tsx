@@ -2,12 +2,12 @@ export default function ProductsLoader({
   count,
   type,
 }: {
-  count: number;
-  type?: "list" | "grid";
+  count: number
+  type?: 'list' | 'grid'
 }) {
-  const array = Array.from({ length: count }, (_, index) => index);
+  const array = Array.from({ length: count }, (_, index) => index)
 
-  return type === "list" ? (
+  return type === 'list' ? (
     <div className="w-full">
       {array.map((_, idx) => (
         <div
@@ -40,5 +40,5 @@ export default function ProductsLoader({
         </div>
       ))}
     </div>
-  );
+  )
 }

@@ -1,28 +1,28 @@
-import { useQuery } from "@tanstack/react-query";
-import { axiosInstance } from "./axiosInstance";
+import { useQuery } from '@tanstack/react-query'
+import { axiosInstance } from './axiosInstance'
 
 export const useGetNotifications = () => {
   const getNotifications = async () => {
-    const res = await axiosInstance.get("notifications", { showToast: false });
-    return res.data.notifications as Notification[];
-  };
+    const res = await axiosInstance.get('notifications', { showToast: false })
+    return res.data.notifications as Array<Notification>
+  }
 
   return useQuery({
-    queryKey: ["Notifications"],
+    queryKey: ['Notifications'],
     queryFn: getNotifications,
-  });
-};
+  })
+}
 
 export const useGetSingleNotification = (id: string) => {
   const getSingleNotifications = async () => {
     const res = await axiosInstance.get(`notifications/${id}`, {
       showToast: false,
-    });
-    return res.data.notification as Notification;
-  };
+    })
+    return res.data.notification as Notification
+  }
 
   return useQuery({
-    queryKey: ["Notification", id],
+    queryKey: ['Notification', id],
     queryFn: getSingleNotifications,
-  });
-};
+  })
+}

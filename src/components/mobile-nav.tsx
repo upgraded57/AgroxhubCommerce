@@ -12,7 +12,8 @@ interface Props {
     path: string
     title: string
   }>
-
+  pathName: string
+  isLoadingRoute: boolean
   currentPage: string
 }
 
@@ -20,6 +21,8 @@ export default function MobileNav({
   userLinks,
   sellerLinks,
   currentPage,
+  isLoadingRoute,
+  pathName,
 }: Props) {
   const user = use(UserContext).user
   const isSeller = user?.type === 'farmer' || user?.type === 'wholesaler'
@@ -39,8 +42,11 @@ export default function MobileNav({
         >
           {userLinks.map((link, idx) => (
             <li key={idx}>
-              <Link className="py-3" to={link.path}>
+              <Link className="py-3 flex space-x-2" to={link.path}>
                 {link.title}
+                {isLoadingRoute && pathName === link.path && (
+                  <span className="loading loading-spinner text-grey-clr" />
+                )}
               </Link>
             </li>
           ))}
@@ -52,8 +58,11 @@ export default function MobileNav({
               </p>
               {sellerLinks.map((link, idx) => (
                 <li key={idx}>
-                  <Link className="py-3" to={link.path}>
+                  <Link className="py-3 flex space-x-2" to={link.path}>
                     {link.title}
+                    {isLoadingRoute && pathName === link.path && (
+                      <span className="loading loading-spinner text-grey-clr" />
+                    )}
                   </Link>
                 </li>
               ))}

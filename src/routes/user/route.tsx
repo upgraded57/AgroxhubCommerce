@@ -1,4 +1,9 @@
-import { Outlet, createFileRoute, useLocation } from '@tanstack/react-router'
+import {
+  Outlet,
+  createFileRoute,
+  useLocation,
+  useRouterState,
+} from '@tanstack/react-router'
 import { UserProvider } from '@/providers/UserContext'
 import { ResolveLocation } from '@/utils/resolve-location'
 import Navbar from '@/components/navbar'
@@ -13,6 +18,13 @@ export const Route = createFileRoute('/user')({
 
 function UserLayout() {
   const location = useLocation()
+  const isLoadingRoute = useRouterState({
+    select: (state) => state.status === 'pending',
+  })
+
+  const pathName = useRouterState({
+    select: (state) => state.location.pathname,
+  })
 
   const currentPage = ResolveLocation(location)
 
@@ -78,10 +90,17 @@ function UserLayout() {
             currentPage={currentPage}
             sellerLinks={sellerLinks}
             userLinks={userLinks}
+            isLoadingRoute={isLoadingRoute}
+            pathName={pathName}
           />
           <div className="contEl md:mt-12">
             <div className="flex gap-4 items-start">
-              <DesktopNav userLinks={userLinks} sellerLinks={sellerLinks} />
+              <DesktopNav
+                userLinks={userLinks}
+                sellerLinks={sellerLinks}
+                isLoadingRoute={isLoadingRoute}
+                pathName={pathName}
+              />
               <div className="basis-full md:basis-3/4 md:border md:rounded-lg md:px-4 md:py-2 overflow-x-hidden">
                 <Outlet />
               </div>

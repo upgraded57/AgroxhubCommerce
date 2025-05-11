@@ -1,22 +1,22 @@
-import { useMutation } from "@tanstack/react-query";
-import { axiosInstance } from "./axiosInstance";
+import { useMutation } from '@tanstack/react-query'
+import { axiosInstance } from './axiosInstance'
 
 export const useInitiatePayment = () => {
   return useMutation({
     mutationFn: (orderNumber: string) => {
-      return axiosInstance.post("/pay", { orderNumber });
+      return axiosInstance.post('/pay', { orderNumber })
     },
-  });
-};
+  })
+}
 
 export const useVerifyPayment = () => {
   return useMutation({
     mutationFn: (referenceCode: string) => {
       return axiosInstance.post(
-        "/pay/verify",
+        '/pay/verify',
         { referenceCode },
-        { showToast: false }
-      );
+        { showToast: false },
+      )
     },
-  });
-};
+  })
+}
