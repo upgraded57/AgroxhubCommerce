@@ -35,8 +35,8 @@ function RouteComponent() {
   if (isError) {
     return (
       <EntityNotFound
-        title="Orders Not Found!"
-        text="We could not find that order. It may have been deleted from our database. If you think this should be happening, please contact help"
+        title="Order Not Found!"
+        text="We could not find that order. It may have been deleted from our database. If you think this should be happening, please contact support"
       />
     )
   }
