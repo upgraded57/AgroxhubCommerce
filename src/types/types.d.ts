@@ -137,7 +137,7 @@ declare interface Order {
   status: 'pending' | 'in_transit' | 'delivered' | 'rejected' | 'canceled'
   referenceCode: string
   accessCode: string
-  products: Array<Product>
+  products: number
 }
 
 declare interface OrderGroup {

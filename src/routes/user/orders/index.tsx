@@ -10,7 +10,6 @@ export const Route = createFileRoute('/user/orders/')({
 
 function RouteComponent() {
   const { isLoading, data: orders } = useGetOrders()
-  // const user  = use(UserContext).user
   return (
     <>
       <div className="flex items-center justify-between border-b py-2 md:pt-0">
@@ -58,7 +57,7 @@ function RouteComponent() {
               </div>
               <div className="lg:basis-[20%] lg:space-y-3">
                 <p className="text-xs text-grey-clr">Products</p>
-                <p className="text-sm">{order.products.length}</p>
+                <p className="text-sm">{order.products}</p>
               </div>
               <div className="lg:basis-[30%] lg:space-y-3">
                 <p className="text-xs text-grey-clr">Order Date</p>

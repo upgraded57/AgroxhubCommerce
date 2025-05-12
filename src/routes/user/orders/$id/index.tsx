@@ -3,6 +3,7 @@ import moment from 'moment'
 import { FaStar } from 'react-icons/fa'
 import { useGetSingleOrder } from '@/api/order'
 import Loader from '@/components/loader'
+import EntityNotFound from '@/components/entity-not-found'
 
 export const Route = createFileRoute('/user/orders/$id/')({
   component: RouteComponent,
@@ -14,10 +15,9 @@ function RouteComponent() {
     select: (p) => p.id,
   })
 
-  const { isLoading, data: orders } = useGetSingleOrder(orderNumber)
+  const { isLoading, data: orders, isError } = useGetSingleOrder(orderNumber)
   const deliveryStatus = orders?.status || 'pending'
   const paymentStatus = orders?.paymentStatus || 'pending'
-  console.log(orders)
 
   const productRatings = (product: any) => {
     const positive = Array.from(
@@ -30,6 +30,15 @@ function RouteComponent() {
     )
 
     return { positive, empty }
+  }
+
+  if (isError) {
+    return (
+      <EntityNotFound
+        title="Orders Not Found!"
+        text="We could not find that order. It may have been deleted from our database. If you think this should be happening, please contact help"
+      />
+    )
   }
 
   return (
