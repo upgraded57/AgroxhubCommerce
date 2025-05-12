@@ -79,7 +79,7 @@ export default function AboutSeller({ seller }: { seller: Seller }) {
         </div>
 
         <Link
-          to="/seller/$sellerId"
+          to="/store/$sellerId"
           params={{
             sellerId: seller.id,
           }}

@@ -40,11 +40,11 @@ const CartProvider = ({ children }: { children: ReactNode }) => {
   const { mutateAsync: removeItemFromCart, isPending: isRemovingItem } =
     useRemoveItemFromCart()
 
-  const userId = localStorage.getItem('userId') || null
+  const token = localStorage.getItem('token') || null
 
   // Refetch cart data
   useEffect(() => {
-    if (userId) {
+    if (token) {
       refetch()
     }
   }, [])
@@ -70,7 +70,7 @@ const CartProvider = ({ children }: { children: ReactNode }) => {
 
   // Add item to cart
   const addToCart = (item: CartItem) => {
-    if (userId) {
+    if (token) {
       addItemToCart(item).then((res) => {
         setCart(res.data.cart)
       })
@@ -89,7 +89,7 @@ const CartProvider = ({ children }: { children: ReactNode }) => {
 
   // Remove item from cart
   const removeFromCart = (slug: string) => {
-    if (userId) {
+    if (token) {
       removeItemFromCart(slug).then((res) => {
         setCart(res.data.cart)
       })

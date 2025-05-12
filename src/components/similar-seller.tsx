@@ -1,6 +1,6 @@
 import { Link } from '@tanstack/react-router'
 
-export default function SellerCard({ seller }: { seller: Seller }) {
+export default function SimilarSeller({ seller }: { seller: Seller }) {
   return (
     <Link
       to="/store/$sellerId"
@@ -12,7 +12,7 @@ export default function SellerCard({ seller }: { seller: Seller }) {
       {seller.avatar ? (
         <img
           src={seller.avatar}
-          alt={seller.name}
+          alt="Farmer Image"
           className="w-full h-full object-cover"
         />
       ) : (

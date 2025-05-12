@@ -8,7 +8,7 @@ export const useGetUser = () => {
     return res.data.user as User
   }
   return useQuery({
-    queryKey: ['User'],
+    queryKey: ['User', token],
     queryFn: getUser,
     enabled: !!token,
     retry: false,

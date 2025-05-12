@@ -1,8 +1,8 @@
-import Farmer from './similar-farmer'
+import Farmer from './similar-seller'
 import FarmerLoader from './farmer-loader'
 import { useGetSimilarSellers } from '@/api/seller'
 
-export default function SimilarFarmers({
+export default function SimilarSellers({
   header,
   sellerId,
 }: {

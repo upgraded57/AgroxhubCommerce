@@ -4,7 +4,7 @@ import moment from 'moment'
 import { FaStar } from 'react-icons/fa6'
 import BeASeller from '@/components/be-a-seller'
 import ProductsGrid from '@/components/products-grid'
-import SimilarFarmers from '@/components/similar-farmers'
+import SimilarSellers from '@/components/similar-sellers'
 import {
   useCheckIsFollowing,
   useFollowSeller,
@@ -13,8 +13,9 @@ import {
   useGetSellerNewestProducts,
 } from '@/api/seller'
 import { useGetUser } from '@/api/user'
+import AvatarComp from '@/components/avatar-comp'
 
-export const Route = createFileRoute('/seller/$sellerId/')({
+export const Route = createFileRoute('/store/$sellerId/')({
   component: RouteComponent,
 })
 
@@ -22,9 +23,10 @@ function RouteComponent() {
   const queryClient = useQueryClient()
 
   const { data: user } = useGetUser()
+  console.log(user)
   const isBuyer = user && user.type === 'buyer'
   const { sellerId } = useParams({
-    from: '/seller/$sellerId/',
+    from: '/store/$sellerId/',
   })
 
   const { isLoading, data: seller } = useGetSeller(sellerId)
@@ -80,12 +82,10 @@ function RouteComponent() {
     })
   }
 
-  const sellerInitials = `${seller?.name.split(' ')[0][0]}${seller?.name.split(' ')[1][0]}`
-
   return (
     <>
       {/* profile header */}
-      <div className="h-[170px] md:h-[312px] overflow-hidden bg-gray-200">
+      <div className="h-[170px] md:h-[312px] overflow-hidden">
         {isLoading ? (
           <div className="skeleton w-full h-full" />
         ) : seller?.coverImg ? (
@@ -95,27 +95,29 @@ function RouteComponent() {
             className="w-full h-full object-cover"
           />
         ) : (
-          ''
+          <div className="cover-bg" />
         )}
       </div>
 
       {/* Profile overview */}
       <div className="flex flex-col md:flex-row justify-between contEl md:items-center relative -translate-y-6 md:-translate-y-12">
         <div className="flex gap-3 items-end md:items-center">
-          <div className="w-[100px] md:w-[200px] aspect-square border-[5px] border-white bg-light-grey-clr rounded-full overflow-hidden">
-            {isLoading ? (
-              <div className="skeleton w-full h-full" />
-            ) : seller?.avatar ? (
-              <img
-                src={seller.avatar}
-                alt="Seller Profile Image"
-                className="w-full h-full object-cover"
-              />
-            ) : (
-              <div className="w-full h-full bg-dark-green-clr flex items-center justify-center text-xl">
-                {sellerInitials}
-              </div>
-            )}
+          <div className="w-[100px] md:w-[200px] aspect-square border-[1px] flex border-light-green-clr bg-light-grey-clr rounded-full overflow-hidden">
+            <div className="w-[100px] md:w-[200px] aspect-square border-[5px] border-white bg-light-grey-clr rounded-full overflow-hidden">
+              {isLoading ? (
+                <div className="skeleton w-full h-full" />
+              ) : seller?.avatar ? (
+                <img
+                  src={seller.avatar}
+                  alt="Seller Profile Image"
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                <div className="flex justify-center items-center w-full h-full bg-dark-green-clr">
+                  <AvatarComp size="lg" username={seller?.name} />
+                </div>
+              )}
+            </div>
           </div>
           <span>
             {isLoading ? (
@@ -141,10 +143,10 @@ function RouteComponent() {
         <div className="flex items-center gap-2 mt-4">
           {isBuyer && (
             <button
-              className={`btn btn-sm ${
+              className={`btn btn-sm shadow-none ${
                 isFollowing
-                  ? 'bg-transparent text-yellow-clr border-2 border-yellow-clr hover:border-2 hover:border-yellow-clr hover:bg-yellow-clr hover:text-white'
-                  : 'green-gradient'
+                  ? 'bg-transparent text-yellow-clr  border-yellow-clr hover: hover:border-yellow-clr hover:bg-yellow-clr hover:text-white'
+                  : 'bg-transparent text-dark-green-clr  border-dark-green-clr hover: hover:border-dark-green-clr hover:bg-dark-green-clr hover:text-white'
               } uppercase`}
               disabled={
                 isCheckingFollowing ||
@@ -156,7 +158,7 @@ function RouteComponent() {
               {isCheckingFollowing ||
               isLoadingFollowSeller ||
               isFetchingFollowing ? (
-                <span className="loading loading-dots" />
+                <span className="loading loading-spinner" />
               ) : isFollowing ? (
                 'unfollow'
               ) : (
@@ -164,7 +166,7 @@ function RouteComponent() {
               )}
             </button>
           )}
-          <button className="btn uppercase btn-sm btn-outline border-2 border-red-clr text-red-clr hover:text-white hover:bg-red-clr hover:border-red-clr">
+          <button className="btn uppercase btn-sm btn-outline  border-red-clr text-red-clr hover:text-white hover:bg-red-clr hover:border-red-clr">
             report
           </button>
         </div>
@@ -229,16 +231,16 @@ function RouteComponent() {
         header="Most Purchased Products"
         products={sellerProducts ? sellerProducts : []}
         isLoading={isLoadingSellerProducts}
-        moreLink={`/seller/${sellerId}/products/`}
+        moreLink={`/store/${sellerId}/products/`}
       />
       <ProductsGrid
         header="Newest Products"
         isLoading={isLoadingSellerNewestProducts}
         products={farmerNewestProducts ? farmerNewestProducts : []}
-        moreLink={`/seller/${sellerId}/products/`}
+        moreLink={`/store/${sellerId}/products/`}
       />
       {/* <ProductsGrid header="Most Viewed Products" /> */}
-      <SimilarFarmers header="View Similar Sellers" sellerId={sellerId} />
+      <SimilarSellers header="View Similar Sellers" sellerId={sellerId} />
       <BeASeller />
     </>
   )

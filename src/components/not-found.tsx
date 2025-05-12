@@ -17,13 +17,13 @@ export default function NotFound() {
             </p>
             <div className="flex items-center gap-4 mt-6">
               <button
-                className="btn btn-outline border-orange-clr border-2 text-orange-clr hover:text-white hover:bg-orange-clr hover:border-orange-clr uppercase"
+                className="btn btn-outline border-orange-clr  text-orange-clr hover:text-white hover:bg-orange-clr hover:border-orange-clr uppercase"
                 onClick={() => window.history.back()}
               >
                 Go Back
               </button>
               <Link to="/">
-                <button className="btn bg-orange-clr  text-white border-2 border-orange-clr uppercase hover:bg-orange-clr hover:border-orange-clr">
+                <button className="btn bg-orange-clr  text-white  border-orange-clr uppercase hover:bg-orange-clr hover:border-orange-clr">
                   Go Home
                 </button>
               </Link>

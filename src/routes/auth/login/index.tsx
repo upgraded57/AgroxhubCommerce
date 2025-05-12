@@ -64,7 +64,6 @@ function RouteComponent() {
           }))
           syncCart(transformedCart)
         }
-        console.log('Will route to homepage')
         if (from) {
           navigate({ to: from })
         } else {

@@ -10,7 +10,7 @@ export default function ProductsFilter({
   sellerPage?: boolean
 }) {
   const params = useSearch({
-    from: sellerPage ? '/seller/$sellerId/products/' : '/products/',
+    from: sellerPage ? '/store/$sellerId/products/' : '/products/',
   })
 
   const navigate = useNavigate()
@@ -27,7 +27,7 @@ export default function ProductsFilter({
   // Trigger navigation when debouncedFilters change
   useEffect(() => {
     navigate({
-      to: sellerPage ? '/seller/$sellerId/products' : '/products',
+      to: sellerPage ? '/store/$sellerId/products' : '/products',
       search: debouncedFilters,
       replace: true,
     })
@@ -47,7 +47,7 @@ export default function ProductsFilter({
 
   const handleClearFilters = () => {
     navigate({
-      to: sellerPage ? '/seller/$sellerId/products' : '/products',
+      to: sellerPage ? '/store/$sellerId/products' : '/products',
       search: {
         category: undefined,
         region: undefined,
@@ -62,7 +62,7 @@ export default function ProductsFilter({
 
   const handleRatingChange = (r: number) => {
     navigate({
-      to: sellerPage ? '/seller/$sellerId/products' : '/products',
+      to: sellerPage ? '/store/$sellerId/products' : '/products',
       search: {
         ...params,
         rating: String(r),

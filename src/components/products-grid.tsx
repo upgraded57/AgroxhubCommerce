@@ -26,7 +26,7 @@ export default function ProductsGrid({
     <div className={`contEl mb-12 ${!products.length && 'hidden'}`}>
       <div className="flex items-center justify-between">
         <h3 className=" h-100">{header}</h3>
-        {moreLink && products.length > 0 && (
+        {moreLink && products.length > 4 && (
           <Link
             to={moreLink}
             className="flex items-center gap-3 hover:underline"

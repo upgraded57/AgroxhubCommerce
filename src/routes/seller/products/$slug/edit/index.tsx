@@ -395,7 +395,7 @@ function RouteComponent() {
         <div className="w-full flex justify-center mt-6">
           <button
             type="submit"
-            className="btn btn-outline uppercase border-2 border-orange-clr text-orange-clr hover:text-white hover:bg-orange-clr hover:border-orange-clr"
+            className="btn btn-outline uppercase  border-orange-clr text-orange-clr hover:text-white hover:bg-orange-clr hover:border-orange-clr"
             disabled={false}
           >
             {/* {false ? (

@@ -12,10 +12,9 @@ import Search from '@/components/search'
 import ProductsLoader from '@/components/products-loader'
 import ProductCard from '@/components/product-card'
 import ProductsFilter from '@/components/products-filter'
-import AppLayout from '@/layouts/app-layout'
 import ProductNotFound from '@/components/product-not-found'
 
-export const Route = createFileRoute('/seller/$sellerId/products/')({
+export const Route = createFileRoute('/store/$sellerId/products/')({
   component: RouteComponent,
   validateSearch: (search: Record<string, unknown>) => {
     return {
@@ -37,11 +36,11 @@ export const Route = createFileRoute('/seller/$sellerId/products/')({
 function RouteComponent() {
   const navigate = useNavigate()
   const { sellerId } = useParams({
-    from: '/seller/$sellerId/products/',
+    from: '/store/$sellerId/products/',
   })
 
   const params = useSearch({
-    from: '/seller/$sellerId/products/',
+    from: '/store/$sellerId/products/',
   })
 
   const stripUndefined = (obj: any) =>
@@ -66,7 +65,7 @@ function RouteComponent() {
       }
 
       navigate({
-        to: '/seller/$sellerId/products',
+        to: '/store/$sellerId/products',
         params: {
           sellerId: seller ? seller.id : '',
         },
@@ -83,7 +82,7 @@ function RouteComponent() {
       }
 
       navigate({
-        to: '/seller/$sellerId/products',
+        to: '/store/$sellerId/products',
         params: {
           sellerId: seller ? seller.id : '',
         },
@@ -92,7 +91,7 @@ function RouteComponent() {
     }
   }
   return (
-    <AppLayout>
+    <>
       <Search />
       <div className="max-w-(--breakpoint-xl) mx-auto px-[4vw] -mt-6 mb-10">
         <div className="drawer lg:gap-4 lg:drawer-open">
@@ -172,6 +171,6 @@ function RouteComponent() {
           </div>
         </div>
       </div>
-    </AppLayout>
+    </>
   )
 }

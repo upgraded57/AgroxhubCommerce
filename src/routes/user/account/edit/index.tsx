@@ -82,7 +82,7 @@ function RouteComponent() {
 
           <label
             htmlFor="avatar"
-            className="w-12 aspect-square rounded-full green-gradient text-white flex items-center justify-center text-2xl absolute bottom-0 right-0 border-white border-2 cursor-pointer"
+            className="w-12 aspect-square rounded-full green-gradient text-white flex items-center justify-center text-2xl absolute bottom-0 right-0 border-white  cursor-pointer"
           >
             <BsCamera />
           </label>
@@ -275,7 +275,7 @@ function RouteComponent() {
       <div className="flex justify-center items-center">
         <button
           type="submit"
-          className="btn btn-outline border-orange-clr border-2 text-orange-clr hover:text-white hover:bg-orange-clr hover:border-orange-clr uppercase"
+          className="btn btn-outline border-orange-clr  text-orange-clr hover:text-white hover:bg-orange-clr hover:border-orange-clr uppercase"
           disabled={isPending}
         >
           {isPending ? (

@@ -395,10 +395,10 @@ function RouteComponent() {
                   <p className="text-sm">Promo Code</p>
                   <div className="flex items-center gap-2">
                     <input
-                      className="input input-sm input-bordered border-2 rounded-md w-full"
+                      className="input input-sm input-bordered  rounded-md w-full"
                       placeholder="Email"
                     />
-                    <button className="btn btn-sm btn-outline uppercase rounded-md border-2 border-orange-clr text-orange-clr hover:text-white hover:bg-orange-clr hover:border-orange-clr">
+                    <button className="btn btn-sm btn-outline uppercase rounded-md  border-orange-clr text-orange-clr hover:text-white hover:bg-orange-clr hover:border-orange-clr">
                       apply
                     </button>
                   </div>

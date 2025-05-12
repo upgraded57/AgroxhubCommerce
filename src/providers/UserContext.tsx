@@ -27,7 +27,6 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
   const currentDate = new Date().getTime()
   if (decoded.exp && decoded.exp < Math.floor(currentDate / 1000)) {
     localStorage.removeItem('token')
-    localStorage.removeItem('userId')
   }
 
   const { isLoading, data: user } = useGetUser()

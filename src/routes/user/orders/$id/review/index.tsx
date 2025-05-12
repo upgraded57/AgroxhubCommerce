@@ -116,7 +116,7 @@ function RouteComponent() {
           <p className="text-sm">Product Review</p>
           <textarea
             id="productReview"
-            className="textarea textarea-bordered border-2 w-full"
+            className="textarea textarea-bordered  w-full"
           ></textarea>
         </label>
       </div>
@@ -161,12 +161,12 @@ function RouteComponent() {
           <p className="text-sm">Logistic Service Review</p>
           <textarea
             id="logisticsReview"
-            className="textarea textarea-bordered border-2 w-full"
+            className="textarea textarea-bordered  w-full"
           ></textarea>
         </label>
       </div>
 
-      <button className="btn mt-4 btn-outline border-2 border-orange-clr text-orange-clr hover:text-white hover:bg-orange-clr hover:border-orange-clr uppercase">
+      <button className="btn mt-4 btn-outline  border-orange-clr text-orange-clr hover:text-white hover:bg-orange-clr hover:border-orange-clr uppercase">
         post review
       </button>
     </>

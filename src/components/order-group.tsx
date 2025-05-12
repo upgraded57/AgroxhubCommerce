@@ -16,7 +16,7 @@ export default function OrderGroup({
         <div className="px-6 py-2 border-b-[1px] border-light-grey-clr">
           <Link
             // to={`/seller/${orderGroup.sellerId}`}
-            to="/seller/$sellerId"
+            to="/store/$sellerId"
             params={{
               sellerId: orderGroup.sellerId,
             }}

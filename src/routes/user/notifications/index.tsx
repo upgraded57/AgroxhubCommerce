@@ -46,7 +46,7 @@ function RouteComponent() {
       )}
 
       {/* <div className="flex w-full items-center justify-center mt-4 mb-12">
-    <button className="btn border-2 btn-outline border-orange-clr text-orange-clr uppercase hover:bg-orange-clr hover:border-orange-clr hover:text-white">
+    <button className="btn  btn-outline border-orange-clr text-orange-clr uppercase hover:bg-orange-clr hover:border-orange-clr hover:text-white">
       mark all as read
     </button>
   </div> */}

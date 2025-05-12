@@ -3,7 +3,7 @@ import { use } from 'react'
 import { BiEdit } from 'react-icons/bi'
 import moment from 'moment'
 import { UserContext } from '@/providers/UserContext'
-import noAvatar from '@/assets/images/noAvatar.jpeg'
+import AvatarComp from '@/components/avatar-comp'
 
 export const Route = createFileRoute('/user/account/')({
   component: RouteComponent,
@@ -19,13 +19,18 @@ function RouteComponent() {
 
       <div className="flex gap-2 flex-col md:flex-row w-full py-12 md:py-6 md:border-t border-b">
         <div className="w-[max-content] mx-auto md:mx-0 flex flex-col md:flex-row gap-4 items-center">
-          <div className="w-[100px] md:w-[50px] aspect-square rounded-full overflow-hidden ">
-            <img
-              src={user?.avatar || noAvatar}
-              alt="User Avatar"
-              className="w-full h-full object-cover"
-            />
-          </div>
+          {user?.avatar ? (
+            <div className="w-[100px] md:w-[50px] aspect-square rounded-full overflow-hidden ">
+              <img
+                src={user.avatar}
+                alt="User Avatar"
+                className="w-full h-full object-cover"
+              />
+            </div>
+          ) : (
+            <AvatarComp size="lg" username={user?.name} />
+          )}
+
           <span className="text-center md:text-left">
             <p className="text-sm font-semibold">{user?.name}</p>
             <p className="text-sm">{user?.type}</p>

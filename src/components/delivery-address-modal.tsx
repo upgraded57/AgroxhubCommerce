@@ -54,7 +54,7 @@ export default function DeliveryAddressModal({
                           type="text"
                           name="customState"
                           id="customState"
-                          className="input input-bordered border-2 w-full"
+                          className="input input-bordered  w-full"
                         />
                       </label>
 
@@ -64,7 +64,7 @@ export default function DeliveryAddressModal({
                           type="text"
                           name="customCity"
                           id="customCity"
-                          className="input input-bordered border-2 w-full"
+                          className="input input-bordered  w-full"
                         />
                       </label>
                     </div>
@@ -77,7 +77,7 @@ export default function DeliveryAddressModal({
                         type="text"
                         name="customHomeAddress"
                         id="customHomeAddress"
-                        className="input input-bordered border-2 w-full"
+                        className="input input-bordered  w-full"
                       />
                     </label>
 
@@ -89,7 +89,7 @@ export default function DeliveryAddressModal({
                         type="text"
                         name="customAdditionalNotes"
                         id="customAdditionalNotes"
-                        className="input input-bordered border-2 w-full"
+                        className="input input-bordered  w-full"
                       />
                     </label>
                   </form>
@@ -98,7 +98,7 @@ export default function DeliveryAddressModal({
             </div>
           </div>
           <div className="w-full flex justify-center">
-            <button className="btn btn-outline uppercase border-2 border-orange-clr text-orange-clr hover:text-white hover:bg-orange-clr hover:border-orange-clr">
+            <button className="btn btn-outline uppercase  border-orange-clr text-orange-clr hover:text-white hover:bg-orange-clr hover:border-orange-clr">
               choose delivery address
             </button>
           </div>

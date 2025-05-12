@@ -121,7 +121,7 @@ const ProductImages = ({
               alt="Product Image"
               className={`w-full h-full object-cover ${
                 item === currentImg
-                  ? 'opacity-100 border-2 border-orange-clr rounded-md'
+                  ? 'opacity-100  border-orange-clr rounded-md'
                   : 'opacity-50 hover:opacity-100'
               } `}
             />
@@ -140,7 +140,7 @@ const ProductActionBtns = ({
   product: Product
 }) => {
   const queryClient = useQueryClient()
-  const userId = localStorage.getItem('userId')
+  const token = localStorage.getItem('token')
   const [isSavedProduct, setIsSavedProduct] = useState(false)
   const addProductToCart = use(CartContext)?.addToCart
   const isAddingItemToCart = use(CartContext)?.isAddingItemToCart
@@ -152,7 +152,7 @@ const ProductActionBtns = ({
     useSaveProduct()
 
   const handleSaveProduct = async () => {
-    if (!userId) {
+    if (!token) {
       toast.error('Please login to continue', { id: 'saveToast' })
       return
     }
@@ -205,7 +205,7 @@ const ProductActionBtns = ({
         <IoCartOutline className="text-2xl" />
       </button>
       <button
-        className="btn border-2 border-orange-clr bg-white text-orange-clr hover:bg-orange-clr hover:text-white hover:border-orange-clr disabled:border-gray-200"
+        className="btn  border-orange-clr bg-white text-orange-clr hover:bg-orange-clr hover:text-white hover:border-orange-clr disabled:border-gray-200"
         onClick={handleSaveProduct}
         disabled={isSavingProduct || isFetchingSavedProducts}
       >

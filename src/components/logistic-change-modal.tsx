@@ -53,7 +53,7 @@ export default function LogisticChangeModal({
           </div>
           <div className="w-full flex justify-center mt-4">
             <button
-              className="btn btn-outline uppercase border-2 border-orange-clr text-orange-clr hover:text-white hover:bg-orange-clr hover:border-orange-clr"
+              className="btn btn-outline uppercase  border-orange-clr text-orange-clr hover:text-white hover:bg-orange-clr hover:border-orange-clr"
               onClick={() => setState(false)}
             >
               Select Logistic Provider

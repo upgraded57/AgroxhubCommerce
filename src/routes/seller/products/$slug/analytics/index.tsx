@@ -86,7 +86,7 @@ function RouteComponent() {
             params={{
               slug: 'gaagaghgah',
             }}
-            className="btn border-2 border-orange-clr bg-white text-orange-clr hover:bg-orange-clr hover:text-white hover:border-orange-clr uppercase"
+            className="btn  border-orange-clr bg-white text-orange-clr hover:bg-orange-clr hover:text-white hover:border-orange-clr uppercase"
           >
             Promote this product
           </Link>
