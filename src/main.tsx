@@ -1,4 +1,3 @@
-import { StrictMode } from 'react'
 import ReactDOM from 'react-dom/client'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { RouterProvider, createRouter } from '@tanstack/react-router'
@@ -43,14 +42,12 @@ const rootElement = document.getElementById('app')
 if (rootElement && !rootElement.innerHTML) {
   const root = ReactDOM.createRoot(rootElement)
   root.render(
-    <StrictMode>
-      <QueryClientProvider client={queryClient}>
-        <CartProvider>
-          <Toaster />
-          <RouterProvider router={router} />
-        </CartProvider>
-      </QueryClientProvider>
-    </StrictMode>,
+    <QueryClientProvider client={queryClient}>
+      <CartProvider>
+        <Toaster />
+        <RouterProvider router={router} />
+      </CartProvider>
+    </QueryClientProvider>,
   )
 }
 

@@ -1,7 +1,7 @@
 export default function Loader({ type }: { type?: string }) {
   if (type && type === 'full') {
     return (
-      <div className="w-full h-full fixed inset-0 flex bg-white items-center justify-center">
+      <div className="w-full h-full fixed inset-0 flex bg-white items-center z-100 justify-center">
         <span className="loading loading-spinner text-dark-green-clr loading-lg"></span>
       </div>
     )

@@ -1,7 +1,7 @@
 import { useGetRecentProducts } from '../api/product'
 import ProductsLoader from './products-loader'
 import Product from './product-card'
-import EmptyProducts from './empty-products'
+import EmptyFile from './empty-file'
 
 export default function RecentProductListing() {
   const existingRecentProductSlugs = localStorage.getItem('recent') || ''
@@ -24,7 +24,7 @@ export default function RecentProductListing() {
             </div>
           ))
         ) : (
-          <EmptyProducts text="You have not viewed any product" />
+          <EmptyFile text="You have not viewed any product" />
         )}
       </div>
     </div>

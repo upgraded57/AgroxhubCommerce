@@ -17,7 +17,7 @@ function RouteComponent() {
     <>
       <div className="hidden md:flex items-center justify-between border-b py-2 md:pt-0">
         <h2 className="font-semibold text-sm md:text-2xl">RECENT ITEMS</h2>
-        <select className="select select-xs uppercase font-normal">
+        <select className="select select-sm uppercase font-normal">
           <option>All</option>
           <option>Pending</option>
           <option>Delivered</option>
@@ -30,7 +30,7 @@ function RouteComponent() {
       {isFetching ? (
         <ProductsLoader type="list" count={5} />
       ) : !products || products.length < 1 ? (
-        <EmptyProducts text="You have no recent products yet" />
+        <EmptyProducts text="You have not viewed a product recently" />
       ) : (
         products.map((product, idx) => (
           <RecentProduct key={idx} product={product} />

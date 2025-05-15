@@ -1,6 +1,7 @@
 import { Link } from '@tanstack/react-router'
 import { FaArrowRightLong } from 'react-icons/fa6'
 import Product from './product-card'
+import EmptyProducts from './empty-products'
 import ProductsLoader from './products-loader'
 import { useGetProducts } from '@/api/product'
 
@@ -15,7 +16,7 @@ export default function ProductsList({
     category,
   })
 
-  const { isLoading, data } = useGetProducts(filter)
+  const { isLoading, data, isError } = useGetProducts(filter)
   const products = data?.products as Array<Product>
   return (
     <div className="contEl mb-12">
@@ -40,6 +41,10 @@ export default function ProductsList({
       </div>
       {isLoading ? (
         <ProductsLoader count={4} />
+      ) : isError ? (
+        <div className="flex items-center justify-center w-full">
+          <EmptyProducts text="No products found in this category" />
+        </div>
       ) : (
         <div className="gridEl w-full">
           {products

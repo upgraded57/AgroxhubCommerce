@@ -1,10 +1,12 @@
-import { BsCamera } from 'react-icons/bs'
 import { useQueryClient } from '@tanstack/react-query'
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { use, useState } from 'react'
+import toast from 'react-hot-toast'
+import { IoClose } from 'react-icons/io5'
 import { useEditUser } from '@/api/user'
 import { UserContext } from '@/providers/UserContext'
 import useRegions from '@/hooks/use-regions'
+import AvatarComp from '@/components/avatar-comp'
 
 export const Route = createFileRoute('/user/account/edit/')({
   component: RouteComponent,
@@ -12,7 +14,7 @@ export const Route = createFileRoute('/user/account/edit/')({
 
 function RouteComponent() {
   const queryClient = useQueryClient()
-  const [newAvatar, setNewAvatar] = useState<string | null>(null)
+  const [newAvatar, setNewAvatar] = useState<File | null>(null)
   const user = use(UserContext).user
   const navigate = useNavigate()
 
@@ -30,28 +32,24 @@ function RouteComponent() {
     })
   }
 
-  const handleSetNewAvatar = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0]
-
-    if (file) {
-      const reader = new FileReader()
-
-      reader.onload = (event) => {
-        if (event.target?.result) {
-          setNewAvatar(JSON.stringify(event.target.result))
-        }
-      }
-
-      // Read the file as a data URL
-      reader.readAsDataURL(file)
-    }
-  }
-
   const { isLoadingRegions, regions, selectedRegion, setSelectedRegion } =
     useRegions()
-  const userInitials = user
-    ? `${user.name.split(' ')[0][0]}${user.name.split(' ')[1][0]}`
-    : ''
+
+  const handleSetNewAvatar = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files ? e.target.files[0] : null
+    if (file && file.size > 2 * 1024 * 1024) {
+      toast.error('Avatar size cannot exceed 2MB')
+      setNewAvatar(null)
+      return
+    }
+    setNewAvatar(e.target.files ? e.target.files[0] : null)
+  }
+
+  const handleClearNewAvatar = () => {
+    setNewAvatar(null)
+    const avatarInput = document.getElementById('avatar') as HTMLInputElement
+    avatarInput.files = null
+  }
   return (
     <form onSubmit={handleEditUser}>
       <h2 className="font-semibold text-2xl hidden md:block pb-2">
@@ -60,41 +58,48 @@ function RouteComponent() {
 
       <div className="flex gap-2 flex-col md:flex-row w-full py-12 md:py-6 md:border-t border-b">
         <div className="w-[max-content] mx-auto md:mx-0 flex flex-col md:flex-row gap-4 items-center relative">
-          {user?.avatar ? (
-            <div className="w-[150px] aspect-square rounded-full overflow-hidden">
+          {newAvatar ? (
+            <div className="w-[80px] aspect-square rounded-full overflow-hidden">
               <img
-                src={newAvatar ? newAvatar : user.avatar}
+                src={URL.createObjectURL(newAvatar)}
                 alt="User Avatar"
                 className="w-full h-full object-cover"
               />
             </div>
-          ) : newAvatar ? (
-            <img
-              src={newAvatar}
-              alt="User Avatar"
-              className="w-full h-full object-cover"
-            />
-          ) : (
-            <div className="avatar avatar-placeholder bg-dark-green-clr">
-              <div className="w-[150px] text-xl">{userInitials}</div>
+          ) : user?.avatar ? (
+            <div className="w-[80px] aspect-square rounded-full overflow-hidden">
+              <img
+                src={user.avatar}
+                alt="User Avatar"
+                className="w-full h-full object-cover"
+              />
             </div>
+          ) : (
+            <AvatarComp size="lg" username={user?.name} />
           )}
 
-          <label
-            htmlFor="avatar"
-            className="w-12 aspect-square rounded-full green-gradient text-white flex items-center justify-center text-2xl absolute bottom-0 right-0 border-white  cursor-pointer"
-          >
-            <BsCamera />
-          </label>
-          <input
-            type="file"
-            name="avatar"
-            id="avatar"
-            hidden
-            accept="image/*"
-            disabled={isPending}
-            onChange={handleSetNewAvatar}
-          />
+          <div className="flex gap-2">
+            {newAvatar && (
+              <button
+                className="btn btn-sm btn-square"
+                onClick={handleClearNewAvatar}
+              >
+                <IoClose />
+              </button>
+            )}
+            <label htmlFor="avatar" className="btn btn-sm">
+              Change
+            </label>
+            <input
+              type="file"
+              name="avatar"
+              id="avatar"
+              hidden
+              accept="image/png, image/jpg, image/jpeg"
+              disabled={isPending}
+              onChange={handleSetNewAvatar}
+            />
+          </div>
         </div>
       </div>
 

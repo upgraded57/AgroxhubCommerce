@@ -34,10 +34,13 @@ export const useAddItemToCart = () => {
   })
 }
 
-export const useRemoveItemFromCart = () => {
+export const useUpdateCartItem = () => {
   return useMutation({
-    mutationFn: (slug: string) => {
-      return axiosInstance.delete(`/cart/remove/${slug}`)
+    mutationFn: (data: {
+      slug: string
+      type: 'increment' | 'decrement' | 'delete'
+    }) => {
+      return axiosInstance.patch(`/cart`, data)
     },
   })
 }

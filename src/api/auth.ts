@@ -30,7 +30,7 @@ export const useSignupMutation = () => {
 
 export const useVerifyOtpMutation = () => {
   return useMutation({
-    mutationFn: (data: FormData) => {
+    mutationFn: (data: { userId: string; otp: string }) => {
       return axiosInstance.post('/auth/verify-otp', data)
     },
   })

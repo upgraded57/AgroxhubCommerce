@@ -20,7 +20,7 @@ function RouteComponent() {
       <div className="flex gap-2 flex-col md:flex-row w-full py-12 md:py-6 md:border-t border-b">
         <div className="w-[max-content] mx-auto md:mx-0 flex flex-col md:flex-row gap-4 items-center">
           {user?.avatar ? (
-            <div className="w-[100px] md:w-[50px] aspect-square rounded-full overflow-hidden ">
+            <div className="w-[80px] aspect-square rounded-full overflow-hidden bg-gray-100">
               <img
                 src={user.avatar}
                 alt="User Avatar"

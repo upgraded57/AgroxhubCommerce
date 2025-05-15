@@ -42,7 +42,7 @@ export default function MobileNav({
         >
           {userLinks.map((link, idx) => (
             <li key={idx}>
-              <Link className="py-3 flex space-x-2" to={link.path}>
+              <Link className="py-2 flex space-x-2" to={link.path}>
                 {link.title}
                 {isLoadingRoute && pathName === link.path && (
                   <span className="loading loading-spinner text-grey-clr" />
@@ -58,7 +58,7 @@ export default function MobileNav({
               </p>
               {sellerLinks.map((link, idx) => (
                 <li key={idx}>
-                  <Link className="py-3 flex space-x-2" to={link.path}>
+                  <Link className="py-2 flex space-x-2" to={link.path}>
                     {link.title}
                     {isLoadingRoute && pathName === link.path && (
                       <span className="loading loading-spinner text-grey-clr" />

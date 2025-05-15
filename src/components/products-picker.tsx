@@ -5,7 +5,7 @@ import { useGetProductCategories } from '@/api/product'
 
 export default function ProductsPicker() {
   const roundedBtnStyle = 'btn btn-circle btn-sm p-1 bg-yellow-clr'
-  const { isLoading, data: categories = [] } = useGetProductCategories() // Default to an empty array
+  const { isLoading, data: categories = [] } = useGetProductCategories()
   const [randomCategories, setRandomCategories] = useState<Array<Category>>([])
 
   const getRandomItems = (array: Array<Category>) => {

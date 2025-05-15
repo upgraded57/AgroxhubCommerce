@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { useGetNotifications } from '@/api/notification'
 import Loader from '@/components/loader'
 import Notification from '@/components/notification'
+import EmptyFile from '@/components/empty-file'
 
 export const Route = createFileRoute('/user/notifications/')({
   component: RouteComponent,
@@ -16,7 +17,7 @@ function RouteComponent() {
       <div className="hidden md:flex items-center justify-between border-b py-2 md:pt-0">
         <h2 className="font-semibold text-sm md:text-2xl">NOTIFICATIONS</h2>
         <select
-          className="select select-xs uppercase font-normal"
+          className="select select-sm uppercase font-normal"
           onChange={(e) => setStatus(e.target.value.toLowerCase())}
         >
           <option>All</option>
@@ -28,11 +29,7 @@ function RouteComponent() {
       {isLoading ? (
         <Loader />
       ) : notifications && notifications.length < 1 ? (
-        <div className=" flex items-center justify-center w-full py-10 border-[1px] rounded-lg my-10">
-          <p className="text-sm py-10 text-center">
-            You have no new notifications!
-          </p>
-        </div>
+        <EmptyFile text="You have no new notifications!" />
       ) : (
         notifications
           ?.filter((item) => {

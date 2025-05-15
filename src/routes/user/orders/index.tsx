@@ -9,14 +9,17 @@ export const Route = createFileRoute('/user/orders/')({
 })
 
 function RouteComponent() {
-  const { isLoading, data: orders } = useGetOrders()
+  const { isLoading, data: orders, isError } = useGetOrders()
   return (
     <>
-      <div className="flex items-center justify-between border-b py-2 md:pt-0">
+      <div className="flex items-center justify-between border-b py-2 pr-1 md:pt-0">
         <h2 className="font-semibold text-sm md:text-2xl">ORDER HISTORY</h2>
-        <select className="select select-xs uppercase font-normal">
+        <select
+          className="select select-sm uppercase font-normal"
+          disabled={isLoading || isError || !orders?.length}
+        >
           <option>All</option>
-          <option>Pending</option>
+          <option>Pending Delivery</option>
           <option>Delivered</option>
           <option>Pending Review</option>
           <option>Rejected</option>
@@ -38,7 +41,7 @@ function RouteComponent() {
             <Link
               to="/user/orders/$id"
               params={{
-                id: order.id,
+                id: order.orderNumber,
               }}
               key={idx}
               className="grid grid-cols-2 gap-y-4 gap-x-4 justify-between lg:gap-y-0 lg:flex items-center p-2 border-b-[1px] last-of-type:border-none hover:bg-light-grey-clr"

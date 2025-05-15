@@ -9,24 +9,20 @@ export default function ProductNotFound({
   type: 'single' | 'multiple'
 }) {
   return (
-    <div className="px-[4vw] lg:px-0">
-      <div className="w-full max-w-lg mx-auto p-10 pt-0 rounded-lg border-[1px] border-light-grey-clr mb-10 overflow-x-hidden">
-        <div className="w-[250px] h-[250px] relative -left-12 mb-6">
-          <Lottie
-            animationData={AnimationNoProduct}
-            width={250}
-            height={250}
-            loop={false}
-          />
+    <>
+      <div className="w-full max-w-sm py-10 mx-auto flex flex-col items-center overflow-x-hidden">
+        <div className="w-[100px] h-[100px] mb-6 opacity-50">
+          <Lottie animationData={AnimationNoProduct} width={100} height={100} />
         </div>
         {type === 'single' ? (
-          <div className="space-y-4">
-            <h1 className="text-lg font-semibold">
+          <div className="space-y-4 text-center">
+            <h1 className="text-lg font-medium">
               We couldn't find that product
             </h1>
             <p className="text-sm">
-              It may have been deleted by the seller or is out of stock. You can
-              still browse other similar products from other sellers
+              It may have been deleted by the seller or is out of stock
+              <br /> You can still browse other similar products from other
+              sellers
             </p>
             <Link to="/products" search={EmptySearch}>
               <button className="btn bg-dark-green-clr text-white border-none">
@@ -35,15 +31,15 @@ export default function ProductNotFound({
             </Link>
           </div>
         ) : (
-          <div className="space-y-4">
-            <h1 className="text-lg font-semibold">Nothing is Returned!</h1>
+          <div className="space-y-4 text-center">
+            <h1 className="text-lg font-medium">Nothing is Returned!</h1>
             <p className="text-sm">
-              We could not find any product matching your search terms. Try
-              searching using a different term.
+              We could not find any product matching your search terms. <br />
+              Try searching using a different term.
             </p>
           </div>
         )}
       </div>
-    </div>
+    </>
   )
 }

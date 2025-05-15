@@ -14,7 +14,7 @@ function RouteComponent() {
     <>
       <div className="hidden md:flex items-center justify-between border-b py-2 md:pt-0">
         <h2 className="font-semibold text-sm md:text-2xl">SAVED ITEMS</h2>
-        <select className="select select-xs uppercase font-normal">
+        <select className="select select-sm uppercase font-normal">
           <option>All</option>
           <option>Pending</option>
           <option>Delivered</option>

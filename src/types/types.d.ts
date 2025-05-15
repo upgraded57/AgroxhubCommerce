@@ -107,15 +107,16 @@ declare interface Cart {
 }
 
 declare interface CartItem {
-  name?: string
-  id?: string
+  name: string
+  id: string
   cartId?: string
-  slug?: string
-  quantity?: number
-  createdAt?: Date
-  image?: string
-  price?: number
-  unit?: string
+  slug: string
+  quantity: number
+  createdAt: string
+  image: string
+  price: number
+  unit: string
+  unitPrice: number
 }
 
 declare interface Order {
@@ -149,6 +150,7 @@ declare interface OrderGroup {
   order: Array<Order>
   sellerNote?: string
   logisticsNote?: string
+  sellerName?: string
 }
 
 declare interface OrderItem {
@@ -161,6 +163,9 @@ declare interface OrderItem {
   totalPrice: number
   createdAt: Date
   updatedAt: Date
+  image?: string
+  name?: string
+  slug?: string
 }
 
 declare interface SellerSummary {

@@ -7,17 +7,20 @@ import type { QueryObserverResult, RefetchOptions } from '@tanstack/react-query'
 import {
   useAddItemToCart,
   useGetCartItems,
-  useRemoveItemFromCart,
+  useUpdateCartItem,
 } from '@/api/cart'
 
 interface CartContextProps {
   cart: Array<CartItem>
   addToCart: (item: CartItem) => void
-  removeFromCart: (slug: string) => void
+  updateCartItem: (
+    slug: string,
+    type: 'increment' | 'decrement' | 'delete',
+  ) => void
   clearCart: () => void
   isAddingItemToCart: boolean
   isLoadingCart: boolean
-  isRemovingItem: boolean
+  isUpdatingItem: boolean
   refetch: (
     options?: RefetchOptions,
   ) => Promise<QueryObserverResult<Array<CartItem>, Error>>
@@ -37,8 +40,8 @@ const CartProvider = ({ children }: { children: ReactNode }) => {
   const { mutateAsync: addItemToCart, isPending: isAddingItemToCart } =
     useAddItemToCart()
 
-  const { mutateAsync: removeItemFromCart, isPending: isRemovingItem } =
-    useRemoveItemFromCart()
+  const { mutateAsync: updatetItem, isPending: isUpdatingItem } =
+    useUpdateCartItem()
 
   const token = localStorage.getItem('token') || null
 
@@ -51,7 +54,7 @@ const CartProvider = ({ children }: { children: ReactNode }) => {
 
   // Sync cart
   useEffect(() => {
-    if (cartItems && cartItems.length > 0) {
+    if (cartItems) {
       setCart(cartItems)
       localStorage.setItem('cart', JSON.stringify(cartItems))
     } else {
@@ -59,7 +62,7 @@ const CartProvider = ({ children }: { children: ReactNode }) => {
       const savedCart = existingCart ? JSON.parse(existingCart) : []
       setCart(savedCart)
     }
-  }, [cartItems])
+  }, [])
 
   // Save to localStorage whenever cart updates
   useEffect(() => {
@@ -87,15 +90,31 @@ const CartProvider = ({ children }: { children: ReactNode }) => {
     }
   }
 
-  // Remove item from cart
-  const removeFromCart = (slug: string) => {
+  // Update cart tem
+  const updateCartItem = (
+    slug: string,
+    type: 'increment' | 'decrement' | 'delete',
+  ) => {
     if (token) {
-      removeItemFromCart(slug).then((res) => {
+      updatetItem({ slug, type }).then((res) => {
         setCart(res.data.cart)
       })
     } else {
-      setCart((prevCart) => prevCart.filter((c) => c.slug !== slug))
-      toast.success('Product removed from cart', { id: 'cartToast' })
+      const item = cart.find((p) => p.slug === slug)
+      if (item) {
+        if (type === 'delete') {
+          setCart((prev) => prev.filter((el) => el.slug !== item.slug))
+          return
+        }
+
+        // Increment or decrement
+        setCart((prev) => {
+          const prevCart = prev.filter((el) => el.slug !== item.slug)
+          type === 'increment' ? item.quantity++ : item.quantity--
+          item.price = item.quantity * item.unitPrice
+          return [...prevCart, item]
+        })
+      }
     }
   }
 
@@ -110,12 +129,12 @@ const CartProvider = ({ children }: { children: ReactNode }) => {
       value={{
         cart,
         addToCart,
-        removeFromCart,
+        updateCartItem,
         clearCart,
         isAddingItemToCart,
         isLoadingCart,
         refetch,
-        isRemovingItem,
+        isUpdatingItem,
       }}
     >
       {children}

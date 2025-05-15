@@ -14,12 +14,20 @@ function RouteComponent() {
   const { mutateAsync: VerifyMutation, isPending } = useVerifyOtpMutation()
   const { mutateAsync: ResendMutation, isPending: ResendingOtp } =
     useResendOtpMutation()
-  const verifyotp = async (e: React.FormEvent<HTMLFormElement>) => {
+
+  const handleVerifyOtp = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    const data = new FormData(e.target as HTMLFormElement)
-    if (userId) {
-      data.append('userId', userId)
+    const form = Object.fromEntries(
+      new FormData(e.target as HTMLFormElement),
+    ) as {
+      otp?: string
     }
+
+    const data = {
+      userId: userId,
+      otp: form.otp ?? '',
+    }
+
     await VerifyMutation(data)
       .then(() => {
         localStorage.removeItem('userId')
@@ -64,14 +72,14 @@ function RouteComponent() {
         A six-digits otp has been sent to your email address. Enter it to
         activate your account
       </p>
-      <form onSubmit={verifyotp} className="w-full">
-        <label htmlFor="otp">
+      <form onSubmit={handleVerifyOtp} className="w-full">
+        <label htmlFor="otp" className="block mb-4">
           <p className="text-sm uppercase">OTP</p>
           <input
             type="otp"
             name="otp"
             id="otp"
-            className="input input-bordered w-full mb-8"
+            className="input input-bordered w-full"
             inputMode="numeric"
             required
             maxLength={6}
@@ -80,7 +88,7 @@ function RouteComponent() {
         </label>
 
         <button
-          className="btn green-gradient w-full uppercase mt-8"
+          className="btn green-gradient w-full uppercase"
           disabled={isPending}
         >
           {isPending ? (

@@ -3,7 +3,7 @@ import { AiFillTwitterCircle, AiOutlineUser } from 'react-icons/ai'
 import { FaFacebook, FaInstagram, FaLinkedin, FaYoutube } from 'react-icons/fa'
 import { HiBars3 } from 'react-icons/hi2'
 import { use, useEffect, useState } from 'react'
-import { LiaDoorOpenSolid } from 'react-icons/lia'
+import { LiaDoorOpenSolid, LiaUserCircle } from 'react-icons/lia'
 import { useQueryClient } from '@tanstack/react-query'
 import { Link } from '@tanstack/react-router'
 import toast from 'react-hot-toast'
@@ -40,7 +40,7 @@ export default function Navbar() {
           <div className="sidenav flex gap-6 items-center basis-1/4 justify-end text-sm ">
             <Link
               to="/cart"
-              className="flex items-center gap-2 mx-0 py-0 hover:bg-transparent font-normal shadow-none"
+              className="flex items-center gap-2 mx-0 py-0 hover:bg-transparent font-normal "
             >
               <p className="hidden md:block">Cart</p>
               <div className="relative">
@@ -179,19 +179,13 @@ const UserDropdown = () => {
         className="dropdown-content menu bg-base-100 rounded-box z-1 w-max p-2 shadow-sm justify-start"
       >
         <li>
-          <Link to="/user/account" className="py-3">
-            {user.avatar ? (
-              <div className="w-8 h-8 rounded-full overflow-hidden">
-                <img src={user.avatar} className="w-full h-full object-cover" />
-              </div>
-            ) : (
-              <AvatarComp size="sm" username={user.name} />
-            )}
-            <p className="text-sm font-normal text-black-clr">View Profile</p>
+          <Link to="/user/account" className="py-2">
+            <LiaUserCircle className="text-xl" />
+            View Profile
           </Link>
         </li>
         <li>
-          <button className="py-3" onClick={handleLogout}>
+          <button className="py-2" onClick={handleLogout}>
             <LiaDoorOpenSolid className="text-xl" />
             Logout
           </button>
@@ -201,7 +195,7 @@ const UserDropdown = () => {
   ) : (
     <Link
       to="/user/account"
-      className="flex items-center gap-2 font-normal hover:bg-transparent shadow-none"
+      className="flex items-center gap-2 font-normal hover:bg-transparent "
     >
       <p className="hidden md:block">User</p>
       <AiOutlineUser className="text-xl" />

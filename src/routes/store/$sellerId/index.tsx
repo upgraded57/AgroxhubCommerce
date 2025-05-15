@@ -23,7 +23,6 @@ function RouteComponent() {
   const queryClient = useQueryClient()
 
   const { data: user } = useGetUser()
-  console.log(user)
   const isBuyer = user && user.type === 'buyer'
   const { sellerId } = useParams({
     from: '/store/$sellerId/',
@@ -85,7 +84,7 @@ function RouteComponent() {
   return (
     <>
       {/* profile header */}
-      <div className="h-[170px] md:h-[312px] overflow-hidden">
+      <div className="h-[170px] md:h-[312px] overflow-hidden border-b-[1px] border-b-light-green-clr">
         {isLoading ? (
           <div className="skeleton w-full h-full" />
         ) : seller?.coverImg ? (
@@ -143,7 +142,7 @@ function RouteComponent() {
         <div className="flex items-center gap-2 mt-4">
           {isBuyer && (
             <button
-              className={`btn btn-sm shadow-none ${
+              className={`btn btn-sm  ${
                 isFollowing
                   ? 'bg-transparent text-yellow-clr  border-yellow-clr hover: hover:border-yellow-clr hover:bg-yellow-clr hover:text-white'
                   : 'bg-transparent text-dark-green-clr  border-dark-green-clr hover: hover:border-dark-green-clr hover:bg-dark-green-clr hover:text-white'

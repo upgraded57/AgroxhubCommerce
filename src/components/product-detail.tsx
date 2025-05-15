@@ -176,6 +176,9 @@ const ProductActionBtns = ({
         image: product.images[0],
         price: product.unitPrice * qty,
         unit: product.unit,
+        unitPrice: product.unitPrice,
+        id: product.id,
+        createdAt: product.createdAt,
       })
     }
   }

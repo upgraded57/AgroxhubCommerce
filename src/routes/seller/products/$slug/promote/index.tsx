@@ -204,7 +204,7 @@ function RouteComponent() {
       </div>
 
       <div className="flex items-center justify-center">
-        <button className="btn btn-outline uppercase border-orange-clr text-orange-clr hover:text-white hover:bg-orange-clr shadow-none">
+        <button className="btn btn-outline uppercase border-orange-clr text-orange-clr hover:text-white hover:bg-orange-clr ">
           promote product
         </button>
       </div>

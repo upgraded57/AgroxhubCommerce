@@ -161,7 +161,7 @@ function RouteComponent() {
         </label>
       </div>
 
-      <button className="btn mt-4 btn-outline border-orange-clr text-orange-clr shadow-none hover:text-white hover:bg-orange-clr uppercase">
+      <button className="btn mt-4 btn-outline border-orange-clr text-orange-clr  hover:text-white hover:bg-orange-clr uppercase">
         post review
       </button>
     </>

@@ -24,7 +24,7 @@ function RouteComponent() {
             <p className="uppercase">create new</p>
           </Link>
         </div>
-        <select className="select select-xs uppercase font-normal">
+        <select className="select select-sm uppercase font-normal">
           <option>This Month</option>
           <option>Last Month</option>
           <option>This Year</option>
@@ -38,7 +38,7 @@ function RouteComponent() {
         </Link>
         <div className="flex items-center gap-2">
           <p className="text-sm uppercase">filter:</p>
-          <select className="select select-xs uppercase font-normal">
+          <select className="select select-sm uppercase font-normal">
             <option>This Month</option>
             <option>Last Month</option>
             <option>This Year</option>

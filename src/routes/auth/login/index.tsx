@@ -112,7 +112,7 @@ function RouteComponent() {
             />
             {formik.values.password.length > 1 && (
               <span
-                className="join-item btn btn-square btn-ghost shadow-none hover:border-none hover:bg-transparent"
+                className="join-item btn btn-square btn-ghost  hover:border-none hover:bg-transparent"
                 onClick={() => setPasswordVisible((prev) => !prev)}
               >
                 {passwordVisible ? <FaRegEyeSlash /> : <FaRegEye />}

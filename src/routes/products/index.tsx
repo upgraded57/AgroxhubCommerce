@@ -38,7 +38,9 @@ function RouteComponent() {
       Object.entries(obj).filter(([_, value]) => value !== undefined),
     )
 
-  const { isLoading, isFetching, data } = useGetProducts(stripUndefined(params))
+  const { isLoading, isFetching, data, isError } = useGetProducts(
+    stripUndefined(params),
+  )
 
   const hasMore = data?.hasMore as boolean
 
@@ -93,6 +95,8 @@ function RouteComponent() {
             {/* Page content here */}
             {isLoading || isFetching ? (
               <ProductsLoader count={12} />
+            ) : isError ? (
+              <ProductNotFound type="multiple" />
             ) : products.length > 0 ? (
               <div className="basis-19/25 w-full">
                 <div className="gridEl">
@@ -102,7 +106,7 @@ function RouteComponent() {
                 </div>
 
                 <div className="w-full flex justify-center mt-4">
-                  <div className="join shadow-none">
+                  <div className="join ">
                     <button
                       className="join-item btn bg-orange-clr border-transparent text-white"
                       disabled={

@@ -1,7 +1,7 @@
 import { BsSearch } from 'react-icons/bs'
 
 export default function Search() {
-  const params = window.location.search.split('=')[1] || ''
+  const params = window.location.search.split('q=')[1] || ''
   return (
     <form
       action="/products"

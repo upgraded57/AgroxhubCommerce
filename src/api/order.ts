@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
 import { axiosInstance } from './axiosInstance'
 
 export const useGetSingleOrder = (orderNumber: string) => {
@@ -29,5 +29,13 @@ export const useGetOrders = () => {
     queryKey: ['Orders'],
     queryFn: getOrders,
     retry: 2,
+  })
+}
+
+export const userAddOrderNotes = () => {
+  return useMutation({
+    mutationFn: (data: { orderNumber: string; notes: any }) => {
+      return axiosInstance.patch(`/order/${data.orderNumber}/notes`, data.notes)
+    },
   })
 }

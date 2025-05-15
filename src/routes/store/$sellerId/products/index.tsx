@@ -7,6 +7,7 @@ import {
 import { BiStoreAlt } from 'react-icons/bi'
 import { MdOutlineFilterAlt } from 'react-icons/md'
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa'
+import { TbInfoTriangle } from 'react-icons/tb'
 import { useGetSellerProducts } from '@/api/seller'
 import Search from '@/components/search'
 import ProductsLoader from '@/components/products-loader'
@@ -97,13 +98,30 @@ function RouteComponent() {
         <div className="drawer lg:gap-4 lg:drawer-open">
           <input id="filterDrawer" type="checkbox" className="drawer-toggle" />
           <div className="drawer-content">
-            <div
-              role="alert"
-              className="alert bg-light-grey-clr mb-2 shadow-none flex"
-            >
-              <BiStoreAlt className="text-xl" />
-              <span>Store - {seller ? seller.name : ''}</span>
-            </div>
+            {seller ? (
+              <div
+                role="alert"
+                className="alert bg-light-grey-clr mb-2 shadow-none flex"
+              >
+                <BiStoreAlt className="text-xl" />
+                <p className="text-sm">Store - {seller.name}</p>
+              </div>
+            ) : (
+              <div
+                role="alert"
+                className="alert alert-error text-white mb-2 flex shadow-none py-2 pr-2"
+              >
+                <TbInfoTriangle className="text-xl" />
+                <p className="text-sm">We could not find that seller!</p>
+
+                <button
+                  className="ml-auto border-0 btn btn-sm bg-white text-error"
+                  onClick={() => window.history.back()}
+                >
+                  Go Back
+                </button>
+              </div>
+            )}
             <div className="w-full flex justify-end sticky top-[80px]">
               <label
                 htmlFor="filterDrawer"

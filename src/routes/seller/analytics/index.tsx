@@ -74,7 +74,7 @@ function RouteComponent() {
 const Filter = ({ lg }: { lg?: boolean }) => {
   return (
     <select
-      className={`select select-xs uppercase font-normal ${lg && 'md:hidden'}`}
+      className={`select select-sm uppercase font-normal ${lg && 'md:hidden'}`}
     >
       <option>This Month</option>
       <option>Last Month</option>
