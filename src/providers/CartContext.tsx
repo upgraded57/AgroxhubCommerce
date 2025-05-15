@@ -96,6 +96,9 @@ const CartProvider = ({ children }: { children: ReactNode }) => {
     type: 'increment' | 'decrement' | 'delete',
   ) => {
     if (token) {
+      if (cart.length === 1) {
+        localStorage.removeItem('cart')
+      }
       updatetItem({ slug, type }).then((res) => {
         setCart(res.data.cart)
       })
