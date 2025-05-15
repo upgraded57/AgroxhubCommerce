@@ -188,3 +188,16 @@ declare interface ProductsSearchParams {
   rating?: string
   seller?: string
 }
+
+declare interface AlternativeLogisticsProvider {
+  address: string | null
+  avatar: string | null
+  email: string
+  id: string
+  isActive: boolean
+  isVisible: boolean
+  logisticCost: number
+  name: string
+  phone: string | null
+  regionId: string | nulll
+}

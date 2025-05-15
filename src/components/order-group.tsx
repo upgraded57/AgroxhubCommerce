@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Link } from '@tanstack/react-router'
 import LogisticChangeModal from './logistic-change-modal'
 import OrderItem from './order-item'
+import AvatarComp from './avatar-comp'
 
 export default function OrderGroup({
   orderGroup,
@@ -11,8 +12,8 @@ export default function OrderGroup({
   const [deliveryModalActive, setDeliveryModalActive] = useState(false)
   return (
     <>
-      <div className="mb-10 last-of-type:mb-0 border-[1px] border-light-grey-clr rounded-lg overflow-hidden">
-        <div className="px-6 py-2 border-b-[1px] border-light-grey-clr">
+      <div className="mb-6 last-of-type:mb-0 border-[1px] border-light-grey-clr rounded-lg overflow-hidden">
+        <div className="p-2 border-b-[1px] border-light-grey-clr">
           <Link
             // to={`/seller/${orderGroup.sellerId}`}
             to="/store/$sellerId"
@@ -20,8 +21,9 @@ export default function OrderGroup({
               sellerId: orderGroup.sellerId,
             }}
           >
-            <p>
-              Store: <b className="link">{orderGroup.sellerName}</b>
+            <p className="text-sm">
+              Store:{' '}
+              <b className="link font-semibold">{orderGroup.sellerName}</b>
             </p>
           </Link>
         </div>
@@ -45,13 +47,20 @@ export default function OrderGroup({
           <div className="label-text flex justify-between items-center">
             {orderGroup.logisticsProviderId ? (
               <div className="flex gap-2 items-center">
-                <div className="w-8 h-8 rounded-md overflow-hidden">
-                  <img
-                    src={orderGroup.logisticProvider.avatar}
-                    alt=""
-                    className="w-full h-full object-cover"
+                {orderGroup.logisticProvider.avatar ? (
+                  <div className="w-12 h-12 rounded overflow-hidden bg-gray-200">
+                    <img
+                      src={orderGroup.logisticProvider.avatar}
+                      alt=""
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                ) : (
+                  <AvatarComp
+                    size="md"
+                    username={orderGroup.logisticProvider.name}
                   />
-                </div>
+                )}
                 <span>
                   <p className="text-sm font-semibold">
                     {orderGroup.logisticProvider.name}

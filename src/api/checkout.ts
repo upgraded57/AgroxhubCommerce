@@ -47,7 +47,7 @@ export const useGetProviders = (groupId: string) => {
     const res = await axiosInstance.get(`/checkout/${groupId}/providers`, {
       showToast: false,
     })
-    return res.data.providers
+    return res.data.providers as Array<AlternativeLogisticsProvider>
   }
 
   return useQuery({

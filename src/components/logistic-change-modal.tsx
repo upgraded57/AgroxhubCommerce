@@ -1,6 +1,7 @@
-import { FaUps } from 'react-icons/fa6'
 import { IoClose } from 'react-icons/io5'
 import Loader from './loader'
+import EmptyFile from './empty-file'
+import AvatarComp from './avatar-comp'
 import type { SetStateAction } from 'react'
 import { useGetProviders } from '@/api/checkout'
 
@@ -11,15 +12,14 @@ export default function LogisticChangeModal({
   setState: React.Dispatch<SetStateAction<boolean>>
   groupId: string
 }) {
-  const { isLoading, data: provider } = useGetProviders(groupId)
-  console.log(provider)
+  const { isLoading, data: providers, isError } = useGetProviders(groupId)
   return (
     <>
       <div className="fixed w-[100vw] h-[100vh] items-center inset-0 flex justify-center z-50 px-[4vw] backdrop-blur-xs">
         <div className="absolute w-full h-full bg-black opacity-50 -z-10"></div>
         <div className="w-full max-w-[600px] rounded-lg h-auto bg-white pb-6">
-          <div className="flex px-4 py-2 justify-between items-center border-b">
-            <h3 className="text-md md:text-xl font-semibold uppercase">
+          <div className="flex p-4 justify-between items-center border-b">
+            <h3 className="text-sm lg:text-lg font-semibold uppercase">
               Change Logistic Provider
             </h3>
             <IoClose
@@ -29,10 +29,12 @@ export default function LogisticChangeModal({
           </div>
           {isLoading ? (
             <Loader />
+          ) : isError || !providers ? (
+            <EmptyFile text="We could not find any logistic provider for this route" />
           ) : (
             <>
               <div className="list w-full">
-                {[1, 2, 3, 4].map((_, idx) => (
+                {providers.map((provider, idx) => (
                   <div className="list-row w-full " key={idx}>
                     <label className="flex justify-between items-center cursor-pointer list-col-grow">
                       <div className="flex items-center gap-2">
@@ -43,11 +45,21 @@ export default function LogisticChangeModal({
                         />
                         <div className="label-text flex justify-between items-center">
                           <div className="flex gap-2 items-center">
-                            <div className="w-8 aspect-square text-white flex items-center justify-center rounded-md bg-dark-blue-clr">
-                              <FaUps className="text-2xl" />
-                            </div>
+                            {provider.avatar ? (
+                              <div className="w-12 h-12 rounded bg-light-grey-clr flex items-center justify-center overflow-hidden">
+                                <img
+                                  src={provider.avatar}
+                                  alt=""
+                                  className="w-full h-full object-cover"
+                                />
+                              </div>
+                            ) : (
+                              <AvatarComp size="md" username={provider.name} />
+                            )}
                             <span>
-                              <p className="text-sm font-semibold">UPS</p>
+                              <p className="text-sm font-semibold">
+                                {provider.name}
+                              </p>
                               <p className="text-xs">
                                 est. delivery date - 29th Jan 2024
                               </p>
@@ -56,7 +68,9 @@ export default function LogisticChangeModal({
                           </div>
                         </div>
                       </div>
-                      <p className="text-sm font-semibold">NGN 1,320</p>
+                      <p className="text-sm font-semibold">
+                        N {provider.logisticCost}
+                      </p>
                     </label>
                   </div>
                 ))}

@@ -20,10 +20,7 @@ function App() {
       <Hero />
       <ProductsPicker />
       <ProductsList header="Flours and Mills" category="flours_and_mills" />
-      <ProductsList
-        header="Cookies and Biscuits"
-        category="cookies_and_biscuits"
-      />
+      <ProductsList header="Bread" category="bread" />
       <ProductsList header="Fruits" category="fruits" />
       <Farmers header="Buy From Best Sellers" />
       <ProductsList header="Fertilizers" category="fertilizers" />

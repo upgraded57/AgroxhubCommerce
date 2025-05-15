@@ -54,7 +54,7 @@ const CartProvider = ({ children }: { children: ReactNode }) => {
 
   // Sync cart
   useEffect(() => {
-    if (cartItems) {
+    if (cartItems && cartItems.length > 0) {
       setCart(cartItems)
       localStorage.setItem('cart', JSON.stringify(cartItems))
     } else {
@@ -62,7 +62,7 @@ const CartProvider = ({ children }: { children: ReactNode }) => {
       const savedCart = existingCart ? JSON.parse(existingCart) : []
       setCart(savedCart)
     }
-  }, [])
+  }, [cartItems])
 
   // Save to localStorage whenever cart updates
   useEffect(() => {
@@ -103,6 +103,9 @@ const CartProvider = ({ children }: { children: ReactNode }) => {
       const item = cart.find((p) => p.slug === slug)
       if (item) {
         if (type === 'delete') {
+          if (cart.length === 1) {
+            localStorage.removeItem('cart')
+          }
           setCart((prev) => prev.filter((el) => el.slug !== item.slug))
           return
         }
@@ -112,6 +115,7 @@ const CartProvider = ({ children }: { children: ReactNode }) => {
           const prevCart = prev.filter((el) => el.slug !== item.slug)
           type === 'increment' ? item.quantity++ : item.quantity--
           item.price = item.quantity * item.unitPrice
+
           return [...prevCart, item]
         })
       }
