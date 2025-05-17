@@ -1,7 +1,7 @@
 import { Link, createFileRoute, useNavigate } from '@tanstack/react-router'
 import { use, useState } from 'react'
 import { useQueryClient } from '@tanstack/react-query'
-import { toast } from 'react-hot-toast'
+import { toast } from 'sonner'
 import AppLayout from '@/layouts/app-layout'
 import { CartContext } from '@/providers/CartContext'
 import CartItem from '@/components/cart-item'
@@ -87,17 +87,26 @@ function RouteComponent() {
 
   const handleCheckout = () => {
     if (!deliveryInfo.type) {
-      toast.error('Please choose a delivery option', { id: 'cartToast' })
+      toast.warning('Unable to proceed', {
+        description: 'Please choose a delivery option',
+        id: 'cartToast',
+      })
       return
     }
 
     if (!deliveryInfo.regionId) {
-      toast.error('Please select a delivery region', { id: 'cartToast' })
+      toast.warning('Unable to proceed', {
+        description: 'Please select a delivery region',
+        id: 'cartToast',
+      })
       return
     }
 
     if (!deliveryInfo.address) {
-      toast.error('Please enter a delivery address', { id: 'cartToast' })
+      toast.warning('Unable to proceed', {
+        description: 'Please enter a delivery address',
+        id: 'cartToast',
+      })
       return
     }
 

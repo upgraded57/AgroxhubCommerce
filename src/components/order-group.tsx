@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { Link } from '@tanstack/react-router'
 import LogisticChangeModal from './logistic-change-modal'
 import OrderItem from './order-item'
@@ -9,7 +8,6 @@ export default function OrderGroup({
 }: {
   orderGroup: Record<string, any>
 }) {
-  const [deliveryModalActive, setDeliveryModalActive] = useState(false)
   return (
     <>
       <div className="mb-6 last-of-type:mb-0 border-[1px] border-light-grey-clr rounded-lg overflow-hidden">
@@ -38,7 +36,13 @@ export default function OrderGroup({
             <p className="text-sm">Logistics</p>
             <p
               className="link text-xs font-semibold"
-              onClick={() => setDeliveryModalActive(true)}
+              onClick={() =>
+                (
+                  document.getElementById(
+                    `order-modal-${orderGroup.id}`,
+                  ) as HTMLDialogElement
+                ).showModal()
+              }
             >
               Change
             </p>
@@ -46,7 +50,7 @@ export default function OrderGroup({
 
           <div className="label-text flex justify-between items-center">
             {orderGroup.logisticsProviderId ? (
-              <div className="flex gap-2 items-center">
+              <div className="flex gap-2 items-center w-full">
                 {orderGroup.logisticProvider.avatar ? (
                   <div className="w-12 h-12 rounded overflow-hidden bg-gray-200">
                     <img
@@ -68,6 +72,11 @@ export default function OrderGroup({
                   <p className="text-xs">est. delivery date - 29th Jan 2024</p>
                   <p className="text-xs">Delivers to - Doorstep</p>
                 </span>
+                <div className="ml-auto">
+                  <p className="text-sm font-medium">
+                    N {orderGroup.logisticsCost.toLocaleString()}
+                  </p>
+                </div>
               </div>
             ) : (
               <p className="text-sm">
@@ -77,12 +86,8 @@ export default function OrderGroup({
           </div>
         </div>
       </div>
-      {deliveryModalActive && (
-        <LogisticChangeModal
-          setState={setDeliveryModalActive}
-          groupId={orderGroup.id}
-        />
-      )}
+
+      <LogisticChangeModal groupId={orderGroup.id} />
     </>
   )
 }

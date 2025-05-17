@@ -6,7 +6,7 @@ import { use, useEffect, useState } from 'react'
 import { LiaDoorOpenSolid, LiaUserCircle } from 'react-icons/lia'
 import { useQueryClient } from '@tanstack/react-query'
 import { Link } from '@tanstack/react-router'
-import toast from 'react-hot-toast'
+import { toast } from 'sonner'
 import AvatarComp from './avatar-comp'
 
 import logo from '@/assets/images/logo1.png'
@@ -149,8 +149,9 @@ const UserDropdown = () => {
   const handleLogout = () => {
     queryClient.resetQueries()
     localStorage.removeItem('token')
-    toast.success('User logged out successfully')
-    // navigate({ to: '/auth/login', search: { from: undefined } })
+    toast.success('Success', {
+      description: 'User logged out successfully',
+    })
   }
 
   return isFetching ? (

@@ -2,7 +2,7 @@ import { useQueryClient } from '@tanstack/react-query'
 import { use, useEffect, useState } from 'react'
 import { FaMinus, FaPlus, FaStar } from 'react-icons/fa6'
 import { IoCartOutline, IoHeart, IoHeartDislikeOutline } from 'react-icons/io5'
-import toast from 'react-hot-toast'
+import { toast } from 'sonner'
 import { useGetSavedProducts, useSaveProduct } from '../api/saves'
 import type { SetStateAction } from 'react'
 import { CartContext } from '@/providers/CartContext'
@@ -153,7 +153,10 @@ const ProductActionBtns = ({
 
   const handleSaveProduct = async () => {
     if (!token) {
-      toast.error('Please login to continue', { id: 'saveToast' })
+      toast.error('Error', {
+        description: 'Please login to continue',
+        id: 'saveToast',
+      })
       return
     }
     try {
@@ -163,7 +166,9 @@ const ProductActionBtns = ({
       })
       setIsSavedProduct((prev) => !prev)
     } catch (error) {
-      toast.error('An error occurred. Please try again.')
+      toast.error('Error', {
+        description: 'An error occurred. Please try again.',
+      })
     }
   }
 

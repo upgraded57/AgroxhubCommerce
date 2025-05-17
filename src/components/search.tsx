@@ -1,7 +1,7 @@
 import { BsSearch } from 'react-icons/bs'
 
 export default function Search() {
-  const params = window.location.search.split('q=')[1] || ''
+  const params = new URLSearchParams(window.location.search).get('q')
   return (
     <form
       action="/products"
@@ -15,7 +15,7 @@ export default function Search() {
             name="q"
             className="grow"
             placeholder="Search ..."
-            defaultValue={params}
+            defaultValue={params || ''}
           />
         </label>
 

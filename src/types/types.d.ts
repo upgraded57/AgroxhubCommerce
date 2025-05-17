@@ -113,6 +113,7 @@ declare interface CartItem {
   slug: string
   quantity: number
   createdAt: string
+  updatedAt?: string
   image: string
   price: number
   unit: string

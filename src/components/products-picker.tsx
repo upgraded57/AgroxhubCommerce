@@ -1,23 +1,10 @@
 import { BiSolidHot } from 'react-icons/bi'
-import { useEffect, useState } from 'react'
 import { Link } from '@tanstack/react-router'
 import { useGetProductCategories } from '@/api/product'
 
 export default function ProductsPicker() {
   const roundedBtnStyle = 'btn btn-circle btn-sm p-1 bg-yellow-clr'
   const { isLoading, data: categories = [] } = useGetProductCategories()
-  const [randomCategories, setRandomCategories] = useState<Array<Category>>([])
-
-  const getRandomItems = (array: Array<Category>) => {
-    const shuffled = [...array].sort(() => Math.random() - 0.5)
-    return shuffled.slice(0, 20)
-  }
-
-  useEffect(() => {
-    if (!isLoading && categories.length) {
-      setRandomCategories(getRandomItems(categories))
-    }
-  }, [isLoading, categories])
 
   return (
     <div className="contEl mb-12">
@@ -32,7 +19,7 @@ export default function ProductsPicker() {
                 <BiSolidHot className="btn btn-circle btn-sm p-1 bg-white text-gray-200" />
               </div>
             ))
-          : randomCategories.map((category, idx) => (
+          : categories.map((category, idx) => (
               <Link
                 to="/products"
                 search={{

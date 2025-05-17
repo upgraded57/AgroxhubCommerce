@@ -1,7 +1,7 @@
 import { useQueryClient } from '@tanstack/react-query'
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { use, useState } from 'react'
-import toast from 'react-hot-toast'
+import { toast } from 'sonner'
 import { IoClose } from 'react-icons/io5'
 import { useEditUser } from '@/api/user'
 import { UserContext } from '@/providers/UserContext'
@@ -38,7 +38,9 @@ function RouteComponent() {
   const handleSetNewAvatar = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files ? e.target.files[0] : null
     if (file && file.size > 2 * 1024 * 1024) {
-      toast.error('Avatar size cannot exceed 2MB')
+      toast.error('Error', {
+        description: 'Avatar size cannot exceed 2MB',
+      })
       setNewAvatar(null)
       return
     }

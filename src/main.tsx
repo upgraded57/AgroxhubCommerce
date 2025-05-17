@@ -1,7 +1,7 @@
 import ReactDOM from 'react-dom/client'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { RouterProvider, createRouter } from '@tanstack/react-router'
-import { Toaster } from 'react-hot-toast'
+import { Toaster } from 'sonner'
 
 // Import the generated route tree
 import { routeTree } from './routeTree.gen'
@@ -44,7 +44,15 @@ if (rootElement && !rootElement.innerHTML) {
   root.render(
     <QueryClientProvider client={queryClient}>
       <CartProvider>
-        <Toaster />
+        <Toaster
+          richColors
+          closeButton
+          position="top-right"
+          duration={1000}
+          icons={{
+            loading: <span className="loading loading-spinner loading-sm" />,
+          }}
+        />
         <RouterProvider router={router} />
       </CartProvider>
     </QueryClientProvider>,

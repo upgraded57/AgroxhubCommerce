@@ -18,9 +18,10 @@ const DeleteDialog = ({
     useUpdateOrderItem()
 
   const handleItemDelete = () => {
-    const slug = item.slug || ''
+    const itemId = item.id || ''
+    const slug = item.slug
     if (component === 'order') {
-      deleteOrderItem({ slug, type: 'delete' }).then(() => {
+      deleteOrderItem({ itemId, type: 'delete' }).then(() => {
         queryClient.invalidateQueries({
           queryKey: ['Order'],
         })

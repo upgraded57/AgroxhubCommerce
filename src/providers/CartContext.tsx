@@ -1,6 +1,6 @@
 import { createContext, useEffect, useState } from 'react'
 
-import toast from 'react-hot-toast'
+import { toast } from 'sonner'
 
 import type { ReactNode } from 'react'
 import type { QueryObserverResult, RefetchOptions } from '@tanstack/react-query'
@@ -86,7 +86,10 @@ const CartProvider = ({ children }: { children: ReactNode }) => {
       } else {
         setCart((prevCart) => [...prevCart, item])
       }
-      toast.success('Product added to cart', { id: 'cartToast' })
+      toast.success('Success', {
+        description: 'Product added to cart',
+        id: 'cartToast',
+      })
     }
   }
 
@@ -110,16 +113,29 @@ const CartProvider = ({ children }: { children: ReactNode }) => {
             localStorage.removeItem('cart')
           }
           setCart((prev) => prev.filter((el) => el.slug !== item.slug))
-          return
+        } else {
+          // Increment or decrement quantity and update price
+          setCart((prev) =>
+            prev.map((el) => {
+              if (el.slug !== slug) return el
+
+              const newQuantity =
+                type === 'increment' ? el.quantity + 1 : el.quantity - 1
+
+              return {
+                ...el,
+                quantity: newQuantity,
+                price: newQuantity * el.unitPrice,
+              }
+            }),
+          )
         }
-
-        // Increment or decrement
-        setCart((prev) => {
-          const prevCart = prev.filter((el) => el.slug !== item.slug)
-          type === 'increment' ? item.quantity++ : item.quantity--
-          item.price = item.quantity * item.unitPrice
-
-          return [...prevCart, item]
+        toast.success('Success', {
+          description:
+            type === 'delete'
+              ? 'Product removed from cart'
+              : 'Product quantity updated successfully',
+          id: 'cartToast',
         })
       }
     }

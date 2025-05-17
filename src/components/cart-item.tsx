@@ -9,7 +9,7 @@ export default function CartItem({ item }: { item: CartItem }) {
   const isUpdatingItem = use(CartContext)?.isUpdatingItem
   return (
     <>
-      <div className="cartItem flex items-center gap-4 w-full mx-auto mb-4 pb-4 border-b-[1px] border-b-light-grey-clr">
+      <div className="flex items-center gap-4 w-full mx-auto mb-4 pb-4 border-b-[1px] border-b-light-grey-clr">
         <div className="w-full flex items-center gap-4">
           <div className="avatar">
             <div className="w-18 rounded bg-light-grey-clr">

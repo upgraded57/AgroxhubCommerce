@@ -2,29 +2,28 @@ import { IoClose } from 'react-icons/io5'
 import Loader from './loader'
 import EmptyFile from './empty-file'
 import AvatarComp from './avatar-comp'
-import type { SetStateAction } from 'react'
+
 import { useGetProviders } from '@/api/checkout'
 
-export default function LogisticChangeModal({
-  setState,
-  groupId,
-}: {
-  setState: React.Dispatch<SetStateAction<boolean>>
-  groupId: string
-}) {
+export default function LogisticChangeModal({ groupId }: { groupId: string }) {
   const { isLoading, data: providers, isError } = useGetProviders(groupId)
   return (
     <>
-      <div className="fixed w-[100vw] h-[100vh] items-center inset-0 flex justify-center z-50 px-[4vw] backdrop-blur-xs">
-        <div className="absolute w-full h-full bg-black opacity-50 -z-10"></div>
-        <div className="w-full max-w-[600px] rounded-lg h-auto bg-white pb-6">
+      <dialog id={`order-modal-${groupId}`} className="modal">
+        <div className="modal-box p-0">
           <div className="flex p-4 justify-between items-center border-b">
             <h3 className="text-sm lg:text-lg font-semibold uppercase">
               Change Logistic Provider
             </h3>
             <IoClose
-              className="text-xl cursor-pointer"
-              onClick={() => setState(false)}
+              className="text-xl cursor-pointer hover:text-red-clr"
+              onClick={() =>
+                (
+                  document.getElementById(
+                    `order-modal-${groupId}`,
+                  ) as HTMLDialogElement
+                ).close()
+              }
             />
           </div>
           {isLoading ? (
@@ -75,10 +74,16 @@ export default function LogisticChangeModal({
                   </div>
                 ))}
               </div>
-              <div className="w-full flex justify-center mt-4">
+              <div className="w-full flex justify-center my-4 ">
                 <button
                   className="btn btn-outline uppercase  border-orange-clr text-orange-clr hover:text-white hover:bg-orange-clr hover:border-orange-clr"
-                  onClick={() => setState(false)}
+                  onClick={() =>
+                    (
+                      document.getElementById(
+                        `order-modal-${groupId}`,
+                      ) as HTMLDialogElement
+                    ).close()
+                  }
                 >
                   Select Logistic Provider
                 </button>
@@ -86,7 +91,13 @@ export default function LogisticChangeModal({
             </>
           )}
         </div>
-      </div>
+
+        {/* <div className="modal-action">
+          <form method="dialog">
+            <button className="btn">Close</button>
+          </form>
+        </div> */}
+      </dialog>
     </>
   )
 }

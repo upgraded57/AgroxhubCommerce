@@ -1,5 +1,5 @@
 import axios from 'axios'
-import toast from 'react-hot-toast'
+import { toast } from 'sonner'
 import type { AxiosError, AxiosResponse } from 'axios'
 import type { ApiErrorResponse } from '@/types/axios'
 
@@ -11,13 +11,16 @@ export const axiosInstance = axios.create({
   baseURL,
 })
 
-let toastId: string | undefined
+let toastId: string
 
 // Request interceptor
 axiosInstance.interceptors.request.use(
   (config) => {
     if (config.showToast !== false) {
-      toastId = toast.loading('Loading', { id: 'baseToast' })
+      toastId = toast.loading('Processing Request', {
+        description: 'Your request is being processed',
+        id: 'baseToast',
+      }) as string
     }
 
     const token = localStorage.getItem('token')
@@ -46,7 +49,10 @@ axiosInstance.interceptors.response.use(
     const config = response.config
 
     if (config.showToast !== false) {
-      toast.success(response.data?.message || 'Success', { id: toastId })
+      toast.success('Success', {
+        description: response.data?.message || 'Success',
+        id: toastId,
+      })
     }
 
     return response
@@ -55,7 +61,8 @@ axiosInstance.interceptors.response.use(
     const config = error.config
 
     if (config?.showToast !== false) {
-      toast.error(error.response?.data.message || 'Something went wrong', {
+      toast.error('Error', {
+        description: error.response?.data.message || 'Something went wrong',
         id: toastId,
       })
     }

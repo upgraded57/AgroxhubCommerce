@@ -26,7 +26,7 @@ export const useGetOrder = (orderNumber: string) => {
 export const useUpdateOrderItem = () => {
   return useMutation({
     mutationFn: (data: {
-      slug: string
+      itemId: string
       type: 'increment' | 'decrement' | 'delete'
     }) => {
       return axiosInstance.patch('/checkout', data)
