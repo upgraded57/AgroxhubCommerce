@@ -49,21 +49,68 @@ declare interface Product {
   reviews?: Array<Review>
 }
 
-declare interface Notification {
+declare interface NotificationList {
   id: string
   type:
     | 'follow'
     | 'productReview'
     | 'productSave'
-    | 'productOrder'
-    | 'productDelivery'
-    | 'productShipped'
-    | 'productClicks'
+    | 'orderPlacement'
+    | 'orderPickup'
+    | 'orderInTransit'
+    | 'orderDelivery'
+    | 'milestone'
+    | 'orderAssignment'
+    | 'outOfStock'
   unread: boolean
   subject: string
-  content: string
-  attachment: string
+  summary: string
+  attachment?: string
   createdAt: string
+  product?: {
+    id: string
+    name: string
+    image: string
+    unit: string
+    slug: string
+  }
+  products?: Array<{
+    id: string
+    name: string
+    image: string
+    unit: string
+    quantity: number
+    slug: string
+  }>
+  buyer?: {
+    id: string
+    name: string
+    avatar: string
+  }
+  follower?: {
+    id: string
+    name: string
+    avatar: string
+  }
+  logisticsProvider?: {
+    id: string
+    name: string
+    avatar: string
+  }
+  order?: {
+    id: string
+    amount: number
+    createdAt: string
+    deliveryAddress: string
+    deliveryRegion: {
+      state: string
+      lcda: string
+      name: string
+    }
+  }
+  productQuantity?: number
+  pickupDate?: string
+  deliveryDate?: string
 }
 
 declare interface SavedItem {
@@ -152,6 +199,9 @@ declare interface OrderGroup {
   sellerNote?: string
   logisticsNote?: string
   sellerName?: string
+  deliveryDate?: string
+  logisticProvider: User
+  orderCompletionCode?: string
 }
 
 declare interface OrderItem {
@@ -167,6 +217,7 @@ declare interface OrderItem {
   image?: string
   name?: string
   slug?: string
+  unit?: string
 }
 
 declare interface SellerSummary {

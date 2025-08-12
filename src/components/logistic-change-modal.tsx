@@ -1,4 +1,5 @@
 import { IoClose } from 'react-icons/io5'
+import { FaStar } from 'react-icons/fa'
 import Loader from './loader'
 import EmptyFile from './empty-file'
 import AvatarComp from './avatar-comp'
@@ -59,16 +60,25 @@ export default function LogisticChangeModal({ groupId }: { groupId: string }) {
                               <p className="text-sm font-semibold">
                                 {provider.name}
                               </p>
-                              <p className="text-xs">
+                              <div className="flex items-center gap-2">
+                                <p>Rating:</p>
+                                <div className="flex gap-1 items-center text-md text-yellow-300 py-2">
+                                  {[1, 1, 1, 1].map((_, i) => (
+                                    <FaStar key={i} />
+                                  ))}
+                                  <FaStar className="text-gray-200" key={idx} />
+                                </div>
+                              </div>
+                              {/* <p className="text-xs">
                                 est. delivery date - 29th Jan 2024
                               </p>
-                              <p className="text-xs">Delivers to - Doorstep</p>
+                              <p className="text-xs">Delivers to - Doorstep</p> */}
                             </span>
                           </div>
                         </div>
                       </div>
                       <p className="text-sm font-semibold">
-                        N {provider.logisticCost}
+                        N {provider.logisticCost.toLocaleString()}
                       </p>
                     </label>
                   </div>

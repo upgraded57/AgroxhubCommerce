@@ -150,7 +150,7 @@ function RouteComponent() {
         </label>
 
         <label htmlFor="address" className="block mb-4">
-          <p className="text-sm">DELIVERY ADDRESS</p>
+          <p className="text-sm">ADDRESS</p>
           <input
             type="address"
             name="address"

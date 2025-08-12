@@ -86,7 +86,11 @@ body {
 }
 
 .btn {
-  @apply font-normal shadow-none;
+  @apply font-normal shadow-none text-sm;
+}
+
+.btn-success {
+  @apply bg-dark-green-clr text-white border-dark-green-clr hover:bg-green-700 hover:border-green-700;
 }
 
 .hero {

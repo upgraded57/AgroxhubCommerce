@@ -4,7 +4,7 @@ import { axiosInstance } from './axiosInstance'
 export const useGetNotifications = () => {
   const getNotifications = async () => {
     const res = await axiosInstance.get('notifications', { showToast: false })
-    return res.data.notifications as Array<Notification>
+    return res.data.notifications as Array<NotificationList>
   }
 
   return useQuery({
@@ -18,7 +18,7 @@ export const useGetSingleNotification = (id: string) => {
     const res = await axiosInstance.get(`notifications/${id}`, {
       showToast: false,
     })
-    return res.data.notification as Notification
+    return res.data.notification as NotificationList
   }
 
   return useQuery({

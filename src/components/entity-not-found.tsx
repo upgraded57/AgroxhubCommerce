@@ -10,11 +10,11 @@ export default function EntityNotFound({
 }) {
   return (
     <div className="w-full max-w-lg p-10 pt-0 mb-10 overflow-x-hidden">
-      <div className="w-[250px] h-[250px] relative -left-12 mb-6">
+      <div className="w-[150px] h-[150px] relative -left-12 mb-6">
         <Lottie
           animationData={AnimationNoProduct}
-          width={250}
-          height={250}
+          width={150}
+          height={150}
           loop={false}
         />
       </div>

@@ -20,7 +20,6 @@ function RouteComponent() {
   const cartItems = use(CartContext)?.cart
   const { data: user } = useGetUser()
   const [customRegion, setCustomRegion] = useState('')
-  const [customAddress, setCustomAddress] = useState('')
 
   const [deliveryInfo, setDeliveryInfo] = useState<{
     type: 'default' | 'custom' | null
@@ -72,7 +71,6 @@ function RouteComponent() {
       setDeliveryInfo((prev) => ({
         ...prev,
         type: 'custom',
-        address: customAddress,
         regionId: customRegion,
       }))
     }
@@ -199,6 +197,7 @@ function RouteComponent() {
                                 name="deliveryAddress"
                                 className="radio radio-sm md:radio-md checked:bg-orange-clr"
                                 onChange={() => {
+                                  setDelivery('custom')
                                   setDeliveryInfo((prev) => ({
                                     ...prev,
                                     type: 'custom',
@@ -318,14 +317,16 @@ function RouteComponent() {
                                   <input
                                     type="text"
                                     className="input input-bordered w-full"
-                                    value={customAddress}
                                     disabled={
                                       isLoadingRegions ||
                                       !selectedRegion.selectedRegion
                                     }
-                                    onChange={(e) =>
-                                      setCustomAddress(e.target.value)
-                                    }
+                                    onChange={(e) => {
+                                      setDeliveryInfo((prev) => ({
+                                        ...prev,
+                                        address: e.target.value,
+                                      }))
+                                    }}
                                   />
                                 </label>
                               </div>

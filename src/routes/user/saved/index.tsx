@@ -26,7 +26,7 @@ function RouteComponent() {
       {/* Products List */}
       {isLoading ? (
         <ProductsLoader type="list" count={5} />
-      ) : products && products.length < 1 ? (
+      ) : products && products.length === 0 ? (
         <EmptyProducts text="You have no saved products yet" />
       ) : (
         products?.map((item, idx) => <SavedProduct key={idx} item={item} />)

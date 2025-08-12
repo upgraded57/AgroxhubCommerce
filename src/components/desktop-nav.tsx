@@ -26,7 +26,10 @@ export default function DesktopNav({
     <div className="nav-lg basis-1/4 hidden md:block uppercase text-sm sticky top-[100px]">
       <div className="bg-light-grey-clr rounded-lg w-full overflow-hidden mb-5">
         {userLinks.map((userLink, idx) => (
-          <div className="w-full flex space-x-4 border-b hover:bg-gray-200 relative">
+          <div
+            className="w-full flex space-x-4 border-b hover:bg-gray-200 relative"
+            key={idx}
+          >
             <Link
               key={idx}
               to={userLink.path}
@@ -46,7 +49,10 @@ export default function DesktopNav({
           <p className="text-sm font-bold uppercase mb-2">sellers</p>
           <div className="bg-light-grey-clr rounded-lg w-full overflow-hidden">
             {sellerLinks.map((sellerLink, idx) => (
-              <div className="w-full flex space-x-4 border-b hover:bg-gray-200 relative">
+              <div
+                className="w-full flex space-x-4 border-b hover:bg-gray-200 relative"
+                key={idx}
+              >
                 <Link
                   key={idx}
                   to={sellerLink.path}

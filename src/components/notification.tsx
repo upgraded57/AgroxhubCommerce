@@ -1,97 +1,105 @@
-import { RiUserFollowLine } from 'react-icons/ri'
-import { FiBarChart } from 'react-icons/fi'
+import { GrUserNew } from 'react-icons/gr'
+import {
+  FaCalendarCheck,
+  FaChartLine,
+  FaCheckDouble,
+  FaCircleInfo,
+  FaHeart,
+  FaStar,
+  FaTruck,
+} from 'react-icons/fa6'
+import { HiClipboardDocumentCheck } from 'react-icons/hi2'
+import { FaCheckCircle } from 'react-icons/fa'
+import { Link } from '@tanstack/react-router'
 import moment from 'moment'
 
-export default function Notification({ item }: { item: Notification }) {
-  switch (item.type) {
-    // case notificationType.follow:
-    case 'follow':
-      return (
-        <div
-          onClick={() => {
-            const modalElement = document.getElementById(
-              item.id,
-            ) as HTMLDialogElement | null
-            if (modalElement) {
-              modalElement.showModal()
-            }
-          }}
-          className="block py-4 cursor-pointer hover:bg-gray-100 hover:pl-2 transition-all border-b"
-          key={item.id}
-        >
-          <div className="flex items-start gap-2">
-            <div className="w-8 h-8 aspect-square bg-dark-blue-clr rounded-md flex items-center justify-center text-white relative">
-              {item.unread && (
-                <span className="badge badge-xs absolute -top-1 -right-1 bg-red-clr" />
-              )}
-              <div className="text-xl">
-                <RiUserFollowLine />
-              </div>
-            </div>
+export default function Notification({
+  notification,
+}: {
+  notification: NotificationList
+}) {
+  let bgColor = ''
+  let color = ''
 
-            <div className="block">
-              <p className="text-sm font-semibold uppercase">{item.subject}</p>
-              <p className="text-sm">{item.content}</p>
-              <small className="text-xs text-gray-400 font-light">
-                {moment(item.createdAt).format('DD MMM, YYYY. hh:mm a')}
-              </small>
-            </div>
-          </div>
-          <NotifModal id={item.id} data={item} />
-        </div>
-      )
-
-    case 'productClicks':
-      return (
-        <div
-          onClick={() => {
-            const modalElement = document.getElementById(
-              item.id,
-            ) as HTMLDialogElement | null
-            if (modalElement) {
-              modalElement.showModal()
-            }
-          }}
-          className="block py-4 cursor-pointer hover:bg-gray-100 hover:pl-2 transition-all border-b"
-          key={item.id}
-        >
-          <div className="flex items-start gap-2">
-            <div className="w-8 h-8 aspect-square bg-dark-blue-clr rounded-md flex items-center justify-center text-white relative">
-              {item.unread && (
-                <span className="badge badge-xs absolute -top-1 -right-1 bg-red-clr" />
-              )}
-              <div className="text-xl">
-                <FiBarChart />
-              </div>
-            </div>
-
-            <div className="block">
-              <p className="text-sm font-semibold uppercase">{item.subject}</p>
-              <p className="text-sm">{item.content}</p>
-              <small className="text-xs text-gray-400 font-light">
-                {moment(item.createdAt).format('DD MMM, YYYY. hh:mm a')}
-              </small>
-            </div>
-          </div>
-          <NotifModal id={item.id} data={item} />
-        </div>
-      )
+  const getIcon = () => {
+    switch (notification.type) {
+      case 'follow':
+        bgColor = 'bg-fuchsia-100'
+        color = 'text-fuchsia-600'
+        return GrUserNew
+      case 'productReview':
+        bgColor = 'bg-yellow-100'
+        color = 'text-yellow-600'
+        return FaStar
+      case 'productSave':
+        bgColor = 'bg-fuchsia-100'
+        color = 'text-fuchsia-600'
+        return FaHeart
+      case 'orderDelivery':
+        bgColor = 'bg-green-100'
+        color = 'text-green-600'
+        return FaCheckCircle
+      case 'orderPlacement':
+        bgColor = 'bg-purple-100'
+        color = 'text-purple-600'
+        return HiClipboardDocumentCheck
+      case 'orderPickup':
+        bgColor = 'bg-pink-100'
+        color = 'text-pink-600'
+        return FaCalendarCheck
+      case 'orderInTransit':
+        bgColor = 'bg-sky-100'
+        color = 'text-sky-600'
+        return FaTruck
+      case 'milestone':
+        bgColor = 'bg-green-100'
+        color = 'text-green-600'
+        return FaChartLine
+      case 'orderAssignment':
+        bgColor = 'bg-teal-100'
+        color = 'text-teal-600'
+        return FaCheckDouble
+      case 'outOfStock':
+        bgColor = 'bg-red-100'
+        color = 'text-red-600'
+        return FaCircleInfo
+      default:
+        return FaCircleInfo
+    }
   }
-}
 
-const NotifModal = ({ id, data }: { id: string; data: Notification }) => {
+  const Icon = getIcon()
+
   return (
-    <dialog id={id} className="modal">
-      <div className="modal-box">
-        <h3 className="font-[500] text-lg">{data.subject}</h3>
-        <p className="pt-2 text-sm">{data.content}</p>
-        <div className="modal-action">
-          <form method="dialog">
-            {/* if there is a button in form, it will close the modal */}
-            <button className="btn btn-sm">Close</button>
-          </form>
+    <Link
+      to="/user/notifications/$id"
+      params={{
+        id: notification.id,
+      }}
+      className={`list-row px-0 hover:underline ${notification.unread ? '' : 'opacity-50'}`}
+    >
+      <div className="flex gap-6">
+        <span
+          className={`w-8 h-8 rounded-full aspect-square flex items-center justify-center ${bgColor} ${color}`}
+        >
+          <Icon />
+        </span>
+        <div className="">
+          <p className="uppercase font-medium">{notification.subject}</p>
+          <p>{notification.summary}</p>
+          <p className="text-xs font-light text-slate-500">
+            {moment(notification.createdAt).format('MMM D, YYYY. HH:MMa')}
+          </p>
         </div>
       </div>
-    </dialog>
+      {notification.attachment && (
+        <div className="w-15 h-15 rounded-lg aspect-square bg-slate-200 ml-auto overflow-hidden">
+          <img
+            src={notification.attachment}
+            className="w-full h-full object-cover"
+          />
+        </div>
+      )}
+    </Link>
   )
 }

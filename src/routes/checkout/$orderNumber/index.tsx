@@ -1,5 +1,6 @@
 import { createFileRoute, useParams } from '@tanstack/react-router'
 import { useQueryClient } from '@tanstack/react-query'
+import { AiOutlineAlert } from 'react-icons/ai'
 import { useGetOrder } from '@/api/checkout'
 import { useInitiatePayment } from '@/api/payment'
 import { userAddOrderNotes } from '@/api/order'
@@ -68,6 +69,15 @@ function RouteComponent() {
 
           <div className="contEl mb-12 lg:flex gap-4 relative">
             <div className="basis-2/3">
+              {order?.orderGroups?.length > 2 && (
+                <div role="alert" className="alert alert-info mb-4 text-white">
+                  <AiOutlineAlert className="text-lg" />
+                  <span>
+                    Want to reduce logistics cost? Try buying from fewer
+                    sellers!
+                  </span>
+                </div>
+              )}
               {order?.orderGroups?.map((orderGroup: any, idx: number) => (
                 <OrderGroup key={idx} orderGroup={orderGroup} />
               ))}

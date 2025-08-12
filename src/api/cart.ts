@@ -15,7 +15,11 @@ export const useSyncCart = () => {
 export const useGetCartItems = () => {
   const getCartItems = async () => {
     const res = await axiosInstance.get('/cart', { showToast: false })
-    return res.data.cart as Array<CartItem>
+    if (res.data.cart) {
+      return res.data.cart as Array<CartItem>
+    }
+
+    return []
   }
 
   return useQuery({

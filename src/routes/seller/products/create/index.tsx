@@ -1,8 +1,8 @@
-import { createFileRoute, useNavigate } from '@tanstack/react-router'
+import { Link, createFileRoute, useNavigate } from '@tanstack/react-router'
 import { use, useState } from 'react'
 import * as Yup from 'yup'
 import { useFormik } from 'formik'
-import { FaRegTrashCan } from 'react-icons/fa6'
+import { FaCircleInfo, FaRegTrashCan } from 'react-icons/fa6'
 import { useCreateProduct, useGetProductCategories } from '@/api/product'
 import useRegions from '@/hooks/use-regions'
 import { UserContext } from '@/providers/UserContext'
@@ -116,6 +116,16 @@ function RouteComponent() {
         CREATE PRODUCT
       </h2>
 
+      <div role="alert" className="alert alert-warning mt-6 shadow-none">
+        <FaCircleInfo />
+        <span>
+          Warning: Please update your profile address before creating a product!
+        </span>
+        <Link to="/user/account/edit" className="underline">
+          Update Profile
+        </Link>
+      </div>
+
       <form className="my-6 w-full px-2" onSubmit={formik.handleSubmit}>
         <label htmlFor="name" className="block mb-6">
           <p className="text-sm uppercase">product name</p>
@@ -178,7 +188,7 @@ function RouteComponent() {
         <label htmlFor="categoryId" className="w-full block mb-6">
           <p className="text-sm uppercase">PRODUCT CATEGORY</p>
           <select
-            className="select select-bordered w-full"
+            className="select select-bordered min-w-full"
             {...formik.getFieldProps('categoryId')}
             disabled={isLoadingProductCategories}
           >
@@ -221,7 +231,7 @@ function RouteComponent() {
             <label htmlFor="state" className="block w-full">
               <p className="text-sm uppercase">PRODUCT STATE</p>
               <select
-                className="select select-bordered w-full"
+                className="select select-bordered min-w-full"
                 defaultValue=""
                 name="state"
                 disabled={
@@ -247,7 +257,7 @@ function RouteComponent() {
             <label htmlFor="lcda" className="block w-full">
               <p className="text-sm uppercase">PRODUCT LCDA</p>
               <select
-                className="select select-bordered w-full"
+                className="select select-bordered min-w-full"
                 defaultValue=""
                 name="lcda"
                 disabled={
@@ -274,7 +284,7 @@ function RouteComponent() {
             <label htmlFor="regionId" className="block w-full">
               <p className="text-sm uppercase">PRODUCT REGION</p>
               <select
-                className="select select-bordered w-full"
+                className="select select-bordered min-w-full"
                 {...formik.getFieldProps('regionId')}
                 disabled={
                   isLoadingRegions ||
@@ -352,8 +362,8 @@ function RouteComponent() {
         <div className="w-full flex justify-center mt-6">
           <button
             type="submit"
-            className="btn btn-outline uppercase  border-orange-clr text-orange-clr hover:text-white hover:bg-orange-clr hover:border-orange-clr"
-            disabled={isCreatingProduct}
+            className="btn btn-outline uppercase disabled:border-transparent disabled:text-gray-400 border-orange-clr text-orange-clr hover:text-white hover:bg-orange-clr hover:border-orange-clr"
+            disabled={isCreatingProduct || !user?.address}
           >
             {isCreatingProduct ? (
               <span className="loading loading-dots loading-md bg-orange-clr" />

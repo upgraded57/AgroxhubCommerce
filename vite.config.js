@@ -12,6 +12,9 @@ export default defineConfig({
     viteReact(),
     tailwindcss(),
   ],
+  // server: {
+  //   historyApiFallback: true
+  // },
   test: {
     globals: true,
     environment: 'jsdom',

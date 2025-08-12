@@ -12,6 +12,7 @@ export const Route = createFileRoute('/user/notifications/')({
 function RouteComponent() {
   const [status, setStatus] = useState('all')
   const { isLoading, data: notifications } = useGetNotifications()
+
   return (
     <>
       <div className="hidden md:flex items-center justify-between border-b py-2 md:pt-0">
@@ -31,15 +32,23 @@ function RouteComponent() {
       ) : notifications && notifications.length < 1 ? (
         <EmptyFile text="You have no new notifications!" />
       ) : (
-        notifications
-          ?.filter((item) => {
-            if (status === 'unread') {
-              return item.unread
-            } else {
+        <div className="list">
+          {notifications
+            ?.filter((item) => {
+              if (status === 'unread') {
+                return item.unread
+              }
+
+              if (status === 'read') {
+                return !item.unread
+              }
+
               return item
-            }
-          })
-          .map((notif, idx) => <Notification item={notif} key={idx} />)
+            })
+            .map((notif, idx) => (
+              <Notification notification={notif} key={idx} />
+            ))}
+        </div>
       )}
 
       {/* <div className="flex w-full items-center justify-center mt-4 mb-12">

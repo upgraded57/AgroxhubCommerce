@@ -1,9 +1,11 @@
 import { Link, createFileRoute, useParams } from '@tanstack/react-router'
 import moment from 'moment'
-import { FaStar } from 'react-icons/fa'
-import { useGetSingleOrder } from '@/api/order'
+import { toast } from 'sonner'
+import { IoCopyOutline } from 'react-icons/io5'
 import Loader from '@/components/loader'
-import EntityNotFound from '@/components/entity-not-found'
+import EmptyProducts from '@/components/empty-products'
+import { useGetSingleOrder } from '@/api/order'
+import { StatusBadge } from '@/components/status-badge'
 
 export const Route = createFileRoute('/user/orders/$id/')({
   component: RouteComponent,
@@ -19,29 +21,22 @@ function RouteComponent() {
   const deliveryStatus = orders?.status || 'pending'
   const paymentStatus = orders?.paymentStatus || 'pending'
 
-  const productRatings = (product: any) => {
-    const positive = Array.from(
-      { length: product?.ratings },
-      (_, index) => index,
-    )
-    const empty = Array.from(
-      { length: 5 - product?.ratings },
-      (_, index) => index,
-    )
-
-    return { positive, empty }
-  }
-
   if (isError) {
     return (
-      <EntityNotFound
-        title="Order Not Found!"
-        text="We could not find that order. It may have been deleted from our database. If you think this should be happening, please contact support"
-      />
+      <EmptyProducts text="We could not find that order. It may have been deleted from our database. If you think this should be happening, please contact support" />
     )
   }
 
   if (isLoading) return <Loader />
+
+  const handleCopyCode = (id: string) => {
+    navigator.clipboard.writeText(id).then(() => {
+      toast.success('Code copied', {
+        description: 'Order completion code copied to clipboard',
+        id: 'copyId',
+      })
+    })
+  }
 
   return (
     <>
@@ -58,17 +53,8 @@ function RouteComponent() {
 
         <div className="space-y-2">
           <p className="text-xs">Payment Status</p>
-          <span
-            className={`badge text-xs badge-md text-white ${
-              paymentStatus.toLowerCase() === 'pending'
-                ? 'badge-warning'
-                : paymentStatus.toLowerCase() === 'paid'
-                  ? 'badge-success'
-                  : 'badge-error'
-            }`}
-          >
-            {paymentStatus}
-          </span>
+
+          <StatusBadge status={paymentStatus} />
         </div>
 
         <div className="space-y-2">
@@ -82,19 +68,7 @@ function RouteComponent() {
 
         <div className="space-y-2">
           <p className="text-xs">Delivery Status</p>
-          <span
-            className={`badge text-xs badge-md text-white ${
-              deliveryStatus.toLowerCase() === 'pending'
-                ? 'badge-warning'
-                : deliveryStatus.toLowerCase() === 'in_transit'
-                  ? 'badge-info'
-                  : deliveryStatus.toLowerCase() === 'delivered'
-                    ? 'badge-success'
-                    : 'badge-error'
-            }`}
-          >
-            {deliveryStatus}
-          </span>
+          <StatusBadge status={deliveryStatus} />
         </div>
       </div>
 
@@ -105,9 +79,12 @@ function RouteComponent() {
           key={idx}
         >
           {/* Head */}
-          <p className="p-4 text-sm bg-gray-100">
-            Order from - <b className="font-medium">{group.sellerName}</b>
-          </p>
+          <div className="p-4 bg-gray-100 flex items-center justify-between">
+            <p className="text-sm">
+              Order from - <b className="font-medium">{group.sellerName}</b>
+            </p>
+            <StatusBadge status={group.status} />
+          </div>
           <div className="p-0">
             {/* Content */}
             <div className="p-4">
@@ -117,42 +94,42 @@ function RouteComponent() {
                   key={index}
                 >
                   <div className="flex items-center gap-4">
-                    <div className="w-20 aspect-square rounded-md overflow-hidden">
+                    <div className="w-16 aspect-square rounded-md overflow-hidden bg-light-grey-clr">
                       <img
                         src={item.image}
                         alt={item.name}
                         className="w-full h-full object-cover"
                       />
                     </div>
-                    <div>
-                      <p className="text-sm">{item.name}</p>
-                      <div className="flex gap-1 items-center text-md text-yellow-300 py-2">
-                        {productRatings(item).positive.map((_, i) => (
-                          <FaStar key={i} />
-                        ))}
-                        {productRatings(item).empty.map((_, idxx) => (
-                          <FaStar className="text-gray-200" key={idxx} />
-                        ))}
-                      </div>
-                      <p className="text-sm">
+                    <div className="flex flex-col">
+                      <Link
+                        to="/product/$slug"
+                        params={{ slug: item.slug || '' }}
+                        className="text-sm font-medium hover:underline"
+                      >
+                        {item.name}
+                      </Link>
+                      <p className="text-sm font-light">
                         NGN {item.totalPrice.toLocaleString()}
+                      </p>
+                      <p className="text-sm font-medium">
+                        {item.quantity} {item.unit}
                       </p>
                     </div>
                   </div>
 
-                  <Link
-                    to="/product/$slug"
-                    params={{
-                      slug: item.slug ? item.slug : '',
-                    }}
-                  >
-                    <button className="btn btn-sm font-normal bg-dark-green-clr border-none text-white hidden lg:flex">
-                      View Product
-                    </button>
-                    <button className="btn btn-sm font-normal bg-dark-green-clr border-none text-white lg:hidden">
-                      View
-                    </button>
-                  </Link>
+                  {group.status === 'delivered' && (
+                    <Link
+                      to="/user/orders/product/$id/review"
+                      params={{
+                        id: item.slug ? item.slug : '',
+                      }}
+                    >
+                      <button className="btn btn-sm btn-outline font-normal border-dark-green-clr text-dark-green-clr">
+                        Review
+                      </button>
+                    </Link>
+                  )}
                 </div>
               ))}
             </div>
@@ -160,18 +137,45 @@ function RouteComponent() {
             <div className="bg-gray-100 p-4 space-y-2">
               <p className="text-sm">
                 Logistics Provider -{' '}
-                <b className="font-medium">Some Random Provider</b>
+                <b className="font-medium">{group.logisticProvider.name}</b>
               </p>
               <p className="text-sm">
-                Est Delivery Date - <b className="font-medium">12 May, 2025</b>
+                Est Delivery Date -{' '}
+                <b className="font-medium">
+                  {group.deliveryDate
+                    ? moment(group.deliveryDate).format('dddd MMM DD, YYYY')
+                    : 'est.'}
+                </b>
               </p>
-              <p className="text-sm">
-                Redeem Code - <b className="font-medium">127185</b>
-              </p>
+              <div className="flex items-center gap-2">
+                <p className="text-sm">
+                  Order Completion Code:{' '}
+                  <b className="font-medium">
+                    {group.orderCompletionCode || '---'}
+                  </b>
+                </p>
+                <IoCopyOutline
+                  className="text-sm cursor-pointer"
+                  onClick={() =>
+                    handleCopyCode(group.orderCompletionCode || '')
+                  }
+                />
+              </div>
             </div>
           </div>
         </div>
       ))}
+      {orders?.paymentStatus === 'pending' && (
+        <Link
+          to="/checkout/$orderNumber"
+          params={{ orderNumber: orderNumber }}
+          className="block my-6"
+        >
+          <button className="btn bg-dark-green-clr text-white border-0">
+            Continue Order
+          </button>
+        </Link>
+      )}
     </>
   )
 }

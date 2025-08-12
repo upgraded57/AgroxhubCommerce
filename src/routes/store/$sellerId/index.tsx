@@ -84,7 +84,7 @@ function RouteComponent() {
   return (
     <>
       {/* profile header */}
-      <div className="h-[170px] md:h-[312px] overflow-hidden border-b-[1px] border-b-light-green-clr">
+      <div className="h-[170px] md:h-[312px] overflow-hidden">
         {isLoading ? (
           <div className="skeleton w-full h-full" />
         ) : seller?.coverImg ? (
@@ -101,22 +101,20 @@ function RouteComponent() {
       {/* Profile overview */}
       <div className="flex flex-col md:flex-row justify-between contEl md:items-center relative -translate-y-6 md:-translate-y-12">
         <div className="flex gap-3 items-end md:items-center">
-          <div className="w-[100px] md:w-[200px] aspect-square border-[1px] flex border-light-green-clr bg-light-grey-clr rounded-full overflow-hidden">
-            <div className="w-[100px] md:w-[200px] aspect-square border-[5px] border-white bg-light-grey-clr rounded-full overflow-hidden">
-              {isLoading ? (
-                <div className="skeleton w-full h-full" />
-              ) : seller?.avatar ? (
-                <img
-                  src={seller.avatar}
-                  alt="Seller Profile Image"
-                  className="w-full h-full object-cover"
-                />
-              ) : (
-                <div className="flex justify-center items-center w-full h-full bg-dark-green-clr">
-                  <AvatarComp size="lg" username={seller?.name} />
-                </div>
-              )}
-            </div>
+          <div className="w-[100px] md:w-[200px] aspect-square border-[5px] border-white bg-light-grey-clr rounded-full overflow-hidden">
+            {isLoading ? (
+              <div className="skeleton w-full h-full" />
+            ) : seller?.avatar ? (
+              <img
+                src={seller.avatar}
+                alt="Seller Profile Image"
+                className="w-full h-full object-cover"
+              />
+            ) : (
+              <div className="flex justify-center items-center w-full h-full bg-dark-green-clr">
+                <AvatarComp size="lg" username={seller?.name} />
+              </div>
+            )}
           </div>
           <span>
             {isLoading ? (

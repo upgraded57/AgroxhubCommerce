@@ -63,7 +63,7 @@ function RouteComponent() {
           <p className="text-sm">{user?.phoneNumber || '---'}</p>
         </span>
         <span className="block mb-4">
-          <p className="font-semibold text-xs">DELIVERY ADDRESS</p>
+          <p className="font-semibold text-xs">ADDRESS</p>
           <p className="text-sm">{user?.address || '---'}</p>
         </span>
         <span className="block mb-4">

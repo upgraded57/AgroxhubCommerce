@@ -4,12 +4,6 @@ import { useQueryClient } from '@tanstack/react-query'
 import DeleteDialog from './delete-dialog'
 import { useUpdateOrderItem } from '@/api/checkout'
 
-// const iconStyle =
-//   'btn w-auto h-auto btn-sm  border-none flex items-center justify-center p-2 rounded-md cursor-pointer aspect-square'
-
-// const smIconStyle =
-//   'btn btn-xs bg-light-grey-clr rounded-xs aspect-square border-none  w-auto h-auto p-1'
-
 export default function OrderItem({ item }: { item: any }) {
   const queryClient = useQueryClient()
   const { mutateAsync: updateQuantity, isPending } = useUpdateOrderItem()
