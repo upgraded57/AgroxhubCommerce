@@ -13,6 +13,15 @@ export default function ProductsList({
   category: string
 }) {
   const { isLoading, data, isError } = useGetProducts({ category })
+
+  if (isLoading)
+    return (
+      <div className="contEl mb-12">
+        <div className="w-[300px] h-10 rounded skeleton"></div>
+        <ProductsLoader count={4} />
+      </div>
+    )
+
   if (!data || !data.products) {
     return (
       <div className="flex items-center justify-center w-full">
@@ -45,9 +54,7 @@ export default function ProductsList({
             </Link>
           ))}
       </div>
-      {isLoading ? (
-        <ProductsLoader count={4} />
-      ) : isError ? (
+      {isError ? (
         <div className="flex items-center justify-center w-full">
           <EmptyProducts text="No products found in this category" />
         </div>

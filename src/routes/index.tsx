@@ -20,10 +20,10 @@ function App() {
       <Hero />
       <ProductsPicker />
       <ProductsList header="Flours and Mills" category="flours_and_mills" />
-      <ProductsList header="Bread" category="bread" />
+      <ProductsList header="Herbs and Spices" category="herbs_and_spices" />
       <ProductsList header="Fruits" category="fruits" />
       <Farmers header="Buy From Best Sellers" />
-      <ProductsList header="Fertilizers" category="fertilizers" />
+      <ProductsList header="Milk and Cream" category="milk_and_cream" />
       <ProductsList header="Vegetables" category="vegetables" />
 
       <BeASeller />

@@ -85,7 +85,7 @@ export default function AboutSeller({ seller }: { seller: Seller }) {
           }}
           className="w-full justify-end flex items-center gap-3"
         >
-          <p className="text-sm">View Seller's Profile</p>
+          <p className="text-sm">View Seller's Store</p>
           <FaArrowRightLong className="text-dark-green-clr" />
         </Link>
       </div>

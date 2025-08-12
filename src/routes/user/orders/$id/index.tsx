@@ -134,34 +134,42 @@ function RouteComponent() {
               ))}
             </div>
             {/* Footer */}
-            <div className="bg-gray-100 p-4 space-y-2">
-              <p className="text-sm">
-                Logistics Provider -{' '}
-                <b className="font-medium">{group.logisticProvider.name}</b>
-              </p>
-              <p className="text-sm">
-                Est Delivery Date -{' '}
-                <b className="font-medium">
-                  {group.deliveryDate
-                    ? moment(group.deliveryDate).format('dddd MMM DD, YYYY')
-                    : 'est.'}
-                </b>
-              </p>
-              <div className="flex items-center gap-2">
+            {group.logisticProvider ? (
+              <div className="bg-gray-100 p-4 space-y-2">
                 <p className="text-sm">
-                  Order Completion Code:{' '}
+                  Logistics Provider -{' '}
+                  <b className="font-medium">{group.logisticProvider.name}</b>
+                </p>
+                <p className="text-sm">
+                  Est Delivery Date -{' '}
                   <b className="font-medium">
-                    {group.orderCompletionCode || '---'}
+                    {group.deliveryDate
+                      ? moment(group.deliveryDate).format('dddd MMM DD, YYYY')
+                      : 'est.'}
                   </b>
                 </p>
-                <IoCopyOutline
-                  className="text-sm cursor-pointer"
-                  onClick={() =>
-                    handleCopyCode(group.orderCompletionCode || '')
-                  }
-                />
+                <div className="flex items-center gap-2">
+                  <p className="text-sm">
+                    Order Completion Code:{' '}
+                    <b className="font-medium">
+                      {group.orderCompletionCode || '---'}
+                    </b>
+                  </p>
+                  <IoCopyOutline
+                    className="text-sm cursor-pointer"
+                    onClick={() =>
+                      handleCopyCode(group.orderCompletionCode || '')
+                    }
+                  />
+                </div>
               </div>
-            </div>
+            ) : (
+              <div className="bg-gray-100 p-4 space-y-2">
+                <p className="text-sm text-gray-400">
+                  Logistics provider not assigned to order
+                </p>
+              </div>
+            )}
           </div>
         </div>
       ))}

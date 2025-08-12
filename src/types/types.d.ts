@@ -200,7 +200,7 @@ declare interface OrderGroup {
   logisticsNote?: string
   sellerName?: string
   deliveryDate?: string
-  logisticProvider: User
+  logisticProvider?: User
   orderCompletionCode?: string
 }
 
