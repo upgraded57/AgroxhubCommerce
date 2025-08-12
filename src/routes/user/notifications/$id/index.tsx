@@ -168,8 +168,9 @@ const ProductReviewNotification = ({
       </div>
       <Breadcrumb />
       <div className="px-4 my-6 space-y-8">
+        <p className="text-sm">{notification.summary}</p>
         <Profile
-          name="John Graham Doe"
+          name={'John Graham Doe'}
           slug="Purchased on Oct 25th, 2025"
           image="https://picsum.dev/200/200"
         />
@@ -257,6 +258,8 @@ const ProductSaveNotification = ({
         <h2 className="font-semibold text-sm md:text-2xl">PRODUCT SAVE</h2>
       </div>
       <Breadcrumb />
+
+      <p className="text-sm">{notification.summary}</p>
       <div className="px-4 my-6 space-y-8">
         <Profile
           name="John Graham Doe"
@@ -1108,6 +1111,8 @@ const MilestoneNotification = ({
         <h2 className="font-semibold text-sm md:text-2xl">NEW MILESTONE</h2>
       </div>
       <Breadcrumb />
+
+      <p className="text-sm">{notification.summary}</p>
       <div className="px-4 my-6 space-y-12">
         <div className="space-y-1">
           <h2 className="text-xl">Celebrating Milestone Achievement</h2>
