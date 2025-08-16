@@ -116,15 +116,18 @@ function RouteComponent() {
         CREATE PRODUCT
       </h2>
 
-      <div role="alert" className="alert alert-warning mt-6 shadow-none">
-        <FaCircleInfo />
-        <span>
-          Warning: Please update your profile address before creating a product!
-        </span>
-        <Link to="/user/account/edit" className="underline">
-          Update Profile
-        </Link>
-      </div>
+      {!user?.address && (
+        <div role="alert" className="alert alert-warning mt-6 shadow-none">
+          <FaCircleInfo />
+          <span>
+            Warning: Please update your profile address before creating a
+            product!
+          </span>
+          <Link to="/user/account/edit" className="underline">
+            Update Profile
+          </Link>
+        </div>
+      )}
 
       <form className="my-6 w-full px-2" onSubmit={formik.handleSubmit}>
         <label htmlFor="name" className="block mb-6">

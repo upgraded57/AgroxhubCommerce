@@ -165,7 +165,7 @@ const UserDropdown = () => {
         <div className="md:flex items-center gap-3">
           <p className="hidden md:block">{user.name.split(' ')[0]}</p>
           {user.avatar ? (
-            <div className="w-8 h-8 rounded-full overflow-hidden">
+            <div className="w-8 h-8 rounded-full overflow-hidden skeleton">
               <img src={user.avatar} className="w-full h-full object-cover" />
             </div>
           ) : (

@@ -152,6 +152,12 @@ const FollowerNotification = ({
         />
         <p className="text-sm">{notification.summary}</p>
       </div>
+
+      <Link to="/seller/followers">
+        <button className="btn  border-orange-clr bg-white text-orange-clr hover:bg-orange-clr hover:text-white hover:border-orange-clr disabled:border-gray-200">
+          View all Followers
+        </button>
+      </Link>
     </>
   )
 }
@@ -161,6 +167,16 @@ const ProductReviewNotification = ({
 }: {
   notification: NotificationList
 }) => {
+  const productRatings = (rating: number) => {
+    const positive = Array.from({ length: rating }, (_, index) => index)
+    const empty = Array.from({ length: 5 - rating }, (_, index) => index)
+
+    return { positive, empty }
+  }
+
+  const rating = productRatings(
+    notification.review?.rating ? parseInt(notification.review.rating) : 4,
+  )
   return (
     <>
       <div className="hidden md:flex items-center justify-between border-b py-2 md:pt-0">
@@ -170,9 +186,11 @@ const ProductReviewNotification = ({
       <div className="px-4 my-6 space-y-8">
         <p className="text-sm">{notification.summary}</p>
         <Profile
-          name={'John Graham Doe'}
-          slug="Purchased on Oct 25th, 2025"
-          image="https://picsum.dev/200/200"
+          name={notification.user?.name || ''}
+          slug={moment(notification.createdAt).format(
+            'dddd MMM DD, YYYY. hh:mma',
+          )}
+          image={notification.user?.avatar}
         />
 
         {/* Rating */}
@@ -181,12 +199,13 @@ const ProductReviewNotification = ({
             <p className="text-slate-500 text-sm">Rating</p>
           </div>
           <div className="col-span-5">
-            <div className="flex items-center gap-2">
-              <FaStar className="text-yellow-400 text-xl" />
-              <FaStar className="text-yellow-400 text-xl" />
-              <FaStar className="text-yellow-400 text-xl" />
-              <FaStar className="text-yellow-400 text-xl" />
-              <FaStar className="text-gray-300 text-xl" />
+            <div className="flex gap-2 items-center text-md py-2">
+              {rating.positive.map((_, idx) => (
+                <FaStar key={idx} className="text-orange-400 text-xl" />
+              ))}
+              {rating.empty.map((_, idx) => (
+                <FaStar className="text-gray-300 text-xl" key={idx} />
+              ))}
             </div>
           </div>
         </div>
@@ -198,14 +217,7 @@ const ProductReviewNotification = ({
           </div>
           <div className="col-span-5">
             <p className="pr-0 lg:pr-6 text-sm">
-              The story revolves around an ex-soldier. He seeks freedom,
-              independence, courage and solitude, and finds himself in the
-              wilderness. He is unmoved and relentless in his pursuit of his
-              beliefs and ideals, becoming a true "lone wolf". During his
-              journey, he also made many friends, and together they experienced
-              many dangers and difficulties. However, in the end, the Lone
-              Ranger chose to go alone because he believed that his heart was
-              the strongest support.
+              {notification.review?.review}
             </p>
           </div>
         </div>
@@ -217,28 +229,24 @@ const ProductReviewNotification = ({
           </div>
           <div className="col-span-5 space-y-3">
             <p className="font-semibold text-dark-green-clr text-base">
-              Fresh Tomatoes
+              {notification.product?.name}
             </p>
             <div className="flex items-center gap-2">
-              <div className="w-15 h-15 rounded-lg overflow-hidden aspect-square skeleton">
-                <img src="https://picsum.dev/static/103/200/200" alt="" />
-              </div>
-              <div className="w-15 h-15 rounded-lg overflow-hidden aspect-square skeleton">
-                <img src="https://picsum.dev/static/104/200/200" alt="" />
-              </div>
-              <div className="w-15 h-15 rounded-lg overflow-hidden aspect-square skeleton">
-                <img src="https://picsum.dev/static/105/200/200" alt="" />
-              </div>
-              <div className="w-15 h-15 rounded-lg overflow-hidden aspect-square skeleton">
-                <img src="https://picsum.dev/static/106/200/200" alt="" />
-              </div>
+              {notification.product?.images?.map((image, idx) => (
+                <div
+                  className="w-15 h-15 rounded-lg overflow-hidden aspect-square skeleton"
+                  key={idx}
+                >
+                  <img src={image} alt="" />
+                </div>
+              ))}
             </div>
             <Link
-              to="/seller/products/$slug/analytics"
-              params={{ slug: 'hgahgagh' }}
+              to="/product/$slug/reviews"
+              params={{ slug: notification.product?.slug || '' }}
               className="btn btn-outline border-yellow-clr text-yellow-clr hover:bg-yellow-clr hover:text-white"
             >
-              View Product Analytics
+              View Product Reviews
             </Link>
           </div>
         </div>
@@ -773,7 +781,7 @@ const OrderInTransitNotification = ({
 
         {/* Products Ordered */}
         <div className="space-y-3">
-          <p className="text-sm">Products in Transit</p>
+          <p className="text-sm">Products Scheduled for Delivery</p>
           <div className="pl-2">
             <div className="overflow-x-auto rounded-box border border-base-content/5 bg-base-100">
               <table className="table text-sm">
@@ -832,7 +840,7 @@ const OrderInTransitNotification = ({
               </div>
             </div>
 
-            <div className="grid grid-cols-7 gap-x-2">
+            {/* <div className="grid grid-cols-7 gap-x-2">
               <div className="col-span-2">
                 <p className="text-slate-400 text-sm">Pickup Date</p>
               </div>
@@ -845,7 +853,7 @@ const OrderInTransitNotification = ({
                     : 'Not yet set'}
                 </p>
               </div>
-            </div>
+            </div> */}
 
             <div className="grid grid-cols-7 gap-x-2">
               <div className="col-span-2">
@@ -960,9 +968,9 @@ const OrderDeliveryNotification = ({
                             >
                               <li className="btn btn-sm btn-ghost items-start hover:text-white text-dark-green-clr hover:bg-dark-green-clr border-0 p-0">
                                 <Link
-                                  to="/user/orders/product/$id/review"
+                                  to="/user/orders/product/$slug/review"
                                   className="w-full "
-                                  params={{ id: product.slug }}
+                                  params={{ slug: product.slug }}
                                 >
                                   Review Product
                                 </Link>
@@ -1059,20 +1067,22 @@ const OrderDeliveryNotification = ({
               </div>
             </div>
 
-            <div className="grid grid-cols-7 gap-x-2">
-              <div className="col-span-2">
-                <p className="text-slate-400 text-sm">Pickup Date</p>
+            {user?.type !== 'buyer' && (
+              <div className="grid grid-cols-7 gap-x-2">
+                <div className="col-span-2">
+                  <p className="text-slate-400 text-sm">Pickup Date</p>
+                </div>
+                <div className="col-span-5">
+                  <p className="text-sm">
+                    {notification.pickupDate
+                      ? moment(notification.pickupDate).format(
+                          'dddd MMM DD, YYYY',
+                        )
+                      : 'Not yet set'}
+                  </p>
+                </div>
               </div>
-              <div className="col-span-5">
-                <p className="text-sm">
-                  {notification.pickupDate
-                    ? moment(notification.pickupDate).format(
-                        'dddd MMM DD, YYYY',
-                      )
-                    : 'Not yet set'}
-                </p>
-              </div>
-            </div>
+            )}
 
             <div className="grid grid-cols-7 gap-x-2">
               <div className="col-span-2">

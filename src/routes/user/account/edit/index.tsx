@@ -176,9 +176,7 @@ function RouteComponent() {
                 }))
               }
             >
-              <option value="" disabled>
-                -- Select State --
-              </option>
+              <option value="">-- Select State --</option>
               <option value="Lagos">Lagos</option>
             </select>
           </label>

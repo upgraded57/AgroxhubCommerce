@@ -39,7 +39,13 @@ function RouteComponent() {
       ) : (
         <ProductNotFound type="single" />
       )}
-      {product && <AboutSeller seller={product.seller} />}
+      {product && (
+        <AboutSeller
+          seller={product.seller}
+          reviews={product.reviews}
+          ratings={product.ratings}
+        />
+      )}
 
       <ProductsGrid
         header="More Products from Seller"

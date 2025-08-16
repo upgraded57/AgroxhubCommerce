@@ -120,9 +120,9 @@ function RouteComponent() {
 
                   {group.status === 'delivered' && (
                     <Link
-                      to="/user/orders/product/$id/review"
+                      to="/user/orders/product/$slug/review"
                       params={{
-                        id: item.slug ? item.slug : '',
+                        slug: item.slug ? item.slug : '',
                       }}
                     >
                       <button className="btn btn-sm btn-outline font-normal border-dark-green-clr text-dark-green-clr">

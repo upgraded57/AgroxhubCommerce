@@ -1,27 +1,16 @@
 import { useQueryClient } from '@tanstack/react-query'
+import { Link } from '@tanstack/react-router'
 import { use, useEffect, useState } from 'react'
-import { FaMinus, FaPlus, FaStar } from 'react-icons/fa6'
+import { FaMinus, FaPlus } from 'react-icons/fa6'
 import { IoCartOutline, IoHeart, IoHeartDislikeOutline } from 'react-icons/io5'
 import { toast } from 'sonner'
 import { useGetSavedProducts, useSaveProduct } from '../api/saves'
+import ProductRatings from './product-rating'
 import type { SetStateAction } from 'react'
 import { CartContext } from '@/providers/CartContext'
 
 export default function ProductDetail({ product }: { product: Product }) {
   const [qty, setQty] = useState(1)
-
-  const productRatings = () => {
-    const positive = Array.from(
-      { length: product.ratings },
-      (_, index) => index,
-    )
-    const empty = Array.from(
-      { length: 5 - product.ratings },
-      (_, index) => index,
-    )
-
-    return { positive, empty }
-  }
 
   // Save product as recently viewed to localStorage
   useEffect(() => {
@@ -63,17 +52,22 @@ export default function ProductDetail({ product }: { product: Product }) {
             <p className="text-sm">{product.description}</p>
             <hr className="my-3" />
             <div className="flex items-center gap-2">
-              <div className="flex gap-1 items-center text-md text-yellow-300 py-2">
-                {productRatings().positive.map((_, idx) => (
-                  <FaStar key={idx} />
-                ))}
-                {productRatings().empty.map((_, idx) => (
-                  <FaStar className="text-gray-200" key={idx} />
-                ))}
-              </div>
+              <ProductRatings ratings={String(product.ratings)} />
+
               <p className="text-sm pl-3">
                 {product.reviews?.length || 0} Reviews
               </p>
+              {product.reviews && product.reviews.length > 0 && (
+                <Link
+                  to="/product/$slug/reviews"
+                  params={{
+                    slug: product.slug,
+                  }}
+                  className="text-sm text-dark-green-clr underline"
+                >
+                  <p className="text-sm">View All</p>
+                </Link>
+              )}
             </div>
           </div>
           <hr className="my-3" />

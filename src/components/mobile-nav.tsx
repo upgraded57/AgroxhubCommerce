@@ -2,6 +2,7 @@ import { Link } from '@tanstack/react-router'
 import { use } from 'react'
 import { MdFilterList } from 'react-icons/md'
 import { UserContext } from '@/providers/UserContext'
+import { useGetNotifications } from '@/api/notification'
 
 interface Props {
   userLinks: Array<{
@@ -26,6 +27,8 @@ export default function MobileNav({
 }: Props) {
   const user = use(UserContext).user
   const isSeller = user?.type === 'farmer' || user?.type === 'wholesaler'
+  const { data: notifications } = useGetNotifications()
+  const unreadNotifications = notifications?.filter((n) => n.unread).length || 0
 
   return (
     <div className="flex justify-between items-center p-4 bg-light-grey-clr md:hidden">
@@ -47,6 +50,12 @@ export default function MobileNav({
                 {isLoadingRoute && pathName === link.path && (
                   <span className="loading loading-spinner text-grey-clr" />
                 )}
+                {link.title.toLowerCase().includes('notification') &&
+                  unreadNotifications && (
+                    <span className="flex items-center justify-center w-6 h-6 rounded-full bg-white text-xs text-orange-clr font-bold border border-orange-clr">
+                      {unreadNotifications}
+                    </span>
+                  )}
               </Link>
             </li>
           ))}

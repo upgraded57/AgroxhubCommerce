@@ -15,7 +15,6 @@ declare interface User {
   address?: string
   region?: Region
   regionId?: string
-  location?: string
 }
 
 declare interface Seller extends User {}
@@ -46,7 +45,16 @@ declare interface Product {
   purchases?: number
   views: number
   clicks: number
-  reviews?: Array<Review>
+  reviews?: Array<{
+    rating: string
+    review: string
+    createdAt: string
+    user: {
+      id: string
+      name: string
+      avatar: string
+    }
+  }>
 }
 
 declare interface NotificationList {
@@ -67,10 +75,16 @@ declare interface NotificationList {
   summary: string
   attachment?: string
   createdAt: string
+  review?: {
+    id: string
+    rating: string
+    review: string
+  }
   product?: {
     id: string
     name: string
     image: string
+    images?: Array<string>
     unit: string
     slug: string
   }
@@ -83,6 +97,11 @@ declare interface NotificationList {
     slug: string
   }>
   buyer?: {
+    id: string
+    name: string
+    avatar: string
+  }
+  user?: {
     id: string
     name: string
     avatar: string
@@ -121,14 +140,24 @@ declare interface SavedItem {
 }
 
 declare interface Review {
-  id: string
-  sellerId: string
-  productId: string
-  userId: string
-  rating: number
-  subject: string
-  description: string
-  createdAt: Date
+  product: {
+    slug: string
+    id: string
+    name: string
+    images: Array<string>
+    ratings: number
+  }
+  reviews: Array<{
+    id: string
+    rating: string
+    review: string
+    user: {
+      id: string
+      avatar: string
+      name: string
+    }
+  }>
+  createdAt: string
 }
 
 declare interface Region {
@@ -253,3 +282,5 @@ declare interface AlternativeLogisticsProvider {
   phone: string | null
   regionId: string | nulll
 }
+
+declare interface Review {}
