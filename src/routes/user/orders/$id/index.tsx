@@ -125,7 +125,7 @@ function RouteComponent() {
                         slug: item.slug ? item.slug : '',
                       }}
                     >
-                      <button className="btn btn-sm btn-outline font-normal border-dark-green-clr text-dark-green-clr">
+                      <button className="btn btn-sm btn-outline font-normal border-dark-green-clr text-dark-green-clr hover:bg-green-100">
                         Review
                       </button>
                     </Link>

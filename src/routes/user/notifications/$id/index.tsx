@@ -1036,12 +1036,24 @@ const OrderDeliveryNotification = ({
         {/* Logistic Provider */}
         <div className="space-y-3">
           <p className="text-sm">Logistics Provider</p>
-          <div className="pl-2">
-            <Profile
-              name={notification.logisticsProvider?.name || '---'}
-              slug="Logistics Provider"
-              image={notification.logisticsProvider?.avatar}
-            />
+          <div className="flex items-center gap-4">
+            <div className="pl-2">
+              <Profile
+                name={notification.logisticsProvider?.name || '---'}
+                slug="Logistics Provider"
+                image={notification.logisticsProvider?.avatar}
+              />
+            </div>
+            <Link
+              to="/user/orders/logistics/$id/review"
+              params={{
+                id: notification.logisticsProvider?.id || '',
+              }}
+            >
+              <button className="btn btn-sm btn-outline font-normal border-dark-green-clr text-dark-green-clr hover:bg-green-100">
+                Rate
+              </button>
+            </Link>
           </div>
         </div>
 

@@ -284,3 +284,15 @@ declare interface AlternativeLogisticsProvider {
 }
 
 declare interface Review {}
+
+declare interface LogisticsProvider {
+  address: string | null
+  avatar: string | null
+  email: string
+  id: string
+  isActive: boolean
+  isVisible: boolean
+  name: string
+  phone: string | null
+  regionId: string | null
+}

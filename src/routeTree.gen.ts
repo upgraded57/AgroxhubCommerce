@@ -53,6 +53,7 @@ import { Route as SellerProductsSlugPromoteIndexImport } from './routes/seller/p
 import { Route as SellerProductsSlugEditIndexImport } from './routes/seller/products/$slug/edit/index'
 import { Route as SellerProductsSlugAnalyticsIndexImport } from './routes/seller/products/$slug/analytics/index'
 import { Route as UserOrdersProductSlugReviewIndexImport } from './routes/user/orders/product/$slug/review/index'
+import { Route as UserOrdersLogisticsIdReviewIndexImport } from './routes/user/orders/logistics/$id/review/index'
 
 // Create/Update Routes
 
@@ -311,6 +312,13 @@ const UserOrdersProductSlugReviewIndexRoute =
   UserOrdersProductSlugReviewIndexImport.update({
     id: '/orders/product/$slug/review/',
     path: '/orders/product/$slug/review/',
+    getParentRoute: () => UserRouteRoute,
+  } as any)
+
+const UserOrdersLogisticsIdReviewIndexRoute =
+  UserOrdersLogisticsIdReviewIndexImport.update({
+    id: '/orders/logistics/$id/review/',
+    path: '/orders/logistics/$id/review/',
     getParentRoute: () => UserRouteRoute,
   } as any)
 
@@ -605,6 +613,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SellerProductsSlugPromoteIndexImport
       parentRoute: typeof SellerRouteImport
     }
+    '/user/orders/logistics/$id/review/': {
+      id: '/user/orders/logistics/$id/review/'
+      path: '/orders/logistics/$id/review'
+      fullPath: '/user/orders/logistics/$id/review'
+      preLoaderRoute: typeof UserOrdersLogisticsIdReviewIndexImport
+      parentRoute: typeof UserRouteImport
+    }
     '/user/orders/product/$slug/review/': {
       id: '/user/orders/product/$slug/review/'
       path: '/orders/product/$slug/review'
@@ -725,6 +740,7 @@ interface UserRouteRouteChildren {
   UserAccountEditIndexRoute: typeof UserAccountEditIndexRoute
   UserNotificationsIdIndexRoute: typeof UserNotificationsIdIndexRoute
   UserOrdersIdIndexRoute: typeof UserOrdersIdIndexRoute
+  UserOrdersLogisticsIdReviewIndexRoute: typeof UserOrdersLogisticsIdReviewIndexRoute
   UserOrdersProductSlugReviewIndexRoute: typeof UserOrdersProductSlugReviewIndexRoute
 }
 
@@ -742,6 +758,7 @@ const UserRouteRouteChildren: UserRouteRouteChildren = {
   UserAccountEditIndexRoute: UserAccountEditIndexRoute,
   UserNotificationsIdIndexRoute: UserNotificationsIdIndexRoute,
   UserOrdersIdIndexRoute: UserOrdersIdIndexRoute,
+  UserOrdersLogisticsIdReviewIndexRoute: UserOrdersLogisticsIdReviewIndexRoute,
   UserOrdersProductSlugReviewIndexRoute: UserOrdersProductSlugReviewIndexRoute,
 }
 
@@ -791,6 +808,7 @@ export interface FileRoutesByFullPath {
   '/seller/products/$slug/analytics': typeof SellerProductsSlugAnalyticsIndexRoute
   '/seller/products/$slug/edit': typeof SellerProductsSlugEditIndexRoute
   '/seller/products/$slug/promote': typeof SellerProductsSlugPromoteIndexRoute
+  '/user/orders/logistics/$id/review': typeof UserOrdersLogisticsIdReviewIndexRoute
   '/user/orders/product/$slug/review': typeof UserOrdersProductSlugReviewIndexRoute
 }
 
@@ -836,6 +854,7 @@ export interface FileRoutesByTo {
   '/seller/products/$slug/analytics': typeof SellerProductsSlugAnalyticsIndexRoute
   '/seller/products/$slug/edit': typeof SellerProductsSlugEditIndexRoute
   '/seller/products/$slug/promote': typeof SellerProductsSlugPromoteIndexRoute
+  '/user/orders/logistics/$id/review': typeof UserOrdersLogisticsIdReviewIndexRoute
   '/user/orders/product/$slug/review': typeof UserOrdersProductSlugReviewIndexRoute
 }
 
@@ -882,6 +901,7 @@ export interface FileRoutesById {
   '/seller/products/$slug/analytics/': typeof SellerProductsSlugAnalyticsIndexRoute
   '/seller/products/$slug/edit/': typeof SellerProductsSlugEditIndexRoute
   '/seller/products/$slug/promote/': typeof SellerProductsSlugPromoteIndexRoute
+  '/user/orders/logistics/$id/review/': typeof UserOrdersLogisticsIdReviewIndexRoute
   '/user/orders/product/$slug/review/': typeof UserOrdersProductSlugReviewIndexRoute
 }
 
@@ -929,6 +949,7 @@ export interface FileRouteTypes {
     | '/seller/products/$slug/analytics'
     | '/seller/products/$slug/edit'
     | '/seller/products/$slug/promote'
+    | '/user/orders/logistics/$id/review'
     | '/user/orders/product/$slug/review'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -973,6 +994,7 @@ export interface FileRouteTypes {
     | '/seller/products/$slug/analytics'
     | '/seller/products/$slug/edit'
     | '/seller/products/$slug/promote'
+    | '/user/orders/logistics/$id/review'
     | '/user/orders/product/$slug/review'
   id:
     | '__root__'
@@ -1017,6 +1039,7 @@ export interface FileRouteTypes {
     | '/seller/products/$slug/analytics/'
     | '/seller/products/$slug/edit/'
     | '/seller/products/$slug/promote/'
+    | '/user/orders/logistics/$id/review/'
     | '/user/orders/product/$slug/review/'
   fileRoutesById: FileRoutesById
 }
@@ -1138,6 +1161,7 @@ export const routeTree = rootRoute
         "/user/account/edit/",
         "/user/notifications/$id/",
         "/user/orders/$id/",
+        "/user/orders/logistics/$id/review/",
         "/user/orders/product/$slug/review/"
       ]
     },
@@ -1269,6 +1293,10 @@ export const routeTree = rootRoute
     "/seller/products/$slug/promote/": {
       "filePath": "seller/products/$slug/promote/index.tsx",
       "parent": "/seller"
+    },
+    "/user/orders/logistics/$id/review/": {
+      "filePath": "user/orders/logistics/$id/review/index.tsx",
+      "parent": "/user"
     },
     "/user/orders/product/$slug/review/": {
       "filePath": "user/orders/product/$slug/review/index.tsx",

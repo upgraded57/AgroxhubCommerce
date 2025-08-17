@@ -17,22 +17,17 @@ function RouteComponent() {
   const { isLoading, data: product } = useGetSingleProduct(slug)
   const { mutate: createReview, isPending } = UseCreateReview()
 
-  const [rating, setRating] = useState({
-    product: 4,
-    logistics: 4,
-  })
-
-  const [review, setReview] = useState({
-    product: '',
-    logistics: '',
+  const [feedback, setFeedback] = useState({
+    rating: 4,
+    review: '',
   })
 
   const handleReview = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     createReview({
       slug,
-      rating: rating.product,
-      review: review.product,
+      rating: feedback.rating,
+      review: feedback.review,
     })
   }
   return (
@@ -97,7 +92,7 @@ function RouteComponent() {
                 className="mask mask-star-2 bg-orange-400"
                 defaultChecked={num === 4}
                 onChange={() =>
-                  setRating((prev) => ({ ...prev, product: num }))
+                  setFeedback((prev) => ({ ...prev, rating: num }))
                 }
               />
             ))}
@@ -109,47 +104,11 @@ function RouteComponent() {
           <textarea
             id="productReview"
             className="textarea w-full"
-            value={review.product}
+            value={feedback.review}
             onChange={(e) =>
-              setReview((prev) => ({ ...prev, product: e.target.value }))
+              setFeedback((prev) => ({ ...prev, review: e.target.value }))
             }
             placeholder="Do you like the product?"
-          ></textarea>
-        </label>
-      </div>
-
-      {/* Logistics review */}
-      <div className="mt-12">
-        <p className="text-sm font-semibold uppercase border-b">
-          review the logistic service
-        </p>
-        <div className="my-4 flex gap-2 items-center">
-          <p className="text-sm">Logistic Service Rating:</p>
-          <div className="rating gap-2">
-            {[1, 2, 3, 4, 5].map((num, idx) => (
-              <input
-                key={idx}
-                type="radio"
-                name="logisticsRating"
-                className="mask mask-star-2 bg-orange-400"
-                defaultChecked={num === 4}
-                onChange={() =>
-                  setRating((prev) => ({ ...prev, logistics: num }))
-                }
-              />
-            ))}
-          </div>
-        </div>
-
-        <label htmlFor="logisticsReview" className="block">
-          <p className="text-sm">Logistic Service Review</p>
-          <textarea
-            id="logisticsReview"
-            className="textarea w-full"
-            placeholder="How was the logistics service?"
-            onChange={(e) =>
-              setReview((prev) => ({ ...prev, logistics: e.target.value }))
-            }
           ></textarea>
         </label>
       </div>
