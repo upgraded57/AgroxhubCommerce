@@ -102,14 +102,14 @@ const MobileNav = ({
       path: '/about',
       title: 'About',
     },
-    {
-      path: '/contact',
-      title: 'Contact',
-    },
-    {
-      path: '/be-a-seller',
-      title: 'Become a Seller',
-    },
+    // {
+    //   path: '/contact',
+    //   title: 'Contact',
+    // },
+    // {
+    //   path: '/be-a-seller',
+    //   title: 'Become a Seller',
+    // },
   ]
 
   window.onresize = () => {
@@ -118,7 +118,7 @@ const MobileNav = ({
 
   return (
     <nav id="headerNav" className={navOpen ? 'basis-2/4 active' : 'basis-2/4'}>
-      <ul className="flex items-center justify-between text-sm">
+      <ul className="flex items-center justify-around text-sm">
         {navLinks.map((navLink, idx) => (
           <li key={idx} onClick={() => setNavOpen(false)}>
             <Link to={navLink.path}>{navLink.title}</Link>
