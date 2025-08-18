@@ -107,20 +107,22 @@ function RouteComponent() {
                 <p className="text-sm">Store - {seller.name}</p>
               </div>
             ) : (
-              <div
-                role="alert"
-                className="alert alert-error text-white mb-2 flex shadow-none py-2 pr-2"
-              >
-                <TbInfoTriangle className="text-xl" />
-                <p className="text-sm">We could not find that seller!</p>
-
-                <button
-                  className="ml-auto border-0 btn btn-sm bg-white text-error"
-                  onClick={() => window.history.back()}
+              !isLoading && (
+                <div
+                  role="alert"
+                  className="alert alert-error text-white mb-2 flex shadow-none py-2 pr-2"
                 >
-                  Go Back
-                </button>
-              </div>
+                  <TbInfoTriangle className="text-xl" />
+                  <p className="text-sm">We could not find that seller!</p>
+
+                  <button
+                    className="ml-auto border-0 btn btn-sm bg-white text-error"
+                    onClick={() => window.history.back()}
+                  >
+                    Go Back
+                  </button>
+                </div>
+              )
             )}
             <div className="w-full flex justify-end sticky top-[80px]">
               <label
