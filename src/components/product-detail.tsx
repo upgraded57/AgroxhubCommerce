@@ -8,9 +8,11 @@ import { useGetSavedProducts, useSaveProduct } from '../api/saves'
 import ProductRatings from './product-rating'
 import type { SetStateAction } from 'react'
 import { CartContext } from '@/providers/CartContext'
+import { UserContext } from '@/providers/UserContext'
 
 export default function ProductDetail({ product }: { product: Product }) {
   const [qty, setQty] = useState(1)
+  const user = use(UserContext).user
 
   // Save product as recently viewed to localStorage
   useEffect(() => {

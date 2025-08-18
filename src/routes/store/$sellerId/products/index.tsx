@@ -129,7 +129,7 @@ function RouteComponent() {
                 htmlFor="filterDrawer"
                 className="drawer-button lg:hidden w-max"
               >
-                <div className="btn btn-sm bg-white">
+                <div className="btn btn-sm bg-white mb-2">
                   <p className="text-sm font-normal">Filters</p>
                   <MdOutlineFilterAlt className="text-2xl" />
                 </div>

@@ -4,10 +4,12 @@ import moment from 'moment'
 import { FaStar } from 'react-icons/fa6'
 import { DotsVerticalIcon } from '@radix-ui/react-icons'
 import { GoMegaphone, GoShareAndroid } from 'react-icons/go'
+import Lottie from 'lottie-react'
 import confetti from '@/assets/images/confetti.webp'
 import { useGetSingleNotification } from '@/api/notification'
 import Loader from '@/components/loader'
 import { UserContext } from '@/providers/UserContext'
+import confettiLottie from '@/assets/json/confetti2.json'
 
 export const Route = createFileRoute('/user/notifications/$id/')({
   component: RouteComponent,
@@ -905,6 +907,14 @@ const OrderDeliveryNotification = ({
   const user = use(UserContext).user
   return (
     <>
+      <div className="w-full h-full fixed z-10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center pointer-events-none">
+        <Lottie
+          animationData={confettiLottie}
+          width={300}
+          height={500}
+          loop={false}
+        />
+      </div>
       <div className="hidden md:flex items-center justify-between border-b py-2 md:pt-0">
         <h2 className="font-semibold text-sm md:text-2xl">ORDER DELIVERY</h2>
       </div>
@@ -916,12 +926,12 @@ const OrderDeliveryNotification = ({
         </div>
 
         {/* Confetti */}
-        <div className="w-full h-[170px] rounded-xl overflow-hidden bg-slate-100">
-          <img src={confetti} alt="" />
+        <div className=" w-ful h-[170px] rounded-xl overflow-hidden bg-slate-100">
+          <img src={confetti} alt="" className="w-full h-full object-cover" />
         </div>
 
         {/* Products delivered - Buyer */}
-        {user?.type === 'buyer' && (
+        {user?.id === notification.buyer?.id && (
           <div className="space-y-3">
             <p className="text-sm">Products Delivered</p>
             <div className="pl-2">
@@ -994,7 +1004,7 @@ const OrderDeliveryNotification = ({
         )}
 
         {/* Products delivered - Seller */}
-        {user?.type !== 'buyer' && (
+        {user?.type !== 'buyer' && notification.product && (
           <div className="space-y-3">
             <p className="text-sm">Product Delivered</p>
             <div className="pl-2">
@@ -1013,17 +1023,17 @@ const OrderDeliveryNotification = ({
                         <div className="flex items-center gap-2">
                           <span className="w-8 h-8 rounded-sm overflow-hidden aspect-square skeleton">
                             <img
-                              src={notification.product?.image}
+                              src={notification.product.image}
                               alt=""
                               className="w-full h-full object-cover"
                             />
                           </span>
-                          <p>{notification.product?.name}</p>
+                          <p>{notification.product.name}</p>
                         </div>
                       </td>
                       <td>
                         {notification.productQuantity}{' '}
-                        {notification.product?.unit}
+                        {notification.product.unit}
                       </td>
                     </tr>
                   </tbody>
