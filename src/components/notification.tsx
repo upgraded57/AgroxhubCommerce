@@ -88,7 +88,7 @@ export default function Notification({
           <p className="uppercase font-medium">{notification.subject}</p>
           <p>{notification.summary}</p>
           <p className="text-xs font-light text-slate-500">
-            {moment(notification.createdAt).format('MMM D, YYYY. HH:MMa')}
+            {moment(notification.createdAt).format('MMM D, YYYY. hh:mma')}
           </p>
         </div>
       </div>
