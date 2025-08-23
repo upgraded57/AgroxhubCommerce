@@ -13,18 +13,29 @@ function RouteComponent() {
   const [status, setStatus] = useState('all')
   const { isLoading, data: notifications } = useGetNotifications()
 
+  const Filter = () => {
+    return (
+      <select
+        className="select select-sm uppercase font-normal"
+        onChange={(e) => setStatus(e.target.value.toLowerCase())}
+      >
+        <option>All</option>
+        <option>Read</option>
+        <option>Unread</option>
+      </select>
+    )
+  }
+
   return (
     <>
       <div className="hidden md:flex items-center justify-between border-b py-2 md:pt-0">
         <h2 className="font-semibold text-sm md:text-2xl">NOTIFICATIONS</h2>
-        <select
-          className="select select-sm uppercase font-normal"
-          onChange={(e) => setStatus(e.target.value.toLowerCase())}
-        >
-          <option>All</option>
-          <option>Read</option>
-          <option>Unread</option>
-        </select>
+        <Filter />
+      </div>
+
+      <div className="flex items-center gap-2 mt-4">
+        <p>Filters</p>
+        <Filter />
       </div>
 
       {isLoading ? (

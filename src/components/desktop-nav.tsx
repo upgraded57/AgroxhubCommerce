@@ -2,29 +2,18 @@ import { Link } from '@tanstack/react-router'
 import { use } from 'react'
 import { UserContext } from '@/providers/UserContext'
 import { useGetNotifications } from '@/api/notification'
+import { sellerLinks, userLinks } from '@/utils/routes'
 
 interface Props {
-  userLinks: Array<{
-    path: string
-    title: string
-  }>
-  sellerLinks: Array<{
-    path: string
-    title: string
-  }>
   pathName: string
   isLoadingRoute: boolean
 }
-export default function DesktopNav({
-  userLinks,
-  sellerLinks,
-  isLoadingRoute,
-  pathName,
-}: Props) {
+export default function DesktopNav({ isLoadingRoute, pathName }: Props) {
   const user = use(UserContext).user
   const isSeller = user?.type === 'wholesaler' || user?.type === 'farmer'
   const { data: notifications } = useGetNotifications()
   const unreadNotifications = notifications?.filter((n) => n.unread).length || 0
+
   return (
     <div className="nav-lg basis-1/4 hidden md:block uppercase text-sm sticky top-[100px]">
       <div className="bg-light-grey-clr rounded-lg w-full overflow-hidden mb-5">

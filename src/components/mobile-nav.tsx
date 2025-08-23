@@ -3,24 +3,15 @@ import { use } from 'react'
 import { MdFilterList } from 'react-icons/md'
 import { UserContext } from '@/providers/UserContext'
 import { useGetNotifications } from '@/api/notification'
+import { sellerLinks, userLinks } from '@/utils/routes'
 
 interface Props {
-  userLinks: Array<{
-    path: string
-    title: string
-  }>
-  sellerLinks: Array<{
-    path: string
-    title: string
-  }>
   pathName: string
   isLoadingRoute: boolean
   currentPage: string
 }
 
 export default function MobileNav({
-  userLinks,
-  sellerLinks,
   currentPage,
   isLoadingRoute,
   pathName,
@@ -63,7 +54,7 @@ export default function MobileNav({
           {isSeller && (
             <div>
               <p className="text-sm font-semibold uppercase mt-5 mb-2 border-b">
-                sellers
+                seller
               </p>
               {sellerLinks.map((link, idx) => (
                 <li key={idx}>

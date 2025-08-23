@@ -1,5 +1,6 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { Link, createFileRoute } from '@tanstack/react-router'
 import { ImSpinner8 } from 'react-icons/im'
+import { HiOutlineViewGridAdd } from 'react-icons/hi'
 import { useGetSellerSummary } from '@/api/seller'
 import SellerAnalyticsChart from '@/components/charts/seller-analytics-chart'
 
@@ -9,6 +10,9 @@ export const Route = createFileRoute('/seller/analytics/')({
 
 function RouteComponent() {
   const { isLoading, data: summary } = useGetSellerSummary()
+
+  const carouselItemStyle =
+    'rounded-lg shadow border-[1px] border-light-grey-clr px-4 py-5 block border-r-[1px] border-r-light-grey-clr last-of-type:border-0 flex items-center gap-4 hover:shadow-lg transition'
 
   const overviewData = [
     {
@@ -21,7 +25,7 @@ function RouteComponent() {
     },
     {
       title: 'Total Earnings',
-      count: summary ? summary.totalEarnings : 0,
+      count: summary ? 'N' + summary.totalEarnings : 0,
     },
     {
       title: 'Followers',
@@ -35,7 +39,7 @@ function RouteComponent() {
         <Filter />
       </div>
 
-      <div className="block mt-5">
+      <div className="block mt-5 mb-8">
         <div className="flex justify-between items-center mb-2">
           <p className="text-sm font-semibold uppercase">overview</p>
           <Filter lg />
@@ -58,6 +62,30 @@ function RouteComponent() {
               )}
             </div>
           ))}
+        </div>
+      </div>
+
+      <div>
+        <p className="text-sm font-semibold uppercase">Quick Actions</p>
+        <div className="grid grid-cols-3 w-full p-1 gap-6 mt-2">
+          <Link to="/seller/products/create" className={carouselItemStyle}>
+            <span className="w-10 h-10 rounded-full grid place-content-center bg-green-100">
+              <HiOutlineViewGridAdd className="text-2xl text-green-500" />
+            </span>
+            <p>Add New Product</p>
+          </Link>
+          <Link to="/seller/orders" className={carouselItemStyle}>
+            <span className="w-10 h-10 rounded-full grid place-content-center bg-blue-100">
+              <HiOutlineViewGridAdd className="text-2xl text-blue-500" />
+            </span>
+            <p>View Orders</p>
+          </Link>
+          <Link to="/seller/finance" className={carouselItemStyle}>
+            <span className="w-10 h-10 rounded-full grid place-content-center bg-yellow-100">
+              <HiOutlineViewGridAdd className="text-2xl text-yellow-500" />
+            </span>
+            <p>View Finance</p>
+          </Link>
         </div>
       </div>
 

@@ -28,12 +28,10 @@ import { Route as UserRecentIndexImport } from './routes/user/recent/index'
 import { Route as UserOrdersIndexImport } from './routes/user/orders/index'
 import { Route as UserNotificationsIndexImport } from './routes/user/notifications/index'
 import { Route as UserHelpIndexImport } from './routes/user/help/index'
-import { Route as UserFollowersIndexImport } from './routes/user/followers/index'
-import { Route as UserFinanceIndexImport } from './routes/user/finance/index'
-import { Route as UserAnalyticsIndexImport } from './routes/user/analytics/index'
 import { Route as UserAccountIndexImport } from './routes/user/account/index'
 import { Route as StoreSellerIdIndexImport } from './routes/store/$sellerId/index'
 import { Route as SellerProductsIndexImport } from './routes/seller/products/index'
+import { Route as SellerOrdersIndexImport } from './routes/seller/orders/index'
 import { Route as SellerFollowersIndexImport } from './routes/seller/followers/index'
 import { Route as SellerFinanceIndexImport } from './routes/seller/finance/index'
 import { Route as SellerAnalyticsIndexImport } from './routes/seller/analytics/index'
@@ -48,6 +46,7 @@ import { Route as UserNotificationsIdIndexImport } from './routes/user/notificat
 import { Route as UserAccountEditIndexImport } from './routes/user/account/edit/index'
 import { Route as StoreSellerIdProductsIndexImport } from './routes/store/$sellerId/products/index'
 import { Route as SellerProductsCreateIndexImport } from './routes/seller/products/create/index'
+import { Route as SellerOrdersIdIndexImport } from './routes/seller/orders/$id/index'
 import { Route as ProductSlugReviewsIndexImport } from './routes/product/$slug/reviews/index'
 import { Route as SellerProductsSlugPromoteIndexImport } from './routes/seller/products/$slug/promote/index'
 import { Route as SellerProductsSlugEditIndexImport } from './routes/seller/products/$slug/edit/index'
@@ -159,24 +158,6 @@ const UserHelpIndexRoute = UserHelpIndexImport.update({
   getParentRoute: () => UserRouteRoute,
 } as any)
 
-const UserFollowersIndexRoute = UserFollowersIndexImport.update({
-  id: '/followers/',
-  path: '/followers/',
-  getParentRoute: () => UserRouteRoute,
-} as any)
-
-const UserFinanceIndexRoute = UserFinanceIndexImport.update({
-  id: '/finance/',
-  path: '/finance/',
-  getParentRoute: () => UserRouteRoute,
-} as any)
-
-const UserAnalyticsIndexRoute = UserAnalyticsIndexImport.update({
-  id: '/analytics/',
-  path: '/analytics/',
-  getParentRoute: () => UserRouteRoute,
-} as any)
-
 const UserAccountIndexRoute = UserAccountIndexImport.update({
   id: '/account/',
   path: '/account/',
@@ -192,6 +173,12 @@ const StoreSellerIdIndexRoute = StoreSellerIdIndexImport.update({
 const SellerProductsIndexRoute = SellerProductsIndexImport.update({
   id: '/products/',
   path: '/products/',
+  getParentRoute: () => SellerRouteRoute,
+} as any)
+
+const SellerOrdersIndexRoute = SellerOrdersIndexImport.update({
+  id: '/orders/',
+  path: '/orders/',
   getParentRoute: () => SellerRouteRoute,
 } as any)
 
@@ -278,6 +265,12 @@ const StoreSellerIdProductsIndexRoute = StoreSellerIdProductsIndexImport.update(
 const SellerProductsCreateIndexRoute = SellerProductsCreateIndexImport.update({
   id: '/products/create/',
   path: '/products/create/',
+  getParentRoute: () => SellerRouteRoute,
+} as any)
+
+const SellerOrdersIdIndexRoute = SellerOrdersIdIndexImport.update({
+  id: '/orders/$id/',
+  path: '/orders/$id/',
   getParentRoute: () => SellerRouteRoute,
 } as any)
 
@@ -466,6 +459,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SellerFollowersIndexImport
       parentRoute: typeof SellerRouteImport
     }
+    '/seller/orders/': {
+      id: '/seller/orders/'
+      path: '/orders'
+      fullPath: '/seller/orders'
+      preLoaderRoute: typeof SellerOrdersIndexImport
+      parentRoute: typeof SellerRouteImport
+    }
     '/seller/products/': {
       id: '/seller/products/'
       path: '/products'
@@ -485,27 +485,6 @@ declare module '@tanstack/react-router' {
       path: '/account'
       fullPath: '/user/account'
       preLoaderRoute: typeof UserAccountIndexImport
-      parentRoute: typeof UserRouteImport
-    }
-    '/user/analytics/': {
-      id: '/user/analytics/'
-      path: '/analytics'
-      fullPath: '/user/analytics'
-      preLoaderRoute: typeof UserAnalyticsIndexImport
-      parentRoute: typeof UserRouteImport
-    }
-    '/user/finance/': {
-      id: '/user/finance/'
-      path: '/finance'
-      fullPath: '/user/finance'
-      preLoaderRoute: typeof UserFinanceIndexImport
-      parentRoute: typeof UserRouteImport
-    }
-    '/user/followers/': {
-      id: '/user/followers/'
-      path: '/followers'
-      fullPath: '/user/followers'
-      preLoaderRoute: typeof UserFollowersIndexImport
       parentRoute: typeof UserRouteImport
     }
     '/user/help/': {
@@ -556,6 +535,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/product/$slug/reviews'
       preLoaderRoute: typeof ProductSlugReviewsIndexImport
       parentRoute: typeof ProductRouteImport
+    }
+    '/seller/orders/$id/': {
+      id: '/seller/orders/$id/'
+      path: '/orders/$id'
+      fullPath: '/seller/orders/$id'
+      preLoaderRoute: typeof SellerOrdersIdIndexImport
+      parentRoute: typeof SellerRouteImport
     }
     '/seller/products/create/': {
       id: '/seller/products/create/'
@@ -690,7 +676,9 @@ interface SellerRouteRouteChildren {
   SellerAnalyticsIndexRoute: typeof SellerAnalyticsIndexRoute
   SellerFinanceIndexRoute: typeof SellerFinanceIndexRoute
   SellerFollowersIndexRoute: typeof SellerFollowersIndexRoute
+  SellerOrdersIndexRoute: typeof SellerOrdersIndexRoute
   SellerProductsIndexRoute: typeof SellerProductsIndexRoute
+  SellerOrdersIdIndexRoute: typeof SellerOrdersIdIndexRoute
   SellerProductsCreateIndexRoute: typeof SellerProductsCreateIndexRoute
   SellerProductsSlugAnalyticsIndexRoute: typeof SellerProductsSlugAnalyticsIndexRoute
   SellerProductsSlugEditIndexRoute: typeof SellerProductsSlugEditIndexRoute
@@ -701,7 +689,9 @@ const SellerRouteRouteChildren: SellerRouteRouteChildren = {
   SellerAnalyticsIndexRoute: SellerAnalyticsIndexRoute,
   SellerFinanceIndexRoute: SellerFinanceIndexRoute,
   SellerFollowersIndexRoute: SellerFollowersIndexRoute,
+  SellerOrdersIndexRoute: SellerOrdersIndexRoute,
   SellerProductsIndexRoute: SellerProductsIndexRoute,
+  SellerOrdersIdIndexRoute: SellerOrdersIdIndexRoute,
   SellerProductsCreateIndexRoute: SellerProductsCreateIndexRoute,
   SellerProductsSlugAnalyticsIndexRoute: SellerProductsSlugAnalyticsIndexRoute,
   SellerProductsSlugEditIndexRoute: SellerProductsSlugEditIndexRoute,
@@ -728,9 +718,6 @@ const StoreRouteRouteWithChildren = StoreRouteRoute._addFileChildren(
 
 interface UserRouteRouteChildren {
   UserAccountIndexRoute: typeof UserAccountIndexRoute
-  UserAnalyticsIndexRoute: typeof UserAnalyticsIndexRoute
-  UserFinanceIndexRoute: typeof UserFinanceIndexRoute
-  UserFollowersIndexRoute: typeof UserFollowersIndexRoute
   UserHelpIndexRoute: typeof UserHelpIndexRoute
   UserNotificationsIndexRoute: typeof UserNotificationsIndexRoute
   UserOrdersIndexRoute: typeof UserOrdersIndexRoute
@@ -746,9 +733,6 @@ interface UserRouteRouteChildren {
 
 const UserRouteRouteChildren: UserRouteRouteChildren = {
   UserAccountIndexRoute: UserAccountIndexRoute,
-  UserAnalyticsIndexRoute: UserAnalyticsIndexRoute,
-  UserFinanceIndexRoute: UserFinanceIndexRoute,
-  UserFollowersIndexRoute: UserFollowersIndexRoute,
   UserHelpIndexRoute: UserHelpIndexRoute,
   UserNotificationsIndexRoute: UserNotificationsIndexRoute,
   UserOrdersIndexRoute: UserOrdersIndexRoute,
@@ -787,12 +771,10 @@ export interface FileRoutesByFullPath {
   '/seller/analytics': typeof SellerAnalyticsIndexRoute
   '/seller/finance': typeof SellerFinanceIndexRoute
   '/seller/followers': typeof SellerFollowersIndexRoute
+  '/seller/orders': typeof SellerOrdersIndexRoute
   '/seller/products': typeof SellerProductsIndexRoute
   '/store/$sellerId': typeof StoreSellerIdIndexRoute
   '/user/account': typeof UserAccountIndexRoute
-  '/user/analytics': typeof UserAnalyticsIndexRoute
-  '/user/finance': typeof UserFinanceIndexRoute
-  '/user/followers': typeof UserFollowersIndexRoute
   '/user/help': typeof UserHelpIndexRoute
   '/user/notifications': typeof UserNotificationsIndexRoute
   '/user/orders': typeof UserOrdersIndexRoute
@@ -800,6 +782,7 @@ export interface FileRoutesByFullPath {
   '/user/review': typeof UserReviewIndexRoute
   '/user/saved': typeof UserSavedIndexRoute
   '/product/$slug/reviews': typeof ProductSlugReviewsIndexRoute
+  '/seller/orders/$id': typeof SellerOrdersIdIndexRoute
   '/seller/products/create': typeof SellerProductsCreateIndexRoute
   '/store/$sellerId/products': typeof StoreSellerIdProductsIndexRoute
   '/user/account/edit': typeof UserAccountEditIndexRoute
@@ -833,12 +816,10 @@ export interface FileRoutesByTo {
   '/seller/analytics': typeof SellerAnalyticsIndexRoute
   '/seller/finance': typeof SellerFinanceIndexRoute
   '/seller/followers': typeof SellerFollowersIndexRoute
+  '/seller/orders': typeof SellerOrdersIndexRoute
   '/seller/products': typeof SellerProductsIndexRoute
   '/store/$sellerId': typeof StoreSellerIdIndexRoute
   '/user/account': typeof UserAccountIndexRoute
-  '/user/analytics': typeof UserAnalyticsIndexRoute
-  '/user/finance': typeof UserFinanceIndexRoute
-  '/user/followers': typeof UserFollowersIndexRoute
   '/user/help': typeof UserHelpIndexRoute
   '/user/notifications': typeof UserNotificationsIndexRoute
   '/user/orders': typeof UserOrdersIndexRoute
@@ -846,6 +827,7 @@ export interface FileRoutesByTo {
   '/user/review': typeof UserReviewIndexRoute
   '/user/saved': typeof UserSavedIndexRoute
   '/product/$slug/reviews': typeof ProductSlugReviewsIndexRoute
+  '/seller/orders/$id': typeof SellerOrdersIdIndexRoute
   '/seller/products/create': typeof SellerProductsCreateIndexRoute
   '/store/$sellerId/products': typeof StoreSellerIdProductsIndexRoute
   '/user/account/edit': typeof UserAccountEditIndexRoute
@@ -880,12 +862,10 @@ export interface FileRoutesById {
   '/seller/analytics/': typeof SellerAnalyticsIndexRoute
   '/seller/finance/': typeof SellerFinanceIndexRoute
   '/seller/followers/': typeof SellerFollowersIndexRoute
+  '/seller/orders/': typeof SellerOrdersIndexRoute
   '/seller/products/': typeof SellerProductsIndexRoute
   '/store/$sellerId/': typeof StoreSellerIdIndexRoute
   '/user/account/': typeof UserAccountIndexRoute
-  '/user/analytics/': typeof UserAnalyticsIndexRoute
-  '/user/finance/': typeof UserFinanceIndexRoute
-  '/user/followers/': typeof UserFollowersIndexRoute
   '/user/help/': typeof UserHelpIndexRoute
   '/user/notifications/': typeof UserNotificationsIndexRoute
   '/user/orders/': typeof UserOrdersIndexRoute
@@ -893,6 +873,7 @@ export interface FileRoutesById {
   '/user/review/': typeof UserReviewIndexRoute
   '/user/saved/': typeof UserSavedIndexRoute
   '/product/$slug/reviews/': typeof ProductSlugReviewsIndexRoute
+  '/seller/orders/$id/': typeof SellerOrdersIdIndexRoute
   '/seller/products/create/': typeof SellerProductsCreateIndexRoute
   '/store/$sellerId/products/': typeof StoreSellerIdProductsIndexRoute
   '/user/account/edit/': typeof UserAccountEditIndexRoute
@@ -928,12 +909,10 @@ export interface FileRouteTypes {
     | '/seller/analytics'
     | '/seller/finance'
     | '/seller/followers'
+    | '/seller/orders'
     | '/seller/products'
     | '/store/$sellerId'
     | '/user/account'
-    | '/user/analytics'
-    | '/user/finance'
-    | '/user/followers'
     | '/user/help'
     | '/user/notifications'
     | '/user/orders'
@@ -941,6 +920,7 @@ export interface FileRouteTypes {
     | '/user/review'
     | '/user/saved'
     | '/product/$slug/reviews'
+    | '/seller/orders/$id'
     | '/seller/products/create'
     | '/store/$sellerId/products'
     | '/user/account/edit'
@@ -973,12 +953,10 @@ export interface FileRouteTypes {
     | '/seller/analytics'
     | '/seller/finance'
     | '/seller/followers'
+    | '/seller/orders'
     | '/seller/products'
     | '/store/$sellerId'
     | '/user/account'
-    | '/user/analytics'
-    | '/user/finance'
-    | '/user/followers'
     | '/user/help'
     | '/user/notifications'
     | '/user/orders'
@@ -986,6 +964,7 @@ export interface FileRouteTypes {
     | '/user/review'
     | '/user/saved'
     | '/product/$slug/reviews'
+    | '/seller/orders/$id'
     | '/seller/products/create'
     | '/store/$sellerId/products'
     | '/user/account/edit'
@@ -1018,12 +997,10 @@ export interface FileRouteTypes {
     | '/seller/analytics/'
     | '/seller/finance/'
     | '/seller/followers/'
+    | '/seller/orders/'
     | '/seller/products/'
     | '/store/$sellerId/'
     | '/user/account/'
-    | '/user/analytics/'
-    | '/user/finance/'
-    | '/user/followers/'
     | '/user/help/'
     | '/user/notifications/'
     | '/user/orders/'
@@ -1031,6 +1008,7 @@ export interface FileRouteTypes {
     | '/user/review/'
     | '/user/saved/'
     | '/product/$slug/reviews/'
+    | '/seller/orders/$id/'
     | '/seller/products/create/'
     | '/store/$sellerId/products/'
     | '/user/account/edit/'
@@ -1131,7 +1109,9 @@ export const routeTree = rootRoute
         "/seller/analytics/",
         "/seller/finance/",
         "/seller/followers/",
+        "/seller/orders/",
         "/seller/products/",
+        "/seller/orders/$id/",
         "/seller/products/create/",
         "/seller/products/$slug/analytics/",
         "/seller/products/$slug/edit/",
@@ -1149,9 +1129,6 @@ export const routeTree = rootRoute
       "filePath": "user/route.tsx",
       "children": [
         "/user/account/",
-        "/user/analytics/",
-        "/user/finance/",
-        "/user/followers/",
         "/user/help/",
         "/user/notifications/",
         "/user/orders/",
@@ -1210,6 +1187,10 @@ export const routeTree = rootRoute
       "filePath": "seller/followers/index.tsx",
       "parent": "/seller"
     },
+    "/seller/orders/": {
+      "filePath": "seller/orders/index.tsx",
+      "parent": "/seller"
+    },
     "/seller/products/": {
       "filePath": "seller/products/index.tsx",
       "parent": "/seller"
@@ -1220,18 +1201,6 @@ export const routeTree = rootRoute
     },
     "/user/account/": {
       "filePath": "user/account/index.tsx",
-      "parent": "/user"
-    },
-    "/user/analytics/": {
-      "filePath": "user/analytics/index.tsx",
-      "parent": "/user"
-    },
-    "/user/finance/": {
-      "filePath": "user/finance/index.tsx",
-      "parent": "/user"
-    },
-    "/user/followers/": {
-      "filePath": "user/followers/index.tsx",
       "parent": "/user"
     },
     "/user/help/": {
@@ -1261,6 +1230,10 @@ export const routeTree = rootRoute
     "/product/$slug/reviews/": {
       "filePath": "product/$slug/reviews/index.tsx",
       "parent": "/product"
+    },
+    "/seller/orders/$id/": {
+      "filePath": "seller/orders/$id/index.tsx",
+      "parent": "/seller"
     },
     "/seller/products/create/": {
       "filePath": "seller/products/create/index.tsx",

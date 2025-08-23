@@ -145,3 +145,29 @@ export const useGetSellerSummary = () => {
     staleTime: 1000 * 60 * 5,
   })
 }
+
+export const useGetSellerOrders = () => {
+  const getSellerProducts = async () => {
+    const res = await axiosInstance.get(`/seller/orders`, {
+      showToast: false,
+    })
+    return res.data.orders as Array<SellerOrders>
+  }
+  return useQuery({
+    queryKey: ['Seller', 'Orders'],
+    queryFn: getSellerProducts,
+  })
+}
+
+export const useGetSellerSingleOrders = (id: string) => {
+  const getSellerProducts = async () => {
+    const res = await axiosInstance.get(`/seller/orders/${id}`, {
+      showToast: false,
+    })
+    return res.data.order as SellerOrder
+  }
+  return useQuery({
+    queryKey: ['Seller', 'Orders', id],
+    queryFn: getSellerProducts,
+  })
+}

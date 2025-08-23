@@ -1,0 +1,59 @@
+import { useNavigate } from '@tanstack/react-router'
+import moment from 'moment'
+import EmptyProducts from './empty-products'
+import { StatusBadge } from './status-badge'
+
+export default function OrdersTable({
+  orders,
+}: {
+  orders: Array<SellerOrders>
+}) {
+  const navigate = useNavigate()
+  return !orders.length ? (
+    <EmptyProducts text="You have no orders yet" />
+  ) : (
+    <div className="overflow-x-auto">
+      <table className="table text-sm">
+        <thead className="bg-slate-100">
+          <tr>
+            <th className="font-medium">Status</th>
+            <th className="font-medium">Products</th>
+            {/* <th className="font-medium">Pickup Address</th>
+            <th className="font-medium">Delivery Address</th> */}
+            <th className="font-medium">Order Date</th>
+            <th className="font-medium">Delivery Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          {orders.map((order, idx) => (
+            <tr
+              key={idx}
+              className="hover:bg-base-200 cursor-pointer"
+              onClick={() =>
+                navigate({
+                  to: '/seller/orders/$id',
+                  params: { id: order.id },
+                })
+              }
+            >
+              <th>
+                <StatusBadge status={order.status as Order['paymentStatus']} />
+              </th>
+              <td>{order.productsCount}</td>
+              {/* <td className="min-w-[300px]">{order.pickupAddress || '---'}</td>
+              <td className="min-w-[300px]">{order.deliveryAddress}</td> */}
+              <td className="text-nowrap">
+                {moment(order.createdAt).format('DD MMM, YYYY')}
+              </td>
+              <td className="text-nowrap">
+                {order.deliveryDate
+                  ? moment(order.deliveryDate).format('DD MMM, YYYY')
+                  : 'Not Set'}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  )
+}

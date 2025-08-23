@@ -296,3 +296,37 @@ declare interface LogisticsProvider {
   phone: string | null
   regionId: string | null
 }
+
+declare interface SellerOrders {
+  createdAt: Date
+  deliveryDate?: Date
+  pickupDate?: Date
+  id: string
+  productsCount: number
+  status: string
+}
+
+declare interface SellerOrder {
+  id: string
+  pickupAddress: string
+  deliveryAddress: string
+  pickupDate: Date
+  deliveryDate: Date
+  status: string
+  createdAt: Date
+  user: {
+    name: string
+    avatar: string
+  }
+  logisticsProvider?: {
+    name: string
+    avatar: string
+  }
+  products: Array<{
+    slug: string
+    name: string
+    quantity: number
+    unit: string
+    images: Array<string>
+  }>
+}

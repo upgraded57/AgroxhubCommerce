@@ -66,6 +66,10 @@ function RouteComponent() {
         }
         if (from) {
           navigate({ to: from })
+        } else if (res.data.user.type !== 'buyer') {
+          navigate({
+            to: '/seller/analytics',
+          })
         } else {
           navigate({ to: '/' })
         }
@@ -73,7 +77,7 @@ function RouteComponent() {
       .catch((err) => {
         if (err.status === 401) {
           localStorage.clear()
-          localStorage.setItem('userId', err.response.data.userId)
+          localStorage.setItem('userId', err.response.data.user.id)
           navigate({
             to: '/auth/verify-otp',
           })
