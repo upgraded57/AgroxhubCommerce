@@ -1,5 +1,4 @@
 import { Link, createFileRoute, useParams } from '@tanstack/react-router'
-import { FaStar } from 'react-icons/fa'
 import { useGetSingleProduct } from '@/api/product'
 import Loader from '@/components/loader'
 import ProductNotFound from '@/components/product-not-found'
