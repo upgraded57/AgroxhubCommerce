@@ -13,8 +13,16 @@ export default function OrderGroup({
       <div className="mb-6 last-of-type:mb-0 border-[1px] border-light-grey-clr rounded-lg overflow-hidden">
         <div className="p-2 border-b-[1px] border-light-grey-clr">
           <Link
-            // to={`/seller/${orderGroup.sellerId}`}
-            to="/store/$sellerId"
+            to="/store/$sellerId/products"
+            search={{
+              category: undefined,
+              minPrice: undefined,
+              maxPrice: undefined,
+              currentPage: undefined,
+              rating: undefined,
+              region: undefined,
+              seller: undefined,
+            }}
             params={{
               sellerId: orderGroup.sellerId,
             }}

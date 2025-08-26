@@ -1,6 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { useGetSellerFollowers } from '@/api/seller'
 import Loader from '@/components/loader'
+import EmptyFile from '@/components/empty-file'
 
 export const Route = createFileRoute('/seller/followers/')({
   component: RouteComponent,
@@ -49,7 +50,7 @@ function RouteComponent() {
           )
         })
       ) : (
-        <p className="text-center py-10">You have no followers yet!</p>
+        <EmptyFile text="You have no followers yet!" />
       )}
     </>
   )

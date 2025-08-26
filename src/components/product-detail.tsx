@@ -10,7 +10,7 @@ import type { SetStateAction } from 'react'
 import { CartContext } from '@/providers/CartContext'
 
 export default function ProductDetail({ product }: { product: Product }) {
-  const [qty, setQty] = useState(1)
+  const [qty, setQty] = useState(product.min_sellable_quantity)
 
   // Save product as recently viewed to localStorage
   useEffect(() => {
@@ -74,7 +74,9 @@ export default function ProductDetail({ product }: { product: Product }) {
 
           <ProductQtyChangeBtns
             qty={qty}
+            min={product.min_sellable_quantity}
             setQty={setQty}
+            total={product.quantity}
             productUnit={product.unit}
           />
           <hr className="my-3" />
@@ -96,7 +98,7 @@ const ProductImages = ({
 }) => {
   return (
     <div className="flex flex-col gap-2 w-full basis-1/2">
-      <div className="w-full aspect-3/2 rounded-lg bg-gray-200 overflow-hidden">
+      <div className="w-full aspect-3/2 rounded-lg bg-gray-200 overflow-hidden border">
         <img
           src={currentImg || ''}
           alt="Product image"
@@ -106,7 +108,7 @@ const ProductImages = ({
       <div className="grid grid-cols-4 gap-2">
         {images?.map((item, idx) => (
           <div
-            className="aspect-3/2 rounded-md overflow-hidden bg-gray-200 cursor-zoom-in"
+            className="aspect-3/2 rounded-md overflow-hidden bg-gray-200 cursor-zoom-in border"
             key={idx}
             onClick={() => setCurrentImg(item)}
           >
@@ -230,18 +232,31 @@ const ProductActionBtns = ({
 
 const ProductQtyChangeBtns = ({
   qty,
+  min,
   setQty,
   productUnit,
+  total,
 }: {
   qty: number
+  min: number
   setQty: React.Dispatch<SetStateAction<number>>
   productUnit?: string
+  total: number
 }) => {
   const handleChangeQty = (type: 'increment' | 'decrement') => {
     if (type === 'increment') {
-      setQty((prev) => (prev < 10 ? prev + 1 : prev))
+      setQty((prev) => (prev < total ? prev + 1 : prev))
     } else {
-      setQty((prev) => (prev > 1 ? prev - 1 : prev))
+      setQty((prev) => {
+        if (prev > min) {
+          return prev - 1
+        } else {
+          toast.error('Error', {
+            description: `At least ${min} ${productUnit}s is sellable`,
+          })
+          return prev
+        }
+      })
     }
   }
   return (
@@ -250,11 +265,11 @@ const ProductQtyChangeBtns = ({
         <button
           className="join-item btn"
           onClick={() => handleChangeQty('decrement')}
-          disabled={qty <= 1}
+          disabled={qty <= min}
         >
           <FaMinus />
         </button>
-        <div className="join-item flex items-center justify-center border-[1px] text-xl min-w-[100px]">
+        <div className="join-item flex items-center justify-center border-[1px] text-xl min-w-[100px] px-2">
           {qty} {productUnit}
         </div>
         <button
@@ -265,7 +280,9 @@ const ProductQtyChangeBtns = ({
         </button>
       </div>
       <p className="text-sm mt-3">
-        50 Baskets max saleable in one order | 750 Baskets still in stock
+        Minimum {min} {productUnit}
+        {min > 1 ? 's' : ''} sellable in one order | {total} Baskets still in
+        stock
       </p>
     </>
   )

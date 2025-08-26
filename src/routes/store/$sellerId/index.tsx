@@ -163,9 +163,13 @@ function RouteComponent() {
               )}
             </button>
           )}
-          <button className="btn uppercase btn-sm btn-outline  border-red-clr text-red-clr hover:text-white hover:bg-red-clr hover:border-red-clr">
-            report
-          </button>
+          {user ? (
+            <button className="btn uppercase btn-sm btn-outline  border-red-clr text-red-clr hover:text-white hover:bg-red-clr hover:border-red-clr">
+              report
+            </button>
+          ) : (
+            ''
+          )}
         </div>
       </div>
 

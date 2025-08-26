@@ -14,12 +14,17 @@ function RouteComponent() {
   const seller = use(UserContext).user
   const { isLoading, isFetching, data } = useGetSellerProducts(seller!.id)
   const products: Array<Product> = data?.products
+
+  console.log(products)
   return (
     <>
       <div className="hidden md:flex items-center justify-between pb-2">
         <div className="flex items-center gap-2">
           <h2 className="font-semibold text-2xl">PRODUCTS</h2>
-          <Link to="/seller/products/create" className="btn btn-sm">
+          <Link
+            to="/seller/products/create"
+            className="btn btn-sm text-white bg-dark-green-clr border-none"
+          >
             <FaPlusCircle />
             <p className="uppercase">create new</p>
           </Link>

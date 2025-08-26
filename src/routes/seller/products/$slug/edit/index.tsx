@@ -8,6 +8,7 @@ import useRegions from '@/hooks/use-regions'
 import { UserContext } from '@/providers/UserContext'
 import Loader from '@/components/loader'
 import ErrorMessage from '@/components/error-message'
+import { ProductUnits } from '@/assets/data'
 
 export const Route = createFileRoute('/seller/products/$slug/edit/')({
   component: RouteComponent,
@@ -51,6 +52,7 @@ function RouteComponent() {
     quantity: product?.quantity || '',
     categoryId: product?.categoryId || '',
     location: product?.location || '',
+    min_sellable_quantity: product?.min_sellable_quantity || '',
   }
 
   const validationSchema = Yup.object().shape({
@@ -61,6 +63,9 @@ function RouteComponent() {
     unitPrice: Yup.string().required('Product unit price is required'),
     quantity: Yup.string().required('Product available quantity is required'),
     unit: Yup.string().required('Product unit is required'),
+    min_sellable_quantity: Yup.string().required(
+      'Minimum sellable quantity is required',
+    ),
   })
 
   const handleEditProduct = async (values: typeof initialValues) => {
@@ -173,10 +178,19 @@ function RouteComponent() {
           <p className="text-sm uppercase">
             PRODUCT UNIT (KG, CRATES, LITERS, BAGS ETC)
           </p>
-          <input
+          <select
+            className="select select-bordered min-w-full"
             {...formik.getFieldProps('unit')}
-            className="input input-bordered w-full"
-          />
+          >
+            <option value="" disabled>
+              {formik.values.unit || '-- Select Product Unit --'}
+            </option>
+            {ProductUnits.map((u, idx) => (
+              <option value={u} key={idx}>
+                {u}
+              </option>
+            ))}
+          </select>
           <ErrorMessage formik={formik} fieldName="unit" />
         </label>
 
@@ -197,6 +211,16 @@ function RouteComponent() {
             className="input input-bordered w-full"
           />
           <ErrorMessage formik={formik} fieldName="quantity" />
+        </label>
+
+        <label htmlFor="min_sellable_quantity" className="block mb-6">
+          <p className="text-sm uppercase">MINIMUN SELLABLE QUANTITY</p>
+          <input
+            type="number"
+            {...formik.getFieldProps('min_sellable_quantity')}
+            className="input input-bordered w-full"
+          />
+          <ErrorMessage formik={formik} fieldName="min_sellable_quantity" />
         </label>
 
         <label htmlFor="categoryId" className="w-full block mb-6">
@@ -261,9 +285,12 @@ function RouteComponent() {
                   }))
                 }
               >
-                <option value="" disabled>
-                  -- Select State --
+                <option value="">
+                  {useDefaultRegion && user
+                    ? user.region?.state
+                    : '-- Select State --'}
                 </option>
+                <option value="Lagos">Lagos</option>
                 <option value="Lagos">Lagos</option>
               </select>
             </label>
@@ -284,8 +311,10 @@ function RouteComponent() {
                   }))
                 }
               >
-                <option value="" disabled>
-                  -- Select Lcda --
+                <option value="">
+                  {useDefaultRegion && user
+                    ? user.region?.lcda
+                    : '-- Select Lcda --'}
                 </option>
                 {selectedRegion.lcda.map((item: string, idx: number) => (
                   <option value={item} key={idx}>
@@ -306,8 +335,10 @@ function RouteComponent() {
                   useDefaultRegion
                 }
               >
-                <option value="" disabled>
-                  -- Select Region --
+                <option value="">
+                  {useDefaultRegion && user
+                    ? user.region?.name
+                    : '-- Select Region --'}
                 </option>
                 {selectedRegion.region
                   ?.sort((a, b) => a.name.localeCompare(b.name))
@@ -398,10 +429,10 @@ function RouteComponent() {
             className="btn btn-outline uppercase  border-orange-clr text-orange-clr hover:text-white hover:bg-orange-clr hover:border-orange-clr"
             disabled={false}
           >
-            {/* {false ? (
+            {/* {isLoading ? (
               <span className="loading loading-dots loading-md bg-orange-clr" />
             ) : ( */}
-            'update product'
+            update product
             {/* )} */}
           </button>
         </div>

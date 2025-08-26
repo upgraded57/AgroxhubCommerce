@@ -26,6 +26,7 @@ declare interface Product {
   slug: string
   description: string
   quantity: number
+  min_sellable_quantity: number
   isActive: boolean
   isPromoted: boolean
   promotionLevel: 'basic' | 'advance' | 'plus'

@@ -12,7 +12,7 @@ function RouteComponent() {
   const { isLoading, data: summary } = useGetSellerSummary()
 
   const carouselItemStyle =
-    'carousel-item rounded-lg shadow border p-4 flex min-w-[max] items-center gap-4 hover:shadow-lg transition'
+    'carousel-item rounded-lg shadow border p-4 flex min-w-[max] w-1/4 items-center gap-4 hover:shadow-lg transition'
 
   const overviewData = [
     {
@@ -25,7 +25,7 @@ function RouteComponent() {
     },
     {
       title: 'Total Earnings',
-      count: summary ? 'N' + summary.totalEarnings : 0,
+      count: summary ? 'N' + summary.totalEarnings.toLocaleString() : 0,
     },
     {
       title: 'Followers',
@@ -67,7 +67,7 @@ function RouteComponent() {
 
       <div>
         <p className="text-sm font-semibold uppercase">Quick Actions</p>
-        <div className="carousel w-full gap-6 mt-2">
+        <div className="carousel w-full gap-2 mt-2">
           <Link to="/seller/products/create" className={carouselItemStyle}>
             <span className="w-10 h-10 rounded-full grid place-content-center bg-green-100">
               <HiOutlineViewGridAdd className="text-2xl text-green-500" />

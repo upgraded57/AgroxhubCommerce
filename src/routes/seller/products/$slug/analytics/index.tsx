@@ -1,11 +1,28 @@
-import { Link, createFileRoute } from '@tanstack/react-router'
+import { Link, createFileRoute, useParams } from '@tanstack/react-router'
 import { FaStar } from 'react-icons/fa'
+import { useGetSingleProduct } from '@/api/product'
+import Loader from '@/components/loader'
+import ProductNotFound from '@/components/product-not-found'
+import ProductRatings from '@/components/product-rating'
 
 export const Route = createFileRoute('/seller/products/$slug/analytics/')({
   component: RouteComponent,
 })
 
 function RouteComponent() {
+  const slug = useParams({
+    from: '/seller/products/$slug/analytics/',
+    select: (p) => p.slug,
+  })
+  const { data: product, isLoading, isError } = useGetSingleProduct(slug)
+
+  if (isLoading) {
+    return <Loader />
+  }
+
+  if (!product || isError) {
+    return <ProductNotFound type="single" />
+  }
   return (
     <>
       <h2 className="font-semibold text-2xl hidden md:block pb-2 border-b mb-6">
@@ -14,70 +31,45 @@ function RouteComponent() {
 
       <div className="flex gap-4 flex-col md:flex-row mt-6 md:mb-0">
         <div className="flex flex-col gap-2 w-full basis-1/2">
-          <div className="w-full aspect-3/2 rounded-lg overflow-hidden">
+          <div className="w-full aspect-3/2 rounded-lg overflow-hidden border">
             <img
-              src="https://images.unsplash.com/photo-1606588260160-0c4707ab7db5?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fHRvbWF0b2VzfGVufDB8fDB8fHww"
-              alt="Product image"
+              src={product.images[0]}
+              alt={product.name}
               className="w-full h-full object-cover"
             />
           </div>
           <div className="grid grid-cols-4 gap-2">
-            <div className="aspect-3/2 rounded-md overflow-hidden bg-white">
-              <img
-                src="https://images.unsplash.com/photo-1606588260160-0c4707ab7db5?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fHRvbWF0b2VzfGVufDB8fDB8fHww"
-                alt="Product Image"
-                className="w-full h-full object-cover opacity-50 hover:opacity-100"
-              />
-            </div>
-            <div className="aspect-3/2 rounded-md overflow-hidden bg-white">
-              <img
-                src="https://images.unsplash.com/photo-1562447575-88db38dcc649?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTZ8fHRvbWF0b2VzfGVufDB8fDB8fHww"
-                alt="Product Image"
-                className="w-full h-full object-cover opacity-50 hover:opacity-100"
-              />
-            </div>
-            <div className="aspect-3/2 rounded-md overflow-hidden bg-white">
-              <img
-                src="https://images.unsplash.com/photo-1461354464878-ad92f492a5a0?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fHRvbWF0b2VzfGVufDB8fDB8fHww"
-                alt="Product Image"
-                className="w-full h-full object-cover opacity-50 hover:opacity-100"
-              />
-            </div>
-            <div className="aspect-3/2 rounded-md overflow-hidden bg-white">
-              <img
-                src="https://images.unsplash.com/photo-1592924357228-91a4daadcfea?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8dG9tYXRvZXN8ZW58MHx8MHx8fDA%3D"
-                alt="Product Image"
-                className="w-full h-full object-cover opacity-50 hover:opacity-100"
-              />
-            </div>
+            {product.images.map((img, idx) => (
+              <div
+                className="aspect-3/2 rounded-md overflow-hidden bg-white border"
+                key={idx}
+              >
+                <img
+                  src={img}
+                  alt={product.name}
+                  className="w-full h-full object-cover opacity-50 hover:opacity-100"
+                />
+              </div>
+            ))}
           </div>
         </div>
 
         <div className="w-full basis-1/2">
           <h2 className="text-lg font-semibold md:font-normal md:text-3xl">
-            Fresh Tomatoes
+            {product.name}
           </h2>
           <hr className="my-3" />
           <h1 className="text-lg font-normal md:text-3xl">
-            N3,458 + N1,200 <span className="text-sm">(logistics)</span>
+            N{product.unitPrice.toLocaleString()}
           </h1>
           <hr className="my-3" />
-          <p className="text-sm">
-            Lorem ipsum dolor sit amet consectetur. Ornare odio at magna mus sed
-            elementum eleifend aenean tincidunt. Fringilla adipiscing id nibh
-            imperdiet ultricies viverra ipsum rutrum. Elementum nunc diam
-            volutpat scelerisque. Morbi duis pharetra ultricies sed.
-            Pellentesque facilisis sit aliquam aenean urna facilisis. Malesuada
-            venenatis in nunc varius diam vulputate pretium egestas.
-          </p>
+          <p className="text-sm">{product.description}</p>
           <hr className="my-3" />
           <div className="flex items-center gap-2">
-            <FaStar className="text-md text-yellow-300" />
-            <FaStar className="text-md text-yellow-300" />
-            <FaStar className="text-md text-yellow-300" />
-            <FaStar className="text-md text-yellow-300" />
-            <FaStar className="text-md text-gray-300" />
-            <p className="text-sm pl-3">25 Reviews</p>
+            <ProductRatings ratings={String(product.ratings)} />
+            <p className="text-sm pl-3">
+              {product.reviews?.length || 0} Reviews
+            </p>
           </div>
           <hr className="my-3" />
 

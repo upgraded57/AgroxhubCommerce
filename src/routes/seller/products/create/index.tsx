@@ -1,12 +1,14 @@
 import { Link, createFileRoute, useNavigate } from '@tanstack/react-router'
 import { use, useState } from 'react'
 import * as Yup from 'yup'
+import { useQueryClient } from '@tanstack/react-query'
 import { useFormik } from 'formik'
 import { FaCircleInfo, FaRegTrashCan } from 'react-icons/fa6'
 import { useCreateProduct, useGetProductCategories } from '@/api/product'
 import useRegions from '@/hooks/use-regions'
 import { UserContext } from '@/providers/UserContext'
 import ErrorMessage from '@/components/error-message'
+import { ProductUnits } from '@/assets/data'
 
 export const Route = createFileRoute('/seller/products/create/')({
   component: RouteComponent,
@@ -14,6 +16,7 @@ export const Route = createFileRoute('/seller/products/create/')({
 
 function RouteComponent() {
   const navigate = useNavigate()
+  const queryClient = useQueryClient()
   const user = use(UserContext).user
   const { mutateAsync: createProduct, isPending: isCreatingProduct } =
     useCreateProduct()
@@ -34,6 +37,12 @@ function RouteComponent() {
     }
 
     await createProduct(formData).then(() => {
+      queryClient.invalidateQueries({
+        predicate: (query) =>
+          query.queryKey.some(
+            (key) => typeof key === 'string' && key.includes('Seller Products'),
+          ),
+      })
       navigate({ to: '/seller/products' })
     })
   }
@@ -46,6 +55,9 @@ function RouteComponent() {
     unitPrice: Yup.string().required('Product unit price is required'),
     quantity: Yup.string().required('Product available quantity is required'),
     unit: Yup.string().required('Product unit is required'),
+    min_sellable_quantity: Yup.string()
+      .required('Minimum sellable quantity is required')
+      .min(1),
   })
 
   const initialValues = {
@@ -58,6 +70,7 @@ function RouteComponent() {
     unitWeight: '',
     unitPrice: '',
     quantity: '',
+    min_sellable_quantity: '',
     unit: '',
   }
 
@@ -80,8 +93,8 @@ function RouteComponent() {
 
   const [useDefaultRegion, setUseDefaultRegion] = useState(false)
   const handleUseDefaultRegion = () => {
-    setUseDefaultRegion((prev) => !prev)
-    if (user?.regionId) {
+    if (user && user.regionId) {
+      setUseDefaultRegion((prev) => !prev)
       formik.setFieldValue('regionId', user.regionId)
     }
   }
@@ -162,19 +175,35 @@ function RouteComponent() {
           <p className="text-sm uppercase">
             PRODUCT UNIT (KG, CRATES, LITERS, BAGS ETC)
           </p>
-          <input
+          <select
+            className="select select-bordered min-w-full"
             {...formik.getFieldProps('unit')}
-            className="input input-bordered w-full"
-          />
+          >
+            <option value="">-- Select Product Unit --</option>
+            {ProductUnits.map((u, idx) => (
+              <option value={u} key={idx}>
+                {u}
+              </option>
+            ))}
+          </select>
           <ErrorMessage formik={formik} fieldName="unit" />
         </label>
 
         <label htmlFor="unitWeight" className="block mb-6">
           <p className="text-sm uppercase">PRODUCT UNIT WEIGHT</p>
-          <input
-            {...formik.getFieldProps('unitWeight')}
-            className="input input-bordered w-full"
-          />
+          <div className="relative flex items-center">
+            <input
+              {...formik.getFieldProps('unitWeight')}
+              className="input input-bordered w-full"
+            />
+            {formik.values.unit ? (
+              <p className="text-gray-400 absolute right-2 text-sm">
+                kg per {formik.values.unit.toLowerCase()}
+              </p>
+            ) : (
+              ''
+            )}
+          </div>
           <ErrorMessage formik={formik} fieldName="unitWeight" />
         </label>
 
@@ -188,6 +217,16 @@ function RouteComponent() {
           <ErrorMessage formik={formik} fieldName="quantity" />
         </label>
 
+        <label htmlFor="min_sellable_quantity" className="block mb-6">
+          <p className="text-sm uppercase">MINIMUN SELLABLE QUANTITY</p>
+          <input
+            type="number"
+            {...formik.getFieldProps('min_sellable_quantity')}
+            className="input input-bordered w-full"
+          />
+          <ErrorMessage formik={formik} fieldName="min_sellable_quantity" />
+        </label>
+
         <label htmlFor="categoryId" className="w-full block mb-6">
           <p className="text-sm uppercase">PRODUCT CATEGORY</p>
           <select
@@ -195,9 +234,7 @@ function RouteComponent() {
             {...formik.getFieldProps('categoryId')}
             disabled={isLoadingProductCategories}
           >
-            <option value="" disabled>
-              -- Select Product Category --
-            </option>
+            <option value="">-- Select Product Category --</option>
             {productCategories?.map((item, idx) => (
               <option value={item.id} key={idx}>
                 {item.name}
@@ -250,8 +287,10 @@ function RouteComponent() {
                   }))
                 }
               >
-                <option value="" disabled>
-                  -- Select State --
+                <option value="">
+                  {useDefaultRegion && user
+                    ? user.region?.state
+                    : '-- Select State --'}
                 </option>
                 <option value="Lagos">Lagos</option>
               </select>
@@ -273,8 +312,10 @@ function RouteComponent() {
                   }))
                 }
               >
-                <option value="" disabled>
-                  -- Select Lcda --
+                <option value="">
+                  {useDefaultRegion && user
+                    ? user.region?.lcda
+                    : '-- Select Lcda --'}
                 </option>
                 {selectedRegion.lcda.map((item: string, idx: number) => (
                   <option value={item} key={idx}>
@@ -295,8 +336,10 @@ function RouteComponent() {
                   useDefaultRegion
                 }
               >
-                <option value="" disabled>
-                  -- Select Region --
+                <option value="">
+                  {useDefaultRegion && user
+                    ? user.region?.name
+                    : '-- Select Region --'}
                 </option>
                 {selectedRegion.region
                   ?.sort((a, b) => a.name.localeCompare(b.name))
