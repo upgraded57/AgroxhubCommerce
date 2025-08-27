@@ -10,7 +10,7 @@ export const Route = createFileRoute('/seller/orders/')({
 })
 
 const summaryBoxStyle =
-  'carousel-item min-w-max w-1/3 p-4 flex items-center gap-4 border rounded-lg'
+  'carousel-item min-w-max w-1/4 p-4 flex items-center gap-4 border rounded-lg'
 
 function RouteComponent() {
   const { isLoading, data: orders } = useGetSellerOrders()
@@ -30,6 +30,16 @@ function RouteComponent() {
         <div className={summaryBoxStyle}>
           <span className="bg-blue-100 w-10 h-10 aspect-square rounded-full grid place-content-center">
             <LuClipboardList className="text-2xl text-blue-500" />
+          </span>
+          <div className="space-y-1">
+            <p className="text-sm text-slate-500">Total Orders</p>
+            <h2 className="text-2xl font-medium">500</h2>
+          </div>
+        </div>
+
+        <div className={summaryBoxStyle}>
+          <span className="bg-amber-100 w-10 h-10 aspect-square rounded-full grid place-content-center">
+            <LuClipboardList className="text-2xl text-amber-500" />
           </span>
           <div className="space-y-1">
             <p className="text-sm text-slate-500">Total Products</p>
