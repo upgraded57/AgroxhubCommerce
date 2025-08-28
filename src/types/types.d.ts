@@ -15,6 +15,10 @@ declare interface User {
   address?: string
   region?: Region
   regionId?: string
+  purchases?: {
+    total: number
+    delivered: number
+  }
 }
 
 declare interface Seller extends User {}

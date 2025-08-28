@@ -236,7 +236,7 @@ const ProductReviewNotification = ({
             <div className="flex items-center gap-2">
               {notification.product?.images?.map((image, idx) => (
                 <div
-                  className="w-15 h-15 rounded-lg overflow-hidden aspect-square skeleton"
+                  className="w-15 h-15 rounded-lg overflow-hidden !aspect-square skeleton"
                   key={idx}
                 >
                   <img src={image} alt="" />
@@ -391,28 +391,10 @@ const OrderPlacementNotification = ({
                   </tr>
                 </thead>
                 <tbody>
-                  {/* {[1, 2, 3, 4].map((_, idx) => (
-                    <tr key={idx}>
-                      <td>
-                        <div className="flex items-center gap-2">
-                          <span className="w-8 h-8 rounded-sm overflow-hidden aspect-square skeleton">
-                            <img
-                              src="https://picsum.dev/50/50"
-                              alt=""
-                              className="w-full h-full object-cover"
-                            />
-                          </span>
-                          <p>Fresh Tomatoes</p>
-                        </div>
-                      </td>
-                      <td>4 Bags</td>
-                    </tr>
-                  ))} */}
-
                   <tr>
                     <td>
                       <div className="flex items-center gap-2">
-                        <span className="w-8 h-8 rounded-sm overflow-hidden aspect-square skeleton">
+                        <span className="w-8 h-8 rounded-sm overflow-hidden !aspect-square skeleton">
                           <img
                             src={notification.product?.image}
                             alt=""
@@ -799,7 +781,7 @@ const OrderInTransitNotification = ({
                     <tr key={idx}>
                       <td>
                         <div className="flex items-center gap-2">
-                          <span className="w-8 h-8 rounded-sm overflow-hidden aspect-square skeleton">
+                          <span className="w-8 h-8 rounded-sm overflow-hidden !aspect-square skeleton">
                             <img
                               src={product.image}
                               alt=""
@@ -950,7 +932,7 @@ const OrderDeliveryNotification = ({
                       <tr key={idx}>
                         <td>
                           <div className="flex items-center gap-2">
-                            <span className="w-8 h-8 rounded-sm overflow-hidden aspect-square skeleton">
+                            <span className="w-8 h-8 rounded-sm overflow-hidden !aspect-square skeleton">
                               <img
                                 src={product.image}
                                 alt=""
@@ -1021,7 +1003,7 @@ const OrderDeliveryNotification = ({
                     <tr>
                       <td>
                         <div className="flex items-center gap-2">
-                          <span className="w-8 h-8 rounded-sm overflow-hidden aspect-square skeleton">
+                          <span className="w-8 h-8 rounded-sm overflow-hidden !aspect-square skeleton">
                             <img
                               src={notification.product.image}
                               alt=""

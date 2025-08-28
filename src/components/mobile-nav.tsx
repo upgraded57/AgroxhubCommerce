@@ -42,11 +42,13 @@ export default function MobileNav({
                   <span className="loading loading-spinner text-grey-clr" />
                 )}
                 {link.title.toLowerCase().includes('notification') &&
-                  unreadNotifications && (
-                    <span className="flex items-center justify-center w-6 h-6 rounded-full bg-white text-xs text-orange-clr font-bold border border-orange-clr">
-                      {unreadNotifications}
-                    </span>
-                  )}
+                unreadNotifications ? (
+                  <span className="flex items-center justify-center w-6 h-6 rounded-full bg-white text-xs text-orange-clr font-bold border border-orange-clr">
+                    {unreadNotifications}
+                  </span>
+                ) : (
+                  ''
+                )}
               </Link>
             </li>
           ))}

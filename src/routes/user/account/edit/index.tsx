@@ -61,7 +61,7 @@ function RouteComponent() {
       <div className="flex gap-2 flex-col md:flex-row w-full py-12 md:py-6 md:border-t border-b">
         <div className="w-[max-content] mx-auto md:mx-0 flex flex-col md:flex-row gap-4 items-center relative">
           {newAvatar ? (
-            <div className="w-[80px] aspect-square rounded-full overflow-hidden">
+            <div className="w-[80px] aspect-square rounded-full overflow-hidden bg-slate-100">
               <img
                 src={URL.createObjectURL(newAvatar)}
                 alt="User Avatar"
@@ -69,7 +69,7 @@ function RouteComponent() {
               />
             </div>
           ) : user?.avatar ? (
-            <div className="w-[80px] aspect-square rounded-full overflow-hidden">
+            <div className="w-[80px] aspect-square rounded-full overflow-hidden bg-slate-100">
               <img
                 src={user.avatar}
                 alt="User Avatar"
@@ -176,8 +176,11 @@ function RouteComponent() {
                 }))
               }
             >
-              <option value="">-- Select State --</option>
+              <option value="" disabled>
+                {user?.region?.state ? user.region.state : '-- Select State --'}
+              </option>
               <option value="Lagos">Lagos</option>
+              <option value="Lagos">Ogun</option>
             </select>
           </label>
 
@@ -196,7 +199,7 @@ function RouteComponent() {
               }
             >
               <option value="" disabled>
-                -- Select Lcda --
+                {user?.region?.lcda ? user.region.lcda : '-- Select Lcda --'}
               </option>
               {selectedRegion.lcda.map((item: string, idx: number) => (
                 <option value={item} key={idx}>
@@ -221,7 +224,7 @@ function RouteComponent() {
               }
             >
               <option value="" disabled>
-                -- Select Region --
+                {user?.region?.name ? user.region.name : '-- Select Region --'}
               </option>
               {selectedRegion.region
                 ?.sort((a, b) => a.name.localeCompare(b.name))

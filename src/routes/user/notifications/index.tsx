@@ -10,7 +10,7 @@ export const Route = createFileRoute('/user/notifications/')({
 })
 
 function RouteComponent() {
-  const [status, setStatus] = useState('all')
+  const [status, setStatus] = useState('')
   const { isLoading, data: notifications } = useGetNotifications()
 
   const Filter = () => {
@@ -19,9 +19,9 @@ function RouteComponent() {
         className="select select-sm uppercase font-normal"
         onChange={(e) => setStatus(e.target.value.toLowerCase())}
       >
-        <option>All</option>
-        <option>Read</option>
-        <option>Unread</option>
+        <option value="all">All</option>
+        <option value="read">Read</option>
+        <option value="unread">Unread</option>
       </select>
     )
   }
@@ -33,7 +33,7 @@ function RouteComponent() {
         <Filter />
       </div>
 
-      <div className="flex items-center gap-2 mt-4">
+      <div className="flex md:hidden items-center gap-2 mt-4">
         <p>Filters</p>
         <Filter />
       </div>
@@ -44,29 +44,23 @@ function RouteComponent() {
         <EmptyFile text="You have no new notifications!" />
       ) : (
         <div className="list">
-          {notifications
-            ?.filter((item) => {
-              if (status === 'unread') {
-                return item.unread
-              }
-
-              if (status === 'read') {
-                return !item.unread
-              }
-
-              return item
+          {(() => {
+            const filtered = notifications?.filter((item) => {
+              if (status === 'unread') return item.unread
+              if (status === 'read') return !item.unread
+              return true
             })
-            .map((notif, idx) => (
+
+            if (!filtered || filtered.length === 0) {
+              return <EmptyFile text="No notifications found" />
+            }
+
+            return filtered.map((notif, idx) => (
               <Notification notification={notif} key={idx} />
-            ))}
+            ))
+          })()}
         </div>
       )}
-
-      {/* <div className="flex w-full items-center justify-center mt-4 mb-12">
-    <button className="btn  btn-outline border-orange-clr text-orange-clr uppercase hover:bg-orange-clr hover:border-orange-clr hover:text-white">
-      mark all as read
-    </button>
-  </div> */}
     </>
   )
 }

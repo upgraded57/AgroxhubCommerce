@@ -82,15 +82,10 @@ function RouteComponent() {
         </span>
         <span className="block mb-4">
           <p className="font-semibold text-xs">PURCHASES</p>
-          <p className="text-sm">23. 18 SUCCESSFUL</p>
-        </span>
-        <span className="block mb-4">
-          <p className="font-semibold text-xs">DECLINES</p>
-          <p className="text-sm">0</p>
-        </span>
-        <span className="block mb-4">
-          <p className="font-semibold text-xs">REVIEWS</p>
-          <p className="text-sm">18</p>
+          <p className="text-sm">
+            {user?.purchases?.total || 0} TOTAL.{' '}
+            {user?.purchases?.delivered || 0} DELIVERED
+          </p>
         </span>
         <span className="block">
           <p className="font-semibold text-xs">JOINED SINCE</p>
