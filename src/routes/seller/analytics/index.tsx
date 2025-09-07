@@ -12,7 +12,7 @@ function RouteComponent() {
   const { isLoading, data: summary } = useGetSellerSummary()
 
   const carouselItemStyle =
-    'carousel-item rounded-lg shadow border p-4 flex min-w-[max] w-1/4 items-center gap-4 hover:shadow-lg transition'
+    'rounded-lg shadow border p-4 flex w-full items-center gap-4 hover:shadow-lg transition'
 
   const overviewData = [
     {
@@ -65,33 +65,27 @@ function RouteComponent() {
         </div>
       </div>
 
+      {/* Quick Actions */}
       <div>
         <p className="text-sm font-semibold uppercase">Quick Actions</p>
-        <div className="carousel w-full gap-2 mt-2">
+        <div className="grid grid-cols-1 md:grid-cols-3 w-full gap-2 mt-2">
           <Link to="/seller/products/create" className={carouselItemStyle}>
             <span className="w-10 h-10 rounded-full grid place-content-center bg-green-100">
               <HiOutlineViewGridAdd className="text-2xl text-green-500" />
             </span>
-            <p className="text-sm">
-              Add New <br /> Product
-            </p>
+            <p className="text-sm">Add New Product</p>
           </Link>
           <Link to="/seller/orders" className={carouselItemStyle}>
             <span className="w-10 h-10 rounded-full grid place-content-center bg-blue-100">
               <HiOutlineViewGridAdd className="text-2xl text-blue-500" />
             </span>
-            <p className="text-sm">
-              View <br />
-              Orders
-            </p>
+            <p className="text-sm">View Orders</p>
           </Link>
           <Link to="/seller/finance" className={carouselItemStyle}>
             <span className="w-10 h-10 rounded-full grid place-content-center bg-yellow-100">
               <HiOutlineViewGridAdd className="text-2xl text-yellow-500" />
             </span>
-            <p className="text-sm">
-              View <br /> Finance
-            </p>
+            <p className="text-sm">View Finance</p>
           </Link>
         </div>
       </div>

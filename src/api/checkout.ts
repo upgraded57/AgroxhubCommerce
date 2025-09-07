@@ -1,5 +1,7 @@
-import { useMutation, useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { axiosInstance } from './axiosInstance'
+import type { ApiErrorResponse } from '@/types/axios'
+import type { AxiosError } from 'axios'
 
 interface CreateOrderProp {
   deliveryAddress: string
@@ -35,9 +37,18 @@ export const useUpdateOrderItem = () => {
 }
 
 export const useCreateOrder = () => {
+  const queryClient = useQueryClient()
   return useMutation({
     mutationFn: (data: CreateOrderProp) => {
       return axiosInstance.post('/checkout', data)
+    },
+    onError: (err: AxiosError<ApiErrorResponse>) => {
+      if (err.status === 400) {
+        localStorage.removeItem('cart')
+        queryClient.invalidateQueries({
+          queryKey: ['Cart'],
+        })
+      }
     },
   })
 }

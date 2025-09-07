@@ -53,10 +53,13 @@ function RouteComponent() {
     categoryId: Yup.string().required('Product category is required'),
     unitWeight: Yup.string().required('Product unit weight is required'),
     unitPrice: Yup.string().required('Product unit price is required'),
-    quantity: Yup.string().required('Product available quantity is required'),
+    quantity: Yup.string().required('Specify how many product units in stock'),
     unit: Yup.string().required('Product unit is required'),
     min_sellable_quantity: Yup.string()
-      .required('Minimum sellable quantity is required')
+      .required('Spepcify minimum quantity in single order')
+      .min(1),
+    low_stock_alert_level: Yup.string()
+      .required('Specify when to receive low stock notification')
       .min(1),
   })
 
@@ -71,6 +74,7 @@ function RouteComponent() {
     unitPrice: '',
     quantity: '',
     min_sellable_quantity: '',
+    low_stock_alert_level: '',
     unit: '',
   }
 
@@ -129,6 +133,7 @@ function RouteComponent() {
         CREATE PRODUCT
       </h2>
 
+      {/* No Seller Address Notice */}
       {!user?.address && (
         <div role="alert" className="alert alert-warning mt-6 shadow-none">
           <FaCircleInfo />
@@ -143,6 +148,7 @@ function RouteComponent() {
       )}
 
       <form className="my-6 w-full px-2" onSubmit={formik.handleSubmit}>
+        {/* Product Name */}
         <label htmlFor="name" className="block mb-6">
           <p className="text-sm uppercase">product name</p>
           <input
@@ -152,6 +158,7 @@ function RouteComponent() {
           <ErrorMessage formik={formik} fieldName="name" />
         </label>
 
+        {/* Product Description */}
         <label htmlFor="description" className="block mb-6">
           <p className="text-sm uppercase">product description</p>
           <textarea
@@ -161,6 +168,7 @@ function RouteComponent() {
           <ErrorMessage formik={formik} fieldName="description" />
         </label>
 
+        {/* Product Unit Price */}
         <label htmlFor="unitPrice" className="block mb-6">
           <p className="text-sm uppercase">product unit price (ngn)</p>
           <input
@@ -171,6 +179,7 @@ function RouteComponent() {
           <ErrorMessage formik={formik} fieldName="unitPrice" />
         </label>
 
+        {/* Product Unit */}
         <label htmlFor="unit" className="block mb-6">
           <p className="text-sm uppercase">
             PRODUCT UNIT (KG, CRATES, LITERS, BAGS ETC)
@@ -189,6 +198,7 @@ function RouteComponent() {
           <ErrorMessage formik={formik} fieldName="unit" />
         </label>
 
+        {/* Product Unit Weight */}
         <label htmlFor="unitWeight" className="block mb-6">
           <p className="text-sm uppercase">PRODUCT UNIT WEIGHT</p>
           <div className="relative flex items-center">
@@ -207,6 +217,7 @@ function RouteComponent() {
           <ErrorMessage formik={formik} fieldName="unitWeight" />
         </label>
 
+        {/* Product Quantity */}
         <label htmlFor="quantity" className="block mb-6">
           <p className="text-sm uppercase">PRODUCT QUANTITY AVAILABLE</p>
           <input
@@ -217,6 +228,7 @@ function RouteComponent() {
           <ErrorMessage formik={formik} fieldName="quantity" />
         </label>
 
+        {/* Product Minimum Sellable Quantity */}
         <label htmlFor="min_sellable_quantity" className="block mb-6">
           <p className="text-sm uppercase">MINIMUN SELLABLE QUANTITY</p>
           <input
@@ -227,6 +239,18 @@ function RouteComponent() {
           <ErrorMessage formik={formik} fieldName="min_sellable_quantity" />
         </label>
 
+        {/* Product Low Stock Alert Level */}
+        <label htmlFor="low_stock_alert_level" className="block mb-6">
+          <p className="text-sm uppercase">Low Stock Alert Level</p>
+          <input
+            type="number"
+            {...formik.getFieldProps('low_stock_alert_level')}
+            className="input input-bordered w-full"
+          />
+          <ErrorMessage formik={formik} fieldName="low_stock_alert_level" />
+        </label>
+
+        {/* Product Category */}
         <label htmlFor="categoryId" className="w-full block mb-6">
           <p className="text-sm uppercase">PRODUCT CATEGORY</p>
           <select
@@ -244,6 +268,7 @@ function RouteComponent() {
           <ErrorMessage formik={formik} fieldName="categoryId" />
         </label>
 
+        {/* Product Address */}
         <div className="w-full block mb-6">
           <label htmlFor="location">
             <p className="text-sm uppercase">PRODUCT LOCATION</p>
@@ -266,6 +291,7 @@ function RouteComponent() {
           )}
         </div>
 
+        {/* Product Region */}
         <div className="block mb-6">
           <div className="flex flex-col md:flex-row items-center gap-6 w-full">
             <label htmlFor="state" className="block w-full">
@@ -369,6 +395,7 @@ function RouteComponent() {
           </label>
         </div>
 
+        {/* Images */}
         <label htmlFor="images">
           <p className="text-sm uppercase">
             PRODUCT IMAGES (YOU CAN ADD MULTIPLE IMAGES)
@@ -386,6 +413,7 @@ function RouteComponent() {
           />
         </label>
 
+        {/* Product Images Preview */}
         {images.length > 0 && (
           <div className="flex items-center gap-2 mt-6">
             {images.map((image, idx) => (

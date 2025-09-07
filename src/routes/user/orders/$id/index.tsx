@@ -148,20 +148,22 @@ function RouteComponent() {
                       : 'est.'}
                   </b>
                 </p>
-                <div className="flex items-center gap-2">
-                  <p className="text-sm">
-                    Order Completion Code:{' '}
-                    <b className="font-medium">
-                      {group.orderCompletionCode || '---'}
-                    </b>
-                  </p>
-                  <IoCopyOutline
-                    className="text-sm cursor-pointer"
-                    onClick={() =>
-                      handleCopyCode(group.orderCompletionCode || '')
-                    }
-                  />
-                </div>
+                {orders.paymentStatus !== 'pending' && (
+                  <div className="flex items-center gap-2">
+                    <p className="text-sm">
+                      Order Completion Code:{' '}
+                      <b className="font-medium">
+                        {group.orderCompletionCode || '---'}
+                      </b>
+                    </p>
+                    <IoCopyOutline
+                      className="text-sm cursor-pointer"
+                      onClick={() =>
+                        handleCopyCode(group.orderCompletionCode || '')
+                      }
+                    />
+                  </div>
+                )}
               </div>
             ) : (
               <div className="bg-gray-100 p-4 space-y-2">

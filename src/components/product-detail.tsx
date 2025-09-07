@@ -2,6 +2,7 @@ import { useQueryClient } from '@tanstack/react-query'
 import { Link } from '@tanstack/react-router'
 import { use, useEffect, useState } from 'react'
 import { FaMinus, FaPlus } from 'react-icons/fa6'
+import { PiEmptyBold } from 'react-icons/pi'
 import { IoCartOutline, IoHeart, IoHeartDislikeOutline } from 'react-icons/io5'
 import { toast } from 'sonner'
 import { useGetSavedProducts, useSaveProduct } from '../api/saves'
@@ -38,9 +39,17 @@ export default function ProductDetail({ product }: { product: Product }) {
         <div className="w-full basis-1/2">
           {/* Product description */}
           <div className="w-full">
-            <h2 className="text-lg font-semibold md:font-normal md:text-3xl">
-              {product.name}
-            </h2>
+            <div className="flex items-center gap-2">
+              <h2 className="text-lg font-semibold md:font-normal md:text-3xl">
+                {product.name}
+              </h2>
+              {product.quantity === 0 && (
+                <span className="badge badge-warning badge-sm rounded-md text-white gap-1">
+                  <PiEmptyBold />
+                  Out of Stock
+                </span>
+              )}
+            </div>
             <hr className="my-3" />
             <div className="flex items-center gap-2">
               <h1 className="text-lg font-normal md:text-3xl">
@@ -72,15 +81,21 @@ export default function ProductDetail({ product }: { product: Product }) {
           </div>
           <hr className="my-3" />
 
-          <ProductQtyChangeBtns
-            qty={qty}
-            min={product.min_sellable_quantity}
-            setQty={setQty}
-            total={product.quantity}
-            productUnit={product.unit}
-          />
-          <hr className="my-3" />
-          <ProductActionBtns qty={qty} product={product} />
+          {product.quantity !== 0 && (
+            <ProductQtyChangeBtns
+              qty={qty}
+              min={product.min_sellable_quantity}
+              setQty={setQty}
+              total={product.quantity}
+              productUnit={product.unit}
+            />
+          )}
+          {product.quantity !== 0 && (
+            <>
+              <hr className="my-3" />
+              <ProductActionBtns qty={qty} product={product} />
+            </>
+          )}
         </div>
       </div>
     </div>
@@ -245,7 +260,16 @@ const ProductQtyChangeBtns = ({
 }) => {
   const handleChangeQty = (type: 'increment' | 'decrement') => {
     if (type === 'increment') {
-      setQty((prev) => (prev < total ? prev + 1 : prev))
+      setQty((prev) => {
+        if (prev < total) {
+          return prev + 1
+        } else {
+          toast.warning('Error', {
+            description: `Cannot order more than ${total} ${productUnit}${total > 1 ? 's' : ''}`,
+          })
+          return prev
+        }
+      })
     } else {
       setQty((prev) => {
         if (prev > min) {
@@ -281,8 +305,8 @@ const ProductQtyChangeBtns = ({
       </div>
       <p className="text-sm mt-3">
         Minimum {min} {productUnit}
-        {min > 1 ? 's' : ''} sellable in one order | {total} Baskets still in
-        stock
+        {min > 1 ? 's' : ''} sellable in one order | {total} {productUnit}
+        {total > 1 ? 's' : ''} still in stock
       </p>
     </>
   )

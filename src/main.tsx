@@ -48,7 +48,7 @@ if (rootElement && !rootElement.innerHTML) {
           richColors
           closeButton
           position="top-right"
-          duration={1000}
+          duration={1500}
           icons={{
             loading: <span className="loading loading-spinner loading-sm" />,
           }}

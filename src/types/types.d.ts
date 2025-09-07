@@ -31,6 +31,7 @@ declare interface Product {
   description: string
   quantity: number
   min_sellable_quantity: number
+  low_stock_alert_level: number
   isActive: boolean
   isPromoted: boolean
   promotionLevel: 'basic' | 'advance' | 'plus'
@@ -315,8 +316,8 @@ declare interface SellerOrder {
   id: string
   pickupAddress: string
   deliveryAddress: string
-  pickupDate: Date
-  deliveryDate: Date
+  pickupDate?: Date
+  deliveryDate?: Date
   status: string
   createdAt: Date
   user: {

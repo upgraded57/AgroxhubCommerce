@@ -1,6 +1,7 @@
 import { FaArrowRightLong, FaStar } from 'react-icons/fa6'
 import moment from 'moment'
 import { Link } from '@tanstack/react-router'
+import AvatarComp from './avatar-comp'
 
 export default function AboutSeller({
   seller,
@@ -35,9 +36,6 @@ export default function AboutSeller({
 }
 
 const AboutSellerTab = ({ seller }: { seller: Product['seller'] }) => {
-  const sellerInitials =
-    seller.name.split(' ')[0][0] + seller.name.split(' ')[1][0]
-
   return (
     <>
       <input
@@ -51,7 +49,7 @@ const AboutSellerTab = ({ seller }: { seller: Product['seller'] }) => {
       <div role="tabpanel" className="tab-content py-10">
         <div className="flex gap-3 items-center">
           {seller.avatar ? (
-            <div className="w-15 aspect-square rounded-full overflow-hidden">
+            <div className="w-15 aspect-square rounded-full overflow-hidden bg-slate-300">
               <img
                 src={seller.avatar}
                 alt="Seller Image"
@@ -59,15 +57,10 @@ const AboutSellerTab = ({ seller }: { seller: Product['seller'] }) => {
               />
             </div>
           ) : (
-            <div className="avatar avatar-placeholder">
-              <div className="bg-dark-green-clr text-white w-15 rounded-full">
-                <p>{sellerInitials}</p>
-              </div>
-            </div>
+            <AvatarComp size="md" username={seller.name} />
           )}
           <div>
             <h3 className="text-2xl font-semibold">{seller.name}</h3>
-            {/* <p className="text-sm">Large quantity tomato producer</p> */}
           </div>
         </div>
 
@@ -86,14 +79,6 @@ const AboutSellerTab = ({ seller }: { seller: Product['seller'] }) => {
             <p className="text-sm font-semibold">Farmer Location</p>
             <p className="text-sm">{seller.address || '--- ---'}</p>
           </span>
-          {/* <span className="block pt-2">
-            <p className="text-sm font-semibold">Followers</p>
-            <p className="text-sm">23</p>
-          </span>
-          <span className="block pt-2">
-            <p className="text-sm font-semibold">Successful Sales</p>
-            <p className="text-sm">92%</p>
-          </span> */}
         </div>
       </div>
     </>

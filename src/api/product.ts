@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { axiosInstance } from './axiosInstance'
 import type { QueryClient } from '@tanstack/react-query'
 
@@ -87,18 +87,18 @@ export const useCreateProduct = () => {
   })
 }
 
-export const UseDeleteProduct = (
-  queryClient: QueryClient,
-  sellerId: string,
-) => {
+export const useUpdateProduct = (slug: string) => {
+  return useMutation({
+    mutationFn: (data: FormData) => {
+      return axiosInstance.patch(`/product/${slug}`, data)
+    },
+  })
+}
+
+export const UseDeleteProduct = () => {
   return useMutation({
     mutationFn: (slug: string) => {
       return axiosInstance.delete(`/product/${slug}`)
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ['Seller Products', sellerId],
-      })
     },
   })
 }

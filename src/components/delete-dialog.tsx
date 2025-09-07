@@ -2,13 +2,14 @@ import { use } from 'react'
 import { useQueryClient } from '@tanstack/react-query'
 import { CartContext } from '@/providers/CartContext'
 import { useUpdateOrderItem } from '@/api/checkout'
+import { UseDeleteProduct } from '@/api/product'
 
 const DeleteDialog = ({
   item,
   component,
 }: {
-  item: CartItem
-  component: 'cart' | 'order'
+  item: CartItem | Product
+  component: 'cart' | 'order' | 'seller'
 }) => {
   const updateCartItem = use(CartContext)?.updateCartItem
   const isUpdatingItem = use(CartContext)?.isUpdatingItem
@@ -16,6 +17,7 @@ const DeleteDialog = ({
   const queryClient = useQueryClient()
   const { mutateAsync: deleteOrderItem, isPending: isRemovingOrderItem } =
     useUpdateOrderItem()
+  const { mutateAsync: deleteProduct } = UseDeleteProduct()
 
   const handleItemDelete = () => {
     const itemId = item.id || ''
@@ -25,10 +27,25 @@ const DeleteDialog = ({
         queryClient.invalidateQueries({
           queryKey: ['Order'],
         })
+        return
       })
-    } else {
+    }
+    if (component === 'seller') {
+      deleteProduct(item.slug).then(() => {
+        queryClient.invalidateQueries({
+          predicate: (query) =>
+            query.queryKey.some(
+              (key) =>
+                typeof key === 'string' && key.includes('Seller Products'),
+            ),
+        })
+      })
+      return
+    }
+    if (component === 'cart') {
       if (updateCartItem) {
         updateCartItem(slug, 'delete')
+        return
       }
     }
   }
@@ -39,7 +56,12 @@ const DeleteDialog = ({
         <p className="py-4 text-sm">
           Are you sure you want to remove{' '}
           <b className="font-medium">{item.name}</b> from your{' '}
-          {component === 'cart' ? 'cart' : 'order'}?
+          {component === 'cart'
+            ? 'cart'
+            : component === 'seller'
+              ? 'store'
+              : 'order'}
+          ?
         </p>
         <div className="modal-action">
           <form method="dialog">

@@ -1,6 +1,7 @@
 import { Link, createFileRoute, useParams } from '@tanstack/react-router'
 import { use } from 'react'
 import moment from 'moment'
+import { useQueryClient } from '@tanstack/react-query'
 import { FaStar } from 'react-icons/fa6'
 import { DotsVerticalIcon } from '@radix-ui/react-icons'
 import { GoMegaphone, GoShareAndroid } from 'react-icons/go'
@@ -97,7 +98,13 @@ function RouteComponent() {
     select: (p) => p.id,
   })
 
-  const { isLoading, data: notification } = useGetSingleNotification(id)
+  const queryClient = useQueryClient()
+
+  const {
+    isLoading,
+    data: notification,
+    isSuccess,
+  } = useGetSingleNotification(id)
 
   if (notification) {
     type = notification.type
@@ -109,6 +116,12 @@ function RouteComponent() {
         <Loader />
       </div>
     )
+
+  if (isSuccess) {
+    queryClient.invalidateQueries({
+      queryKey: ['Notifications'],
+    })
+  }
 
   switch (notification?.type) {
     case 'follow':
@@ -130,6 +143,7 @@ function RouteComponent() {
     case 'orderAssignment':
       return <OrderAssignmentNotification notification={notification} />
     case 'outOfStock':
+      return <ProductAlmostOutOfStockNotification notification={notification} />
     default:
       return
   }
@@ -1217,6 +1231,53 @@ const MilestoneNotification = ({
                 <button className="btn btn-ghost btn-sm !text-xs">Share</button>
               </div>
             </div>
+          </div>
+        </div>
+      </div>
+    </>
+  )
+}
+
+const ProductAlmostOutOfStockNotification = ({
+  notification,
+}: {
+  notification: NotificationList
+}) => {
+  return (
+    <>
+      <div className="hidden md:flex items-center justify-between border-b py-2 md:pt-0">
+        <h2 className="font-semibold text-sm md:text-2xl">PRODUCT SAVE</h2>
+      </div>
+      <Breadcrumb />
+
+      <p className="text-sm">{notification.summary}</p>
+      <div className="px-4 my-6 space-y-8">
+        {/* Product */}
+        <div className="col-span-5 space-y-3">
+          <p className="font-semibold text-dark-green-clr text-base">
+            {notification.product?.name}
+          </p>
+
+          {/* Product Images */}
+          <div className="flex items-center gap-2">
+            {notification.product?.images?.map((image, idx) => (
+              <div
+                className="w-15 h-15 rounded-lg overflow-hidden aspect-square skeleton"
+                key={idx}
+              >
+                <img src={image} alt="" />
+              </div>
+            ))}
+          </div>
+          <div className="mt-6 space-y-1">
+            <p className="text-sm">Still have more of this product in stock?</p>
+            <Link
+              to="/seller/products/$slug/edit"
+              params={{ slug: notification.product?.slug || '' }}
+              className="btn btn-success max-w-max"
+            >
+              Restock Now
+            </Link>
           </div>
         </div>
       </div>

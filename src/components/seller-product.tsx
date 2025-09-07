@@ -1,20 +1,20 @@
 import { Link } from '@tanstack/react-router'
-import { useQueryClient } from '@tanstack/react-query'
-import { FaRegEye, FaStar } from 'react-icons/fa'
+import { FaRegEye } from 'react-icons/fa'
 import { BiEdit } from 'react-icons/bi'
 import { MdDeleteForever } from 'react-icons/md'
 import { BsGraphUp } from 'react-icons/bs'
-import { UseDeleteProduct } from '../api/product'
+import ProductRatings from './product-rating'
+import DeleteDialog from './delete-dialog'
 
 const tooltipStyle = 'btn btn-sm rounded-md btn-square text-xl cursor-pointer'
 export default function SellerProduct({ product }: { product: Product }) {
-  const queryClient = useQueryClient()
-  const { mutate: deleteProduct } = UseDeleteProduct(
-    queryClient,
-    product.sellerId,
-  )
   const handleDeleteProduct = () => {
-    deleteProduct(product.slug)
+    const modalElement = document.getElementById(
+      `delete_modal_${product.slug}`,
+    ) as HTMLDialogElement | null
+    if (modalElement) {
+      modalElement.showModal()
+    }
   }
   return (
     <div className="w-full rounded-lg p-2 border-[1px] border-transparent hover:shadow hover:border-light-grey-clr mb-4">
@@ -28,13 +28,7 @@ export default function SellerProduct({ product }: { product: Product }) {
       <p className="text-md pt-2 truncate" title={product.name}>
         {product.name}
       </p>
-      <div className="flex gap-1 items-center text-md text-yellow-300 py-2">
-        <FaStar />
-        <FaStar />
-        <FaStar />
-        <FaStar />
-        <FaStar className="text-gray-200" />
-      </div>
+      <ProductRatings ratings={String(product.ratings)} />
       <h3 className="h-100">N{product.unitPrice.toLocaleString()}</h3>
       <div className="flex items-center gap-2 mt-2">
         <Link
@@ -77,6 +71,7 @@ export default function SellerProduct({ product }: { product: Product }) {
           </span>
         </Link>
       </div>
+      <DeleteDialog item={product} component="seller" />
     </div>
   )
 }

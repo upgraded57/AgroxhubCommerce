@@ -45,11 +45,19 @@ function RouteComponent() {
 
               <span className="carousel-item min-w-max block space-y-2 p-4 border-r">
                 <p className="text-xs text-slate-400">Pickup Date</p>
-                <p>{moment(order.pickupDate).format('MMM DD, YYYY')}</p>
+                <p>
+                  {order.pickupDate
+                    ? moment(order.pickupDate).format('MMM DD, YYYY')
+                    : 'Not yet set'}
+                </p>
               </span>
               <span className="carousel-item min-w-max block space-y-2 p-4 border-r">
                 <p className="text-xs text-slate-400">Delivery Date</p>
-                <p>{moment(order.deliveryDate).format('MMM DD, YYYY')}</p>
+                <p>
+                  {order.deliveryDate
+                    ? moment(order.deliveryDate).format('MMM DD, YYYY')
+                    : 'Not yet set'}
+                </p>
               </span>
               <span className="carousel-item min-w-max block space-y-2 p-4 border-r">
                 <p className="text-xs text-slate-400">Delivery Address</p>
