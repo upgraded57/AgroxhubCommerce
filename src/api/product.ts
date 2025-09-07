@@ -1,6 +1,5 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
 import { axiosInstance } from './axiosInstance'
-import type { QueryClient } from '@tanstack/react-query'
 
 export const useGetProductCategories = () => {
   const getProductCategories = async () => {
