@@ -31,9 +31,9 @@ function RouteComponent() {
       ) : (
         order && (
           <div className="mt-6">
-            <div className="w-full border rounded-lg carousel gap-4">
+            <div className="w-full border rounded-lg carousel">
               <span className="carousel-item min-w-max block space-y-2 p-4 border-r">
-                <p className="text-xs text-slate-400">Status</p>
+                <p className="text-xs text-slate-400">Delivery Status</p>
                 <p>
                   <StatusBadge status={order.status as Order['status']} />
                 </p>
@@ -59,13 +59,13 @@ function RouteComponent() {
                     : 'Not yet set'}
                 </p>
               </span>
-              <span className="carousel-item min-w-max block space-y-2 p-4 border-r">
+              <span className="carousel-item min-w-max block space-y-2 p-4">
                 <p className="text-xs text-slate-400">Delivery Address</p>
                 <p>{order.deliveryAddress}</p>
               </span>
             </div>
 
-            <div className="mt-6 mb-8 space-y-2">
+            <div className="mt-6 mb-8 ml-4 space-y-2">
               <p className="text-sm">Buyer</p>
               <Profile
                 name={order.user.name}
@@ -74,10 +74,10 @@ function RouteComponent() {
               />
             </div>
 
-            <div className="rounded-lg border overflow-hidden">
+            <div className="rounded-lg border overflow-hidden ml-4">
               <OrderTable products={order.products} />
             </div>
-            <div className="mt-6 mb-8 space-y-2">
+            <div className="mt-6 mb-8 space-y-2 ml-4">
               <p className="text-sm">Logistics Provider</p>
               <Profile
                 name={order.logisticsProvider?.name || ''}

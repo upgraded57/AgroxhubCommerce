@@ -47,7 +47,7 @@ const NewNotificationBanner = ({
     <div className="h-8 w-full flex items-center justify-center bg-yellow-600 text-white gap-2">
       <SpeakerLoudIcon />
       <p className="text-sm">
-        You have {notifications.filter((n) => n.unread).length} new
+        You have {notifications.filter((n) => n.unread).length} unread
         notifications.
       </p>
       <Link

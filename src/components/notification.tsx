@@ -9,6 +9,7 @@ import {
   FaTruck,
 } from 'react-icons/fa6'
 import { HiClipboardDocumentCheck } from 'react-icons/hi2'
+import { MdCancel } from 'react-icons/md'
 import { FaCheckCircle } from 'react-icons/fa'
 import { Link } from '@tanstack/react-router'
 import moment from 'moment'
@@ -63,6 +64,10 @@ export default function Notification({
         bgColor = 'bg-red-100'
         color = 'text-red-600'
         return FaCircleInfo
+      case 'orderReturn':
+        bgColor = 'bg-red-100'
+        color = 'text-red-600'
+        return MdCancel
       default:
         return FaCircleInfo
     }

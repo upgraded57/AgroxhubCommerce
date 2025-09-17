@@ -18,7 +18,7 @@ function RouteComponent() {
   })
 
   const { isLoading, data: orders, isError } = useGetSingleOrder(orderNumber)
-  const deliveryStatus = orders?.status || 'pending'
+  // const deliveryStatus = orders?.status || 'pending'
   const paymentStatus = orders?.paymentStatus || 'pending'
 
   if (isError) {
@@ -45,7 +45,7 @@ function RouteComponent() {
       </div>
 
       {/* Order summary info */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 items-start gap-x-6 gap-y-4 py-4 mb-4 flex-wrap">
+      <div className="grid grid-cols-2 lg:grid-cols-3 items-start gap-x-6 gap-y-4 py-4 mb-4 flex-wrap">
         <div className="space-y-2">
           <p className="text-xs">Order Number</p>
           <p className="text-sm font-medium">{orders?.orderNumber}</p>
@@ -66,10 +66,10 @@ function RouteComponent() {
           </p>
         </div>
 
-        <div className="space-y-2">
+        {/* <div className="space-y-2">
           <p className="text-xs">Delivery Status</p>
           <StatusBadge status={deliveryStatus} />
-        </div>
+        </div> */}
       </div>
 
       {/* Order Item List */}

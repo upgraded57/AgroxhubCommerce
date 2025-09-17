@@ -76,6 +76,7 @@ declare interface NotificationList {
     | 'milestone'
     | 'orderAssignment'
     | 'outOfStock'
+    | 'orderReturn'
   unread: boolean
   subject: string
   summary: string
@@ -93,6 +94,7 @@ declare interface NotificationList {
     images?: Array<string>
     unit: string
     slug: string
+    totalPrice?: number
   }
   products?: Array<{
     id: string
@@ -136,6 +138,8 @@ declare interface NotificationList {
   productQuantity?: number
   pickupDate?: string
   deliveryDate?: string
+  milestone?: string
+  rejectionReason?: string
 }
 
 declare interface SavedItem {
@@ -264,6 +268,14 @@ declare interface SellerSummary {
   inTransitProducts: number
   cartProducts: number
   totalEarnings: number
+  withdrawableEarnings: number
+}
+
+declare interface SellerOrdersSummary {
+  orders: number
+  products: number
+  delivered: number
+  rejected: number
 }
 
 declare interface ProductsSearchParams {

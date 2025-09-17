@@ -144,6 +144,8 @@ function RouteComponent() {
       return <OrderAssignmentNotification notification={notification} />
     case 'outOfStock':
       return <ProductAlmostOutOfStockNotification notification={notification} />
+    case 'orderReturn':
+      return <OrderReturnNotification notification={notification} />
     default:
       return
   }
@@ -384,7 +386,7 @@ const OrderPlacementNotification = ({
               </div>
               <div className="col-span-5">
                 <p className="font-semibold text-sm">
-                  N {notification.order?.amount.toLocaleString()}
+                  N {notification.product?.totalPrice?.toLocaleString()}
                 </p>
               </div>
             </div>
@@ -1140,7 +1142,6 @@ const MilestoneNotification = ({
       </div>
       <Breadcrumb />
 
-      <p className="text-sm">{notification.summary}</p>
       <div className="px-4 my-6 space-y-12">
         <div className="space-y-1">
           <h2 className="text-xl">Celebrating Milestone Achievement</h2>
@@ -1152,11 +1153,11 @@ const MilestoneNotification = ({
         {/* Confetti */}
         <div className="space-y-4">
           <div className="w-full h-[170px] rounded-xl overflow-hidden bg-slate-100">
-            <img src={confetti} alt="" />
+            <img src={confetti} alt="" className="w-full h-full object-cover" />
           </div>
           <div className="w-full p-4 rounded-xl overflow-hidden bg-green-100">
             <p className="text-sm">Milestone Reached</p>
-            <h3 className="font-medium text-xl">10 Views</h3>
+            <h3 className="font-medium text-xl">{notification.milestone}</h3>
           </div>
         </div>
 
@@ -1167,21 +1168,17 @@ const MilestoneNotification = ({
           </div>
           <div className="col-span-5 space-y-3">
             <p className="font-semibold text-dark-green-clr text-base">
-              Fresh Tomatoes
+              {notification.product?.name}
             </p>
             <div className="flex items-center gap-2">
-              <div className="w-15 h-15 rounded-lg overflow-hidden aspect-square skeleton">
-                <img src="https://picsum.dev/static/103/200/200" alt="" />
-              </div>
-              <div className="w-15 h-15 rounded-lg overflow-hidden aspect-square skeleton">
-                <img src="https://picsum.dev/static/104/200/200" alt="" />
-              </div>
-              <div className="w-15 h-15 rounded-lg overflow-hidden aspect-square skeleton">
-                <img src="https://picsum.dev/static/105/200/200" alt="" />
-              </div>
-              <div className="w-15 h-15 rounded-lg overflow-hidden aspect-square skeleton">
-                <img src="https://picsum.dev/static/106/200/200" alt="" />
-              </div>
+              {notification.product?.images?.map((img, idx) => (
+                <div
+                  className="w-15 h-15 rounded-lg overflow-hidden aspect-square skeleton"
+                  key={idx}
+                >
+                  <img src={img} alt={notification.product?.name} />
+                </div>
+              ))}
             </div>
           </div>
         </div>
@@ -1206,7 +1203,7 @@ const MilestoneNotification = ({
                 <Link
                   to="/seller/products/$slug/promote"
                   params={{
-                    slug: 'gaagaghgah',
+                    slug: notification.product?.slug || '',
                   }}
                 >
                   <button className="btn btn-ghost btn-sm !text-xs text-dark-green-clr hover:bg-green-50 hover:border-green-200">
@@ -1279,6 +1276,150 @@ const ProductAlmostOutOfStockNotification = ({
               Restock Now
             </Link>
           </div>
+        </div>
+      </div>
+    </>
+  )
+}
+
+const OrderReturnNotification = ({
+  notification,
+}: {
+  notification: NotificationList
+}) => {
+  const user = use(UserContext).user
+  return (
+    <>
+      <div className="hidden md:flex items-center justify-between border-b py-2 md:pt-0">
+        <h2 className="font-semibold text-sm md:text-2xl">ORDER RETURN</h2>
+      </div>
+      <Breadcrumb />
+      <div className="px-4 my-6 space-y-12">
+        <div className="space-y-1">
+          <h2 className="text-xl text-red-500">Order Rejected!</h2>
+          <p className="text-sm">{notification.summary}</p>
+        </div>
+
+        {/* Product Rejected */}
+        <div className="space-y-3">
+          <p className="text-sm">Products Rejected</p>
+          <div className="pl-2">
+            <div className="overflow-x-auto rounded-box border border-base-content/5 bg-base-100">
+              <table className="table text-sm">
+                {/* head */}
+                <thead>
+                  <tr>
+                    <th className="font-normal">Product</th>
+                    <th className="font-normal">Quantity</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {notification.products?.map((product, idx) => (
+                    <tr key={idx}>
+                      <td>
+                        <div className="flex items-center gap-2">
+                          <span className="w-8 h-8 rounded-sm overflow-hidden !aspect-square skeleton">
+                            <img
+                              src={product.image}
+                              alt=""
+                              className="w-full h-full object-cover"
+                            />
+                          </span>
+                          <p>{product.name}</p>
+                        </div>
+                      </td>
+                      <td>
+                        {product.quantity} {product.unit}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        {/* Reason for Rejection */}
+        <div className="space-y-3">
+          <p className="text-sm">Reason for Rejection</p>
+          <div className="p-2 rounded-box border border-red-50 bg-red-50">
+            <p className="pl-2 text-sm">{notification.rejectionReason}</p>
+          </div>
+        </div>
+
+        {/* Logistic Provider */}
+        <div className="space-y-3">
+          <p className="text-sm">Logistics Provider</p>
+          <div className="flex items-center gap-4">
+            <div className="pl-2">
+              <Profile
+                name={notification.logisticsProvider?.name || '---'}
+                slug="Logistics Provider"
+                image={notification.logisticsProvider?.avatar}
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* Pickup Information */}
+        <div className="space-y-3">
+          <p className="text-sm">Delivery Information</p>
+          <div className="pl-2 space-y-2">
+            <div className="grid grid-cols-7 gap-x-2">
+              <div className="col-span-2">
+                <p className="text-slate-400 text-sm">Delivery Address</p>
+              </div>
+              <div className="col-span-5">
+                <p className="text-sm">{notification.order?.deliveryAddress}</p>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-7 gap-x-2">
+              <div className="col-span-2">
+                <p className="text-slate-400 text-sm">Region</p>
+              </div>
+              <div className="col-span-5">
+                <p className="text-sm">{`${notification.order?.deliveryRegion.name}, ${notification.order?.deliveryRegion.lcda}, ${notification.order?.deliveryRegion.state}`}</p>
+              </div>
+            </div>
+
+            {user?.type !== 'buyer' && (
+              <div className="grid grid-cols-7 gap-x-2">
+                <div className="col-span-2">
+                  <p className="text-slate-400 text-sm">Pickup Date</p>
+                </div>
+                <div className="col-span-5">
+                  <p className="text-sm">
+                    {notification.pickupDate
+                      ? moment(notification.pickupDate).format(
+                          'dddd MMM DD, YYYY',
+                        )
+                      : 'Not yet set'}
+                  </p>
+                </div>
+              </div>
+            )}
+
+            <div className="grid grid-cols-7 gap-x-2">
+              <div className="col-span-2">
+                <p className="text-slate-400 text-sm">Delivery Date</p>
+              </div>
+              <div className="col-span-5">
+                <p className="text-sm">
+                  {notification.deliveryDate
+                    ? moment(notification.deliveryDate).format(
+                        'dddd MMM DD, YYYY',
+                      )
+                    : 'Not yet set'}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Action buttons */}
+        <div className="flex items-center gap-2">
+          <button className="btn btn-ghost">Report Issue</button>
         </div>
       </div>
     </>

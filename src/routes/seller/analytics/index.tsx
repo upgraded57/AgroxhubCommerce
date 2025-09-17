@@ -25,7 +25,17 @@ function RouteComponent() {
     },
     {
       title: 'Total Earnings',
-      count: summary ? 'N' + summary.totalEarnings.toLocaleString() : 0,
+      count:
+        summary && summary.withdrawableEarnings
+          ? 'N' + summary.withdrawableEarnings.toLocaleString()
+          : 0,
+    },
+    {
+      title: 'Withdrawable Earnings',
+      count:
+        summary && summary.totalEarnings
+          ? 'N' + summary.totalEarnings.toLocaleString()
+          : 0,
     },
     {
       title: 'Followers',

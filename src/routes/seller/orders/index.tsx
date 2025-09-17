@@ -1,7 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { LuClipboardList, LuListCheck } from 'react-icons/lu'
-import { MdOutlineCancel } from 'react-icons/md'
-import { useGetSellerOrders } from '@/api/seller'
+import { useGetSellerOrderSummary, useGetSellerOrders } from '@/api/seller'
 import OrdersTable from '@/components/orders-table'
 import Loader from '@/components/loader'
 
@@ -14,6 +13,35 @@ const summaryBoxStyle =
 
 function RouteComponent() {
   const { isLoading, data: orders } = useGetSellerOrders()
+  const { isLoading: isLoadingSummary, data: summary } =
+    useGetSellerOrderSummary()
+
+  const ordersSummary = [
+    {
+      title: 'Total Orders',
+      icon: <LuClipboardList className="text-2xl text-blue-500" />,
+      bg: 'bg-blue-100',
+      count: summary?.orders || 0,
+    },
+    {
+      title: 'Total Products',
+      icon: <LuClipboardList className="text-2xl text-amber-500" />,
+      bg: 'bg-amber-100',
+      count: summary?.products || 0,
+    },
+    {
+      title: 'Total Delivered',
+      icon: <LuListCheck className="text-2xl text-green-500" />,
+      bg: 'bg-green-100',
+      count: summary?.delivered || 0,
+    },
+    {
+      title: 'Total Rejected',
+      icon: <LuClipboardList className="text-2xl text-blue-500" />,
+      bg: 'bg-blue-100',
+      count: summary?.rejected || 0,
+    },
+  ]
 
   return (
     <>
@@ -27,45 +55,23 @@ function RouteComponent() {
       </div>
 
       <div className="mb-6 carousel justify-between gap-x-4 w-full">
-        <div className={summaryBoxStyle}>
-          <span className="bg-blue-100 w-10 h-10 aspect-square rounded-full grid place-content-center">
-            <LuClipboardList className="text-2xl text-blue-500" />
-          </span>
-          <div className="space-y-1">
-            <p className="text-sm text-slate-500">Total Orders</p>
-            <h2 className="text-2xl font-medium">500</h2>
+        {ordersSummary.map((item, idx) => (
+          <div className={summaryBoxStyle} key={idx}>
+            <span
+              className={`${item.bg} w-10 h-10 aspect-square rounded-full grid place-content-center`}
+            >
+              {item.icon}
+            </span>
+            <div className="space-y-1">
+              <p className="text-sm text-slate-500">{item.title}</p>
+              {isLoadingSummary ? (
+                <span className="loading loading-spinner text-dark-green-clr loading-lg" />
+              ) : (
+                <h2 className="text-2xl font-medium">{item.count}</h2>
+              )}
+            </div>
           </div>
-        </div>
-
-        <div className={summaryBoxStyle}>
-          <span className="bg-amber-100 w-10 h-10 aspect-square rounded-full grid place-content-center">
-            <LuClipboardList className="text-2xl text-amber-500" />
-          </span>
-          <div className="space-y-1">
-            <p className="text-sm text-slate-500">Total Products</p>
-            <h2 className="text-2xl font-medium">500</h2>
-          </div>
-        </div>
-
-        <div className={summaryBoxStyle}>
-          <span className="bg-green-100 w-10 h-10 aspect-square rounded-full grid place-content-center">
-            <LuListCheck className="text-2xl text-green-500" />
-          </span>
-          <div className="space-y-1">
-            <p className="text-sm text-slate-500">Total Delivered</p>
-            <h2 className="text-2xl font-medium">300</h2>
-          </div>
-        </div>
-
-        <div className={summaryBoxStyle}>
-          <span className="bg-red-100 w-10 h-10 aspect-square rounded-full grid place-content-center">
-            <MdOutlineCancel className="text-2xl text-red-500" />
-          </span>
-          <div className="space-y-1">
-            <p className="text-sm text-slate-500">Total Returned</p>
-            <h2 className="text-2xl font-medium">500</h2>
-          </div>
-        </div>
+        ))}
       </div>
       {isLoading ? (
         <div className="w-full h-[300px] grid place-content-center">

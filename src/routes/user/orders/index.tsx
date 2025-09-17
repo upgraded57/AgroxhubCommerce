@@ -10,12 +10,12 @@ export const Route = createFileRoute('/user/orders/')({
 })
 
 function RouteComponent() {
-  const { isLoading, data: orders, isError } = useGetOrders()
+  const { isLoading, data: orders } = useGetOrders()
   return (
     <>
       <div className="flex items-center justify-between border-b py-2 pr-1 md:pt-0">
         <h2 className="font-semibold text-sm md:text-2xl">ORDER HISTORY</h2>
-        <select
+        {/* <select
           className="select select-sm uppercase font-normal"
           disabled={isLoading || isError || !orders?.length}
         >
@@ -24,7 +24,7 @@ function RouteComponent() {
           <option>Delivered</option>
           <option>Pending Review</option>
           <option>Rejected</option>
-        </select>
+        </select> */}
       </div>
 
       {/* Products List */}

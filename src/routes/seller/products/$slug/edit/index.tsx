@@ -432,7 +432,7 @@ function RouteComponent() {
                 return (
                   <div
                     key={idx}
-                    className="w-24 h-24 flex items-center justify-center rounded-md relative overflow-hidden border skeleton"
+                    className="w-24 h-24 flex items-center justify-center rounded-md relative overflow-hidden border skeleton bg-slate-100"
                   >
                     <img
                       src={imgSrc}

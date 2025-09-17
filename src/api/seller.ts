@@ -73,7 +73,7 @@ export const useGetSellerMostPurchasedProducts = (sellerId: string) => {
     return res.data.products as Array<Product>
   }
   return useQuery({
-    queryKey: ['Seller Most Purchased Products', sellerId],
+    queryKey: ['Seller', 'Most Purchased', 'Products', sellerId],
     queryFn: getSellerMostPurchasedProducts,
     enabled: !!sellerId,
   })
@@ -87,7 +87,7 @@ export const useGetSellerNewestProducts = (sellerId: string) => {
     return res.data.products as Array<Product>
   }
   return useQuery({
-    queryKey: ['Seller Newest Products', sellerId],
+    queryKey: ['Seller', 'Products', sellerId],
     queryFn: getSellerNewestProducts,
   })
 }
@@ -102,7 +102,7 @@ export const useGetSellerFollowers = () => {
 
   return useQuery({
     queryFn: getSellerFollowers,
-    queryKey: ['Seller Followers'],
+    queryKey: ['Seller', 'Followers'],
   })
 }
 
@@ -140,9 +140,8 @@ export const useGetSellerSummary = () => {
   }
 
   return useQuery({
-    queryKey: ['Seller Summary'],
+    queryKey: ['Seller', 'Summary'],
     queryFn: getSummary,
-    staleTime: 1000 * 60 * 5,
   })
 }
 
@@ -169,5 +168,19 @@ export const useGetSellerSingleOrders = (id: string) => {
   return useQuery({
     queryKey: ['Seller', 'Orders', id],
     queryFn: getSellerProducts,
+  })
+}
+
+export const useGetSellerOrderSummary = () => {
+  const getSummary = async () => {
+    const res = await axiosInstance.get(`/seller/orders/summary/`, {
+      showToast: false,
+    })
+    return res.data.summary as SellerOrdersSummary
+  }
+
+  return useQuery({
+    queryKey: ['Seller', 'Orders', 'Summary'],
+    queryFn: getSummary,
   })
 }

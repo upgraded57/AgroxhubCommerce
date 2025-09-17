@@ -125,6 +125,7 @@ function RouteComponent() {
     fileInput.files = newFileList.files
     setImages(newImgArray)
   }
+
   const { isLoadingRegions, regions, selectedRegion, setSelectedRegion } =
     useRegions()
   return (
