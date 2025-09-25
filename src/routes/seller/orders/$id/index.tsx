@@ -77,11 +77,15 @@ function RouteComponent() {
               <OrderTable products={order.products} />
             </div>
             <div className="mt-6 mb-8 space-y-2 md:ml-4">
-              <Profile
-                name={order.logisticsProvider?.name || ''}
-                slug="Logistics Provider"
-                image={order.logisticsProvider?.avatar || ''}
-              />
+              {order.logisticsProvider ? (
+                <Profile
+                  name={order.logisticsProvider.name || ''}
+                  slug="Logistics Provider"
+                  image={order.logisticsProvider.avatar || ''}
+                />
+              ) : (
+                <p className="text-sm">Logistics provider not yet assigned</p>
+              )}
             </div>
           </div>
         )
@@ -99,7 +103,7 @@ const Profile = ({
   name: string
   slug: string
 }) => {
-  const initials = name ? name.split(' ')[0][0] + name.split(' ')[1][0] : ''
+  const initials = name.split(' ')[0][0] + name.split(' ')[1][0]
   return (
     <div className="flex items-center gap-4">
       {image ? (
