@@ -332,6 +332,7 @@ declare interface SellerOrder {
   deliveryDate?: Date
   status: string
   createdAt: Date
+  totalPrice: number
   user: {
     name: string
     avatar: string
@@ -346,6 +347,7 @@ declare interface SellerOrder {
     quantity: number
     unit: string
     images: Array<string>
+    totalPrice: number
   }>
 }
 

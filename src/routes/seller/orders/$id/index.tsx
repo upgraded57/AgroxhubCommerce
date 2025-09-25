@@ -4,6 +4,7 @@ import OrderTable from '@/components/order-table'
 import { useGetSellerSingleOrders } from '@/api/seller'
 import Loader from '@/components/loader'
 import { StatusBadge } from '@/components/status-badge'
+import { currency } from '@/utils/helpers'
 
 export const Route = createFileRoute('/seller/orders/$id/')({
   component: RouteComponent,
@@ -37,6 +38,10 @@ function RouteComponent() {
                 <p>
                   <StatusBadge status={order.status as Order['status']} />
                 </p>
+              </span>
+              <span className="carousel-item min-w-max block space-y-2 p-4 border-r">
+                <p className="text-xs text-slate-400">Total Price</p>
+                <p>{currency(order.totalPrice)}</p>
               </span>
               <span className="carousel-item min-w-max block space-y-2 p-4 border-r">
                 <p className="text-xs text-slate-400">Order Date</p>
@@ -104,7 +109,7 @@ const Profile = ({
   name: string
   slug: string
 }) => {
-  const initials = name.split(' ')[0][0] + name.split(' ')[1][0]
+  const initials = name ? name.split(' ')[0][0] + name.split(' ')[1][0] : '---'
   return (
     <div className="flex items-center gap-4">
       {image ? (
