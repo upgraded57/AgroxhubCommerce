@@ -1,11 +1,9 @@
 import axios from 'axios'
 import { toast } from 'sonner'
-import type { AxiosError, AxiosResponse } from 'axios'
-import type { ApiErrorResponse } from '@/types/axios'
+import type { AxiosResponse } from 'axios'
+import type { ApiError } from '@/types/axios'
 
 const baseURL = import.meta.env.VITE_BASE_URL || 'http://localhost:8800/api/v1'
-
-type ApiError = AxiosError<ApiErrorResponse>
 
 export const axiosInstance = axios.create({
   baseURL,

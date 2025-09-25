@@ -9,6 +9,7 @@ import EmptyCart from '@/components/empty-cart'
 import { useGetUser } from '@/api/user'
 import useRegions from '@/hooks/use-regions'
 import { useCreateOrder } from '@/api/checkout'
+import { currency } from '@/utils/helpers'
 
 export const Route = createFileRoute('/cart/')({
   component: RouteComponent,
@@ -375,7 +376,7 @@ function RouteComponent() {
                     <span className="flex items-center justify-between mb-4">
                       <p className="text-sm">Products Price</p>
                       <p className="text-sm font-semibold">
-                        NGN {totalPrice.toLocaleString()}
+                        {currency(totalPrice)}
                       </p>
                     </span>
                     <span className="flex items-center justify-between my-4">
@@ -392,28 +393,42 @@ function RouteComponent() {
                     <p className="text-sm">Promo Code</p>
                     <div className="flex items-center gap-2">
                       <input
-                        className="input input-sm input-bordered  rounded-md w-full"
+                        className="input input-sm input-bordered w-full"
                         placeholder="Email"
                       />
-                      <button className="btn btn-sm btn-outline uppercase rounded-md  border-orange-clr text-orange-clr hover:text-white hover:bg-orange-clr hover:border-orange-clr">
-                        apply
+                      <button className="btn btn-warning btn-outline btn-sm hover:text-white">
+                        Apply
                       </button>
                     </div>
                   </div>
 
                   <div className="flex p-4 items-center justify-center">
                     {user ? (
-                      <button
-                        onClick={handleCheckout}
-                        className="btn green-gradient w-full uppercase"
-                        disabled={isCreatingOrder}
-                      >
-                        {isCreatingOrder ? (
-                          <span className="loading loading-lg loading-dots" />
-                        ) : (
-                          'proceed to checkout'
-                        )}
-                      </button>
+                      <div className="w-full">
+                        <button
+                          onClick={handleCheckout}
+                          className="btn green-gradient w-full uppercase"
+                          disabled={isCreatingOrder}
+                        >
+                          {isCreatingOrder ? (
+                            <span className="loading loading-lg loading-dots" />
+                          ) : (
+                            'proceed to checkout'
+                          )}
+                        </button>
+                        <div className="divider text-sm text-gray-400">OR</div>
+                        <button
+                          className="btn text-gray-500 uppercase w-full"
+                          onClick={() =>
+                            toast.warning('Coming soon', {
+                              description:
+                                "You're not yet eligible for this offer",
+                            })
+                          }
+                        >
+                          buy now pay later
+                        </button>
+                      </div>
                     ) : (
                       <button
                         className="btn w-full uppercase"

@@ -10,10 +10,15 @@ interface CreateOrderProp {
 }
 
 export const useGetOrder = (orderNumber: string) => {
+  type reqType = null
+  type resType = BaseAPIResponse<'order', any>
   const getOrder = async () => {
-    const res = await axiosInstance.get(`/checkout/${orderNumber}`, {
-      showToast: false,
-    })
+    const res = await axiosInstance.get<reqType, resType>(
+      `/checkout/${orderNumber}`,
+      {
+        showToast: false,
+      },
+    )
     return res.data.order
   }
 

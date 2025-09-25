@@ -3,6 +3,7 @@ import { useGetSingleProduct } from '@/api/product'
 import Loader from '@/components/loader'
 import ProductNotFound from '@/components/product-not-found'
 import ProductRatings from '@/components/product-rating'
+import { currency } from '@/utils/helpers'
 
 export const Route = createFileRoute('/seller/products/$slug/analytics/')({
   component: RouteComponent,
@@ -59,7 +60,7 @@ function RouteComponent() {
           </h2>
           <hr className="my-3" />
           <h1 className="text-lg font-normal md:text-3xl">
-            N{product.unitPrice.toLocaleString()}
+            {currency(product.unitPrice)}
           </h1>
           <hr className="my-3" />
           <p className="text-sm">{product.description}</p>

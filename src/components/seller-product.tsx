@@ -5,6 +5,7 @@ import { MdDeleteForever } from 'react-icons/md'
 import { BsGraphUp } from 'react-icons/bs'
 import ProductRatings from './product-rating'
 import DeleteDialog from './delete-dialog'
+import { currency } from '@/utils/helpers'
 
 const tooltipStyle = 'btn btn-sm rounded-md btn-square text-xl cursor-pointer'
 export default function SellerProduct({ product }: { product: Product }) {
@@ -29,7 +30,7 @@ export default function SellerProduct({ product }: { product: Product }) {
         {product.name}
       </p>
       <ProductRatings ratings={String(product.ratings)} />
-      <h3 className="h-100">N{product.unitPrice.toLocaleString()}</h3>
+      <h3 className="h-100">{currency(product.unitPrice)}</h3>
       <div className="flex items-center gap-2 mt-2">
         <Link
           to="/product/$slug"

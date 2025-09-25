@@ -11,6 +11,7 @@ import { useGetSingleNotification } from '@/api/notification'
 import Loader from '@/components/loader'
 import { UserContext } from '@/providers/UserContext'
 import confettiLottie from '@/assets/json/confetti2.json'
+import { currency } from '@/utils/helpers'
 
 export const Route = createFileRoute('/user/notifications/$id/')({
   component: RouteComponent,
@@ -386,7 +387,9 @@ const OrderPlacementNotification = ({
               </div>
               <div className="col-span-5">
                 <p className="font-semibold text-sm">
-                  N {notification.product?.totalPrice?.toLocaleString()}
+                  {notification.product?.totalPrice
+                    ? currency(notification.product.totalPrice)
+                    : 0}
                 </p>
               </div>
             </div>

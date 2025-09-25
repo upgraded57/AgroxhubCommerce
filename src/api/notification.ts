@@ -2,9 +2,13 @@ import { useQuery } from '@tanstack/react-query'
 import { axiosInstance } from './axiosInstance'
 
 export const useGetNotifications = () => {
+  type reqType = null
+  type resType = BaseAPIResponse<'notifications', Array<NotificationList>>
   const getNotifications = async () => {
-    const res = await axiosInstance.get('notifications', { showToast: false })
-    return res.data.notifications as Array<NotificationList>
+    const res = await axiosInstance.get<reqType, resType>('notifications', {
+      showToast: false,
+    })
+    return res.data.notifications
   }
 
   return useQuery({
@@ -14,11 +18,16 @@ export const useGetNotifications = () => {
 }
 
 export const useGetSingleNotification = (id: string) => {
+  type reqType = null
+  type resType = BaseAPIResponse<'notification', NotificationList>
   const getSingleNotifications = async () => {
-    const res = await axiosInstance.get(`notifications/${id}`, {
-      showToast: false,
-    })
-    return res.data.notification as NotificationList
+    const res = await axiosInstance.get<reqType, resType>(
+      `notifications/${id}`,
+      {
+        showToast: false,
+      },
+    )
+    return res.data.notification
   }
 
   return useQuery({

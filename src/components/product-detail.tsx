@@ -9,6 +9,7 @@ import { useGetSavedProducts, useSaveProduct } from '../api/saves'
 import ProductRatings from './product-rating'
 import type { SetStateAction } from 'react'
 import { CartContext } from '@/providers/CartContext'
+import { currency } from '@/utils/helpers'
 
 export default function ProductDetail({ product }: { product: Product }) {
   const [qty, setQty] = useState(product.min_sellable_quantity)
@@ -53,7 +54,7 @@ export default function ProductDetail({ product }: { product: Product }) {
             <hr className="my-3" />
             <div className="flex items-center gap-2">
               <h1 className="text-lg font-normal md:text-3xl">
-                N{product.unitPrice.toLocaleString()}
+                {currency(product.unitPrice)}
               </h1>
               <p className="text-sm">per {product.unit}</p>
             </div>

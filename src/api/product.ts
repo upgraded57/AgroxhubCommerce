@@ -2,11 +2,16 @@ import { useMutation, useQuery } from '@tanstack/react-query'
 import { axiosInstance } from './axiosInstance'
 
 export const useGetProductCategories = () => {
+  type reqType = null
+  type resType = BaseAPIResponse<'categories', Array<Category>>
   const getProductCategories = async () => {
-    const res = await axiosInstance.get('/product/categories', {
-      showToast: false,
-    })
-    return res.data.categories as Array<Category>
+    const res = await axiosInstance.get<reqType, resType>(
+      '/product/categories',
+      {
+        showToast: false,
+      },
+    )
+    return res.data.categories
   }
 
   return useQuery({
@@ -16,11 +21,19 @@ export const useGetProductCategories = () => {
 }
 
 export const useGetProducts = (queryParams: Record<string, any>) => {
+  type reqType = null
+  type resType = BaseAPIResponse<'hasMore', boolean> &
+    BaseAPIResponse<'products', Array<Product>> &
+    BaseAPIResponse<'total', number>
+
   const getProducts = async () => {
     const params = new URLSearchParams(queryParams)
-    const res = await axiosInstance.get(`/product?${params}`, {
-      showToast: false,
-    })
+    const res = await axiosInstance.get<reqType, resType>(
+      `/product?${params}`,
+      {
+        showToast: false,
+      },
+    )
     return res.data
   }
 

@@ -22,14 +22,14 @@ export default function ProductsList({
       </div>
     )
 
-  if (!data || !data.products) {
+  if (!data) {
     return (
       <div className="flex items-center justify-center w-full">
         <EmptyProducts text="No products found in this category" />
       </div>
     )
   }
-  const products = data.products as Array<Product>
+  const products = data.products
   return (
     <div className="contEl mb-12">
       <div className="flex items-center justify-between">

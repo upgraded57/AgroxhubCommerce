@@ -1,6 +1,7 @@
 import { Link } from '@tanstack/react-router'
 import ProductRatings from './product-rating'
 import tempImg from '@/assets/images/temp.jpeg'
+import { currency } from '@/utils/helpers'
 
 export default function ProductCard({ product }: { product: Product }) {
   return (
@@ -24,7 +25,10 @@ export default function ProductCard({ product }: { product: Product }) {
       </p>
       <ProductRatings ratings={String(product.ratings)} />
 
-      <h3 className="h-100">N{product.unitPrice.toLocaleString()}</h3>
+      <h3 className="h-100">
+        {currency(product.unitPrice)}
+        {/* N{product.unitPrice.toLocaleString()} */}
+      </h3>
     </Link>
   )
 }

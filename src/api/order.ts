@@ -2,11 +2,16 @@ import { useMutation, useQuery } from '@tanstack/react-query'
 import { axiosInstance } from './axiosInstance'
 
 export const useGetSingleOrder = (orderNumber: string) => {
+  type reqType = null
+  type resType = BaseAPIResponse<'order', Order>
   const getSingleOrder = async () => {
-    const res = await axiosInstance.get(`/order/${orderNumber}`, {
-      showToast: false,
-    })
-    return res.data.order as Order
+    const res = await axiosInstance.get<reqType, resType>(
+      `/order/${orderNumber}`,
+      {
+        showToast: false,
+      },
+    )
+    return res.data.order
   }
 
   return useQuery({
@@ -18,11 +23,13 @@ export const useGetSingleOrder = (orderNumber: string) => {
 }
 
 export const useGetOrders = () => {
+  type reqType = null
+  type resType = BaseAPIResponse<'orders', Array<Order>>
   const getOrders = async () => {
-    const res = await axiosInstance.get(`/order`, {
+    const res = await axiosInstance.get<reqType, resType>(`/order`, {
       showToast: false,
     })
-    return res.data.orders as Array<Order>
+    return res.data.orders
   }
 
   return useQuery({

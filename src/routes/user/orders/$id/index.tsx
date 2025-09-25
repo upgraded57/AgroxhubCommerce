@@ -6,6 +6,7 @@ import Loader from '@/components/loader'
 import EmptyProducts from '@/components/empty-products'
 import { useGetSingleOrder } from '@/api/order'
 import { StatusBadge } from '@/components/status-badge'
+import { currency } from '@/utils/helpers'
 
 export const Route = createFileRoute('/user/orders/$id/')({
   component: RouteComponent,
@@ -110,7 +111,7 @@ function RouteComponent() {
                         {item.name}
                       </Link>
                       <p className="text-sm font-light">
-                        NGN {item.totalPrice.toLocaleString()}
+                        {currency(item.totalPrice)}
                       </p>
                       <p className="text-sm font-medium">
                         {item.quantity} {item.unit}

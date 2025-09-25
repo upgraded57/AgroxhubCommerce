@@ -54,9 +54,9 @@ function RouteComponent() {
     stripUndefined(params),
   )
 
-  const hasMore: boolean = data?.hasMore || false
-  const products = data ? (data.products as Array<Product>) : []
-  const seller = data ? (data.seller as Seller) : null
+  const hasMore = data?.hasMore || false
+  const products = data ? data.products : []
+  const seller = data ? data.seller : null
 
   const handleLoadNextPage = () => {
     if (hasMore) {
@@ -91,6 +91,7 @@ function RouteComponent() {
       })
     }
   }
+
   return (
     <>
       <Search />

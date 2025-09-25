@@ -2,6 +2,7 @@ import { Link } from '@tanstack/react-router'
 import moment from 'moment'
 import ProductRatings from './product-rating'
 import tempImg from '@/assets/images/temp.jpeg'
+import { currency } from '@/utils/helpers'
 
 export default function SavedProduct({ item }: { item: any }) {
   const product: Product = item.product
@@ -22,7 +23,7 @@ export default function SavedProduct({ item }: { item: any }) {
           </p>
           <ProductRatings ratings={String(product.ratings)} />
 
-          <h3 className="h-100">N{product.unitPrice.toLocaleString()}</h3>
+          <h3 className="h-100">{currency(product.unitPrice)}</h3>
           <p className="text-sm">
             Saved on - {moment(item.createdAt).format('DD MMMM, YYYY')}
           </p>

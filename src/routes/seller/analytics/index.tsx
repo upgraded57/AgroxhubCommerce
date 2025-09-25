@@ -3,6 +3,7 @@ import { ImSpinner8 } from 'react-icons/im'
 import { HiOutlineViewGridAdd } from 'react-icons/hi'
 import { useGetSellerSummary } from '@/api/seller'
 import SellerAnalyticsChart from '@/components/charts/seller-analytics-chart'
+import { currency } from '@/utils/helpers'
 
 export const Route = createFileRoute('/seller/analytics/')({
   component: RouteComponent,
@@ -27,15 +28,13 @@ function RouteComponent() {
       title: 'Total Earnings',
       count:
         summary && summary.withdrawableEarnings
-          ? 'N' + summary.withdrawableEarnings.toLocaleString()
+          ? currency(summary.withdrawableEarnings)
           : 0,
     },
     {
       title: 'Withdrawable Earnings',
       count:
-        summary && summary.totalEarnings
-          ? 'N' + summary.totalEarnings.toLocaleString()
-          : 0,
+        summary && summary.totalEarnings ? currency(summary.totalEarnings) : 0,
     },
     {
       title: 'Followers',

@@ -3,6 +3,7 @@ import { MdDeleteForever } from 'react-icons/md'
 import { useQueryClient } from '@tanstack/react-query'
 import DeleteDialog from './delete-dialog'
 import { useUpdateOrderItem } from '@/api/checkout'
+import { currency } from '@/utils/helpers'
 
 export default function OrderItem({ item }: { item: any }) {
   const queryClient = useQueryClient()
@@ -55,7 +56,7 @@ export default function OrderItem({ item }: { item: any }) {
               {product.quantity} {product.unit}
             </p>
             <p className="text-sm font-medium text-nowrap">
-              N {product.totalPrice.toLocaleString()}
+              {currency(product.totalPrice)}
             </p>
           </div>
         </div>

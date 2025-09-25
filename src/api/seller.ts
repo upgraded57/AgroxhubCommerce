@@ -2,11 +2,16 @@ import { useMutation, useQuery } from '@tanstack/react-query'
 import { axiosInstance } from './axiosInstance'
 
 export const useGetSeller = (sellerId: string) => {
+  type reqType = null
+  type resType = BaseAPIResponse<'seller', Seller>
   const getSeller = async () => {
-    const res = await axiosInstance.get(`/seller/${sellerId}`, {
-      showToast: false,
-    })
-    return res.data.seller as Seller
+    const res = await axiosInstance.get<reqType, resType>(
+      `/seller/${sellerId}`,
+      {
+        showToast: false,
+      },
+    )
+    return res.data.seller
   }
 
   return useQuery({
@@ -16,9 +21,13 @@ export const useGetSeller = (sellerId: string) => {
 }
 
 export const useGetSellers = () => {
+  type reqType = null
+  type resType = BaseAPIResponse<'sellers', Array<Seller>>
   const getSellers = async () => {
-    const res = await axiosInstance.get('/seller', { showToast: false })
-    return res.data.sellers as Array<Seller>
+    const res = await axiosInstance.get<reqType, resType>('/seller', {
+      showToast: false,
+    })
+    return res.data.sellers
   }
 
   return useQuery({
@@ -28,11 +37,17 @@ export const useGetSellers = () => {
 }
 
 export const useGetSimilarSellers = (sellerId: string) => {
+  type reqType = null
+  type resType = BaseAPIResponse<'sellers', Array<Seller>>
+
   const getSimilarSellers = async () => {
-    const res = await axiosInstance.get(`/seller/${sellerId}/similar`, {
-      showToast: false,
-    })
-    return res.data.sellers as Array<Seller>
+    const res = await axiosInstance.get<reqType, resType>(
+      `/seller/${sellerId}/similar`,
+      {
+        showToast: false,
+      },
+    )
+    return res.data.sellers
   }
 
   return useQuery({
@@ -45,9 +60,15 @@ export const useGetSellerProducts = (
   sellerId: string,
   params?: Record<string, any>,
 ) => {
+  type reqType = null
+  type resType = BaseAPIResponse<'hasMore', boolean> &
+    BaseAPIResponse<'products', Array<Product>> &
+    BaseAPIResponse<'seller', Seller> &
+    BaseAPIResponse<'total', number>
+
   const getSellerProducts = async () => {
     const query = new URLSearchParams(params)
-    const res = await axiosInstance.get(
+    const res = await axiosInstance.get<reqType, resType>(
       `/seller/${sellerId}/products?${query}`,
       {
         showToast: false,

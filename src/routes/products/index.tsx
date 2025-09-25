@@ -44,7 +44,7 @@ function RouteComponent() {
 
   const hasMore = data?.hasMore as boolean
 
-  const products: Array<Product> = data?.products
+  const products = data?.products
 
   const handleLoadNextPage = () => {
     if (hasMore) {
@@ -97,7 +97,7 @@ function RouteComponent() {
               <ProductsLoader count={12} />
             ) : isError ? (
               <ProductNotFound type="multiple" />
-            ) : products.length > 0 ? (
+            ) : products && products.length > 0 ? (
               <div className="basis-19/25 w-full">
                 <div className="gridEl">
                   {products.map((product, idx) => (

@@ -2,6 +2,7 @@ import { Link } from '@tanstack/react-router'
 import LogisticChangeModal from './logistic-change-modal'
 import OrderItem from './order-item'
 import AvatarComp from './avatar-comp'
+import { currency } from '@/utils/helpers'
 
 export default function OrderGroup({
   orderGroup,
@@ -82,7 +83,7 @@ export default function OrderGroup({
                 </span>
                 <div className="ml-auto">
                   <p className="text-sm font-medium">
-                    N {orderGroup.logisticsCost.toLocaleString()}
+                    {currency(orderGroup.logisticsCost)}
                   </p>
                 </div>
               </div>

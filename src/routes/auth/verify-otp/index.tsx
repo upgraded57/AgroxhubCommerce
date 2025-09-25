@@ -24,8 +24,8 @@ function RouteComponent() {
     }
 
     const data = {
-      userId: userId,
-      otp: form.otp ?? '',
+      userId,
+      otp: form.otp || '',
     }
 
     await VerifyMutation(data)

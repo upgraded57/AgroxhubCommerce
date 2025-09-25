@@ -13,10 +13,15 @@ export const useSyncCart = () => {
 }
 
 export const useGetCartItems = () => {
+  type reqType = null
+  type resType = BaseAPIResponse<'cart', Array<CartItem> | null>
+
   const getCartItems = async () => {
-    const res = await axiosInstance.get('/cart', { showToast: false })
+    const res = await axiosInstance.get<reqType, resType>('/cart', {
+      showToast: false,
+    })
     if (res.data.cart) {
-      return res.data.cart as Array<CartItem>
+      return res.data.cart
     }
 
     return []

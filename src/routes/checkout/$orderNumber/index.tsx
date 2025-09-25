@@ -8,6 +8,7 @@ import EmptyProducts from '@/components/empty-products'
 import Loader from '@/components/loader'
 import OrderGroup from '@/components/order-group'
 import AppLayout from '@/layouts/app-layout'
+import { currency } from '@/utils/helpers'
 
 export const Route = createFileRoute('/checkout/$orderNumber/')({
   component: RouteComponent,
@@ -157,25 +158,25 @@ function RouteComponent() {
                   <span className="flex items-center justify-between mb-4">
                     <p className="text-sm">Products Price</p>
                     <p className="text-sm font-semibold">
-                      NGN {order?.productsAmount?.toLocaleString()}
+                      {currency(order?.productsAmount)}
                     </p>
                   </span>
                   <span className="flex items-center justify-between my-4">
                     <p className="text-sm">Logistic Cost</p>
                     <p className="text-sm font-semibold">
-                      NGN {order?.logisticsAmount.toLocaleString()}
+                      {currency(order?.logisticsAmount)}
                     </p>
                   </span>
                   <span className="flex items-center justify-between mt-4">
                     <p className="text-sm">VAT</p>
                     <p className="text-sm font-semibold">
-                      NGN {order?.vat.toLocaleString()}
+                      {currency(order?.vat)}
                     </p>
                   </span>
                   <span className="flex items-center justify-between mt-4">
                     <p className="text-sm">Total Cost</p>
                     <p className="text-sm font-semibold">
-                      NGN {order?.totalAmount.toLocaleString()}
+                      {currency(order?.totalAmount)}
                     </p>
                   </span>
                 </div>

@@ -14,7 +14,7 @@ export const Route = createFileRoute('/seller/products/')({
 function RouteComponent() {
   const seller = use(UserContext).user
   const { isLoading, isFetching, data } = useGetSellerProducts(seller!.id)
-  const products: Array<Product> = data?.products || []
+  const products = data?.products || []
 
   return (
     <>

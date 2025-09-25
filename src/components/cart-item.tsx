@@ -3,6 +3,7 @@ import { use } from 'react'
 import { FaMinus, FaPlus } from 'react-icons/fa'
 import DeleteDialog from './delete-dialog'
 import { CartContext } from '@/providers/CartContext'
+import { currency } from '@/utils/helpers'
 
 export default function CartItem({ item }: { item: CartItem }) {
   const updateCartItem = use(CartContext)?.updateCartItem
@@ -27,7 +28,7 @@ export default function CartItem({ item }: { item: CartItem }) {
               {item.quantity} {item.unit}
             </p>
             <p className="text-sm font-medium text-nowrap">
-              N {item.price.toLocaleString()}
+              {currency(item.price)}
             </p>
           </div>
         </div>

@@ -9,11 +9,16 @@ export const UseCreateReview = () => {
 }
 
 export const useGetProductReviews = (slug: string) => {
+  type reqType = null
+  type resType = BaseAPIResponse<'reviews', Review>
   const getProductReview = async () => {
-    const res = await axiosInstance.get(`/reviews/product/${slug}`, {
-      showToast: false,
-    })
-    return res.data.reviews as Review
+    const res = await axiosInstance.get<reqType, resType>(
+      `/reviews/product/${slug}`,
+      {
+        showToast: false,
+      },
+    )
+    return res.data.reviews
   }
 
   return useQuery({

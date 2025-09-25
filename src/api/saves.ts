@@ -3,9 +3,13 @@ import { axiosInstance } from './axiosInstance'
 
 const token = localStorage.getItem('token')
 export const useGetSavedProducts = () => {
+  type reqType = null
+  type resType = BaseAPIResponse<'savedProducts', Array<SavedItem>>
   const getSavedProducts = async () => {
-    const res = await axiosInstance.get('/saves', { showToast: false })
-    return res.data.savedProducts as Array<SavedItem>
+    const res = await axiosInstance.get<reqType, resType>('/saves', {
+      showToast: false,
+    })
+    return res.data.savedProducts
   }
 
   return useQuery({

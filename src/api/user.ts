@@ -1,11 +1,17 @@
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { axiosInstance } from './axiosInstance'
+import type { ApiError } from '@/types/axios'
 
 export const useGetUser = () => {
+  type reqType = null
+  type resType = BaseAPIResponse<'user', User>
+
   const token = localStorage.getItem('token')
   const getUser = async () => {
-    const res = await axiosInstance.get(`/user`, { showToast: false })
-    return res.data.user as User
+    const res = await axiosInstance.get<reqType, resType>(`/user`, {
+      showToast: false,
+    })
+    return res.data.user
   }
   return useQuery({
     queryKey: ['User', token],
@@ -16,9 +22,11 @@ export const useGetUser = () => {
 }
 
 export const useEditUser = () => {
-  return useMutation({
-    mutationFn: (data: FormData) => {
-      return axiosInstance.patch('/user', data)
+  type reqType = FormData
+  type resType = BaseAPIResponse<'user', User>
+  return useMutation<resType, ApiError, reqType>({
+    mutationFn: (data) => {
+      return axiosInstance.patch<reqType, resType>('/user', data)
     },
   })
 }
