@@ -84,7 +84,14 @@ function RouteComponent() {
             </span>
             <p className="text-sm">Add New Product</p>
           </Link>
-          <Link to="/seller/orders" className={carouselItemStyle}>
+          <Link
+            to="/seller/orders"
+            className={carouselItemStyle}
+            search={{
+              page: undefined,
+              status: undefined,
+            }}
+          >
             <span className="w-10 h-10 rounded-full grid place-content-center bg-blue-100">
               <HiOutlineViewGridAdd className="text-2xl text-blue-500" />
             </span>

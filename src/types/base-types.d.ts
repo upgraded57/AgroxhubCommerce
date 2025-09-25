@@ -13,10 +13,10 @@ declare interface BaseAPIParam {
 }
 
 declare interface BasePaginatedRequest {
-  page: string
-  pageSize: string
-  pages: string
-  total: string
+  page?: string
+  pageSize?: string
+  pages?: string
+  total?: string
 }
 
 declare interface BasePaginatedResponse<TKey extends string, T> {

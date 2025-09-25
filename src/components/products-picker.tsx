@@ -1,6 +1,7 @@
 import { BiSolidHot } from 'react-icons/bi'
 import { Link } from '@tanstack/react-router'
 import { useGetProductCategories } from '@/api/product'
+import { EmptySearch } from '@/utils/empty-search-query'
 
 export default function ProductsPicker() {
   const roundedBtnStyle = 'btn btn-circle btn-sm p-1 bg-yellow-clr'
@@ -22,15 +23,7 @@ export default function ProductsPicker() {
           : categories.map((category, idx) => (
               <Link
                 to="/products"
-                search={{
-                  category: category.slug,
-                  region: undefined,
-                  currentPage: undefined,
-                  minPrice: undefined,
-                  maxPrice: undefined,
-                  rating: undefined,
-                  seller: undefined,
-                }}
+                search={{ ...EmptySearch, category: category.slug }}
                 className="carousel-item carousel-start btn font-normal"
                 key={idx}
               >

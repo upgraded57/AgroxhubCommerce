@@ -4,6 +4,7 @@ import Product from './product-card'
 import EmptyProducts from './empty-products'
 import ProductsLoader from './products-loader'
 import { useGetProducts } from '@/api/product'
+import { EmptySearch } from '@/utils/empty-search-query'
 
 export default function ProductsList({
   header,
@@ -38,15 +39,7 @@ export default function ProductsList({
           (products.length < 4 && (
             <Link
               to="/products"
-              search={{
-                category: category,
-                region: undefined,
-                currentPage: undefined,
-                minPrice: undefined,
-                maxPrice: undefined,
-                rating: undefined,
-                seller: undefined,
-              }}
+              search={EmptySearch}
               className="flex items-center gap-3 hover:underline"
             >
               <p className="text-sm peer">See More</p>

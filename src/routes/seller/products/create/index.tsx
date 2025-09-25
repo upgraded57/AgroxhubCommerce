@@ -44,7 +44,7 @@ function RouteComponent() {
             (key) => typeof key === 'string' && key.includes('Seller Products'),
           ),
       })
-      navigate({ to: '/seller/products' })
+      navigate({ to: '/seller/products', search: { q: undefined } })
     })
   }
 

@@ -138,7 +138,12 @@ function RouteComponent() {
       queryClient.invalidateQueries({
         queryKey: ['Product', slug],
       })
-      navigate({ to: '/seller/products' })
+      navigate({
+        to: '/seller/products',
+        search: {
+          q: undefined,
+        },
+      })
     })
   }
 
