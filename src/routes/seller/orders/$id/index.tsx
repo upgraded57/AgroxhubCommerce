@@ -99,7 +99,7 @@ const Profile = ({
   name: string
   slug: string
 }) => {
-  const initials = name.split(' ')[0][0] + name.split(' ')[1][0]
+  const initials = name ? name.split(' ')[0][0] + name.split(' ')[1][0] : ''
   return (
     <div className="flex items-center gap-4">
       {image ? (
