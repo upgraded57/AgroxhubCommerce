@@ -9,6 +9,7 @@ import useRegions from '@/hooks/use-regions'
 import { UserContext } from '@/providers/UserContext'
 import ErrorMessage from '@/components/error-message'
 import { ProductUnits } from '@/assets/data'
+import { preventAlphabetInput } from '@/utils/helpers'
 
 export const Route = createFileRoute('/seller/products/create/')({
   component: RouteComponent,
@@ -176,6 +177,7 @@ function RouteComponent() {
             type="number"
             {...formik.getFieldProps('unitPrice')}
             className="input input-bordered w-full"
+            onKeyDown={preventAlphabetInput}
           />
           <ErrorMessage formik={formik} fieldName="unitPrice" />
         </label>
@@ -206,6 +208,7 @@ function RouteComponent() {
             <input
               {...formik.getFieldProps('unitWeight')}
               className="input input-bordered w-full"
+              onKeyDown={preventAlphabetInput}
             />
             {formik.values.unit ? (
               <p className="text-gray-400 absolute right-2 text-sm">
@@ -225,6 +228,7 @@ function RouteComponent() {
             type="number"
             {...formik.getFieldProps('quantity')}
             className="input input-bordered w-full"
+            onKeyDown={preventAlphabetInput}
           />
           <ErrorMessage formik={formik} fieldName="quantity" />
         </label>
@@ -236,6 +240,7 @@ function RouteComponent() {
             type="number"
             {...formik.getFieldProps('min_sellable_quantity')}
             className="input input-bordered w-full"
+            onKeyDown={preventAlphabetInput}
           />
           <ErrorMessage formik={formik} fieldName="min_sellable_quantity" />
         </label>
@@ -247,6 +252,7 @@ function RouteComponent() {
             type="number"
             {...formik.getFieldProps('low_stock_alert_level')}
             className="input input-bordered w-full"
+            onKeyDown={preventAlphabetInput}
           />
           <ErrorMessage formik={formik} fieldName="low_stock_alert_level" />
         </label>

@@ -13,7 +13,6 @@ export default function OrderTable({
             <tr className="bg-slate-100">
               <th className="font-medium">Product</th>
               <th className="font-medium">Quantity</th>
-              <th className="font-medium">Unit Weight</th>
             </tr>
           </thead>
           <tbody>
@@ -32,7 +31,6 @@ export default function OrderTable({
                 <td className="w-max text-nowrap">
                   {product.quantity} {product.unit}
                 </td>
-                <td className="w-max text-nowrap">{product.unit}</td>
               </tr>
             ))}
           </tbody>

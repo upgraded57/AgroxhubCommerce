@@ -18,7 +18,7 @@ export default function SellerProduct({ product }: { product: Product }) {
     }
   }
   return (
-    <div className="w-full rounded-lg p-2 border-[1px] border-transparent hover:shadow hover:border-light-grey-clr mb-4">
+    <div className="w-full rounded-lg p-2 border-[1px] border-transparent hover:shadow hover:border-light-grey-clr">
       <div className="w-full bg-light-grey-clr h-[80px] md:h-[100px] xl:h-[120px] rounded-b-none rounded overflow-hidden">
         <img
           src={product.images[0]}

@@ -7,6 +7,7 @@ import { useEditUser } from '@/api/user'
 import { UserContext } from '@/providers/UserContext'
 import useRegions from '@/hooks/use-regions'
 import AvatarComp from '@/components/avatar-comp'
+import { preventAlphabetInput } from '@/utils/helpers'
 
 export const Route = createFileRoute('/user/account/edit/')({
   component: RouteComponent,
@@ -58,7 +59,8 @@ function RouteComponent() {
         EDIT ACCOUNT
       </h2>
 
-      <div className="flex gap-2 flex-col md:flex-row w-full py-12 md:py-6 md:border-t border-b">
+      {/* Avatar */}
+      <div className="flex gap-2 flex-col md:flex-row w-full py-12 md:py-6 md:border-t">
         <div className="w-[max-content] mx-auto md:mx-0 flex flex-col md:flex-row gap-4 items-center relative">
           {newAvatar ? (
             <div className="w-[80px] aspect-square rounded-full overflow-hidden bg-slate-100">
@@ -110,6 +112,7 @@ function RouteComponent() {
       </div>
 
       <div className="py-4 px-2">
+        {/* Full Name */}
         <label htmlFor="fullName" className="block mb-4">
           <p className="text-sm">FULL NAME</p>
           <input
@@ -123,6 +126,7 @@ function RouteComponent() {
           />
         </label>
 
+        {/* Email Address */}
         <label htmlFor="email" className="block mb-4">
           <p className="text-sm">EMAIL ADDRESS</p>
           <input
@@ -136,6 +140,7 @@ function RouteComponent() {
           />
         </label>
 
+        {/* Phone Number */}
         <label htmlFor="phoneNumber" className="block mb-4">
           <p className="text-sm">PHONE NUMBER</p>
           <input
@@ -146,9 +151,12 @@ function RouteComponent() {
             placeholder={user?.phoneNumber}
             disabled={isPending}
             defaultValue={user?.phoneNumber || ''}
+            onKeyDown={preventAlphabetInput}
+            maxLength={13}
           />
         </label>
 
+        {/* Address */}
         <label htmlFor="address" className="block mb-4">
           <p className="text-sm">ADDRESS</p>
           <input
@@ -161,6 +169,7 @@ function RouteComponent() {
           />
         </label>
 
+        {/* Region */}
         <div className="flex flex-col md:flex-row items-center gap-4 w-full">
           <label htmlFor="state" className="block w-full">
             <p className="text-sm uppercase">State of residence</p>
@@ -242,7 +251,9 @@ function RouteComponent() {
         <p className="font-semibold text-sm">PASSWORD UPDATE</p>
       </div>
 
+      {/* Password */}
       <div className="py-4 px-2">
+        {/* Old Password */}
         <label htmlFor="oldPassword" className="block mb-4">
           <p className="text-sm">OLD PASSWORD</p>
           <input
@@ -255,6 +266,7 @@ function RouteComponent() {
           />
         </label>
 
+        {/* New Password */}
         <label htmlFor="newPassword" className="block mb-4">
           <p className="text-sm">NEW PASSWORD</p>
           <input
@@ -267,6 +279,7 @@ function RouteComponent() {
           />
         </label>
 
+        {/* Confirm New Password */}
         <label htmlFor="confirmPassword" className="block mb-4">
           <p className="text-sm">CONFIRM PASSWORD</p>
           <input
@@ -280,10 +293,10 @@ function RouteComponent() {
         </label>
       </div>
 
-      <div className="flex justify-center items-center">
+      <div className="flex justify-center w-full">
         <button
           type="submit"
-          className="btn btn-outline border-orange-clr  text-orange-clr hover:text-white hover:bg-orange-clr hover:border-orange-clr uppercase"
+          className="btn btn-outline btn-warning uppercase hover:text-white "
           disabled={isPending}
         >
           {isPending ? (

@@ -22,9 +22,7 @@ export const useGetProductCategories = () => {
 
 export const useGetProducts = (queryParams: Record<string, any>) => {
   type reqType = null
-  type resType = BaseAPIResponse<'hasMore', boolean> &
-    BaseAPIResponse<'products', Array<Product>> &
-    BaseAPIResponse<'total', number>
+  type resType = BasePaginatedResponse<'products', Array<Product>>
 
   const getProducts = async () => {
     const params = new URLSearchParams(queryParams)

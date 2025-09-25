@@ -348,3 +348,13 @@ declare interface SellerOrder {
     images: Array<string>
   }>
 }
+
+declare interface AllProductsParams {
+  category?: string
+  region?: string
+  page?: string
+  minPrice?: string
+  maxPrice?: string
+  rating?: string
+  seller?: string
+}

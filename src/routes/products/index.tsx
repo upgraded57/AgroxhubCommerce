@@ -12,21 +12,7 @@ import ProductNotFound from '@/components/product-not-found'
 
 export const Route = createFileRoute('/products/')({
   component: RouteComponent,
-  validateSearch: (search: Record<string, unknown>) => {
-    return {
-      category:
-        typeof search.category === 'string' ? search.category : undefined,
-      region: typeof search.region === 'string' ? search.region : undefined,
-      currentPage:
-        typeof search.currentPage === 'string' ? search.currentPage : undefined,
-      minPrice:
-        typeof search.minPrice === 'string' ? search.minPrice : undefined,
-      maxPrice:
-        typeof search.maxPrice === 'string' ? search.maxPrice : undefined,
-      rating: typeof search.rating === 'string' ? search.rating : undefined,
-      seller: typeof search.seller === 'string' ? search.seller : undefined,
-    }
-  },
+  validateSearch: (search: AllProductsParams & BasePaginatedRequest) => search,
 })
 
 function RouteComponent() {
@@ -42,15 +28,16 @@ function RouteComponent() {
     stripUndefined(params),
   )
 
-  const hasMore = data?.hasMore as boolean
-
   const products = data?.products
+  const totalPages = data ? data.pages : 1
+  const currentPage = data ? data.page : 1
+  const canNext = data ? totalPages > Number(currentPage) : false
 
   const handleLoadNextPage = () => {
-    if (hasMore) {
+    if (canNext) {
       const filters = {
         ...params,
-        currentPage: String((parseInt(params.currentPage || '1') || 1) + 1),
+        page: String((parseInt(params.page || '1') || 1) + 1),
       }
 
       navigate({
@@ -61,10 +48,10 @@ function RouteComponent() {
   }
 
   const handleLoadPreviousPage = () => {
-    if (params.currentPage && parseInt(params.currentPage) > 1) {
+    if (params.page && parseInt(params.page) > 1) {
       const filters = {
         ...params,
-        currentPage: String((parseInt(params.currentPage || '1') || 1) - 1),
+        page: String((parseInt(params.page || '1') || 1) - 1),
       }
 
       navigate({
@@ -109,21 +96,17 @@ function RouteComponent() {
                   <div className="join ">
                     <button
                       className="join-item btn bg-orange-clr border-transparent text-white"
-                      disabled={
-                        params.currentPage
-                          ? parseInt(params.currentPage) <= 1
-                          : true
-                      }
+                      disabled={Number(currentPage) === 1}
                       onClick={handleLoadPreviousPage}
                     >
                       <FaChevronLeft />
                     </button>
                     <button className="join-item btn bg-transparent pointer-events-none">
-                      Page {params.currentPage || 1}
+                      Page {currentPage || 1} of {totalPages}
                     </button>
                     <button
                       className="join-item btn bg-orange-clr border-transparent text-white"
-                      disabled={!hasMore}
+                      disabled={!canNext}
                       onClick={handleLoadNextPage}
                     >
                       <FaChevronRight />

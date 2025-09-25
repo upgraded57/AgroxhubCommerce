@@ -10,7 +10,7 @@ export default function OrdersTable({
 }) {
   const navigate = useNavigate()
   return !orders.length ? (
-    <EmptyProducts text="You have no orders yet" />
+    <EmptyProducts text="Nothing to see here yet" />
   ) : (
     <div className="overflow-x-auto">
       <table className="table text-sm">

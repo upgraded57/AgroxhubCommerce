@@ -1,18 +1,48 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, useNavigate, useSearch } from '@tanstack/react-router'
 import { LuClipboardList, LuListCheck } from 'react-icons/lu'
 import { useGetSellerOrderSummary, useGetSellerOrders } from '@/api/seller'
 import OrdersTable from '@/components/orders-table'
 import Loader from '@/components/loader'
 
+type OrderPageSearch = {
+  status?:
+    | 'all'
+    | 'delivered'
+    | 'in_transit'
+    | 'pending'
+    | 'returned'
+    | undefined
+  page?: string
+}
+
 export const Route = createFileRoute('/seller/orders/')({
   component: RouteComponent,
+  validateSearch: (search: OrderPageSearch) => {
+    return {
+      status: search.status,
+      page: search.page,
+    }
+  },
 })
 
 const summaryBoxStyle =
   'carousel-item min-w-max w-1/4 p-4 flex items-center gap-4 border rounded-lg'
 
 function RouteComponent() {
-  const { isLoading, data: orders } = useGetSellerOrders()
+  const navigate = useNavigate()
+  const params = useSearch({
+    from: '/seller/orders/',
+  })
+  const { isLoading, data } = useGetSellerOrders({
+    status: params.status,
+    page: params.page,
+  })
+
+  const orders = data?.orders
+  const totalPages = data ? data.pages : 1
+  const currentPage = data ? data.page : 1
+  const canNext = data ? totalPages > Number(currentPage) : false
+
   const { isLoading: isLoadingSummary, data: summary } =
     useGetSellerOrderSummary()
 
@@ -43,6 +73,18 @@ function RouteComponent() {
     },
   ]
 
+  const handlePageChange = (type: 'prev' | 'next') => {
+    const page = params.page ? Number(params.page) : 1
+    if (type === 'prev' && page === 1) return
+    navigate({
+      to: '/seller/orders',
+      search: {
+        status: params.status || undefined,
+        page: type === 'prev' ? String(page - 1) : String(page + 1),
+      },
+    })
+  }
+
   return (
     <>
       <div className="hidden md:flex items-center justify-between border-b py-2 md:pt-0">
@@ -50,7 +92,7 @@ function RouteComponent() {
       </div>
 
       <div className="flex gap-2 items-center">
-        <StatusFilters />
+        <StatusFilters status={params.status} page={params.page} />
         <DateFilters />
       </div>
 
@@ -82,13 +124,29 @@ function RouteComponent() {
           <div className="border rounded-lg overflow-hidden">
             <OrdersTable orders={orders} />
             {/* Pagination */}
-            <div className="flex justify-center py-4">
-              <div className="join">
-                <button className="join-item btn">«</button>
-                <button className="join-item btn">Page 1</button>
-                <button className="join-item btn">»</button>
+            {orders.length > 10 && (
+              <div className="flex justify-center py-4">
+                <div className="join">
+                  <button
+                    className="join-item btn"
+                    onClick={() => handlePageChange('prev')}
+                    disabled={Number(currentPage) === 1}
+                  >
+                    «
+                  </button>
+                  <button className="join-item btn">
+                    Page {currentPage} of {totalPages}
+                  </button>
+                  <button
+                    className="join-item btn"
+                    onClick={() => handlePageChange('next')}
+                    disabled={!canNext}
+                  >
+                    »
+                  </button>
+                </div>
               </div>
-            </div>
+            )}
           </div>
         )
       )}
@@ -110,30 +168,38 @@ const DateFilters = ({ lg }: { lg?: boolean }) => {
   )
 }
 
-const StatusFilters = () => {
+const StatusFilters = ({
+  status,
+  page,
+}: {
+  status: OrderPageSearch['status']
+  page?: string
+}) => {
+  const navigate = useNavigate()
   return (
     <div className="flex items-center space-x-4 my-4">
       <p className="text-sm">Filter by:</p>
       <select
-        defaultValue="Pick a Status"
-        // defaultValue={params.status || "Pick a Status"}
-        className="select select-sm w-max"
-        // onChange={(e) => {
-        //   navigate({
-        //     to: "/orders",
-        //     search: {
-        //       status: e.target.value.length
-        //         ? (e.target.value as OrderQueryTypes["status"])
-        //         : undefined,
-        //     },
-        //   });
-        // }}
+        defaultValue={status || 'Pick a Status'}
+        className="select select-sm w-max uppercase"
+        onChange={(e) => {
+          navigate({
+            to: '/seller/orders',
+            search: {
+              status: e.target.value.length
+                ? (e.target.value as OrderPageSearch['status'])
+                : undefined,
+              page: page || undefined,
+            },
+          })
+        }}
       >
         <option value="">All Status</option>
         <option value="delivered">Delivered</option>
         <option value="in_transit">In Transit</option>
         <option value="pending">Pending</option>
-        <option value="returned">Returned</option>
+        <option value="rejected">Rejected</option>
+        <option value="canceled">Canceled</option>
       </select>
     </div>
   )

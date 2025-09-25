@@ -69,9 +69,10 @@ export const useGetSellerProducts = (
   const getSellerProducts = async () => {
     const query = new URLSearchParams(params)
     const res = await axiosInstance.get<reqType, resType>(
-      `/seller/${sellerId}/products?${query}`,
+      `/seller/${sellerId}/products`,
       {
         showToast: false,
+        params: query,
       },
     )
     return res.data
@@ -166,15 +167,18 @@ export const useGetSellerSummary = () => {
   })
 }
 
-export const useGetSellerOrders = () => {
+export const useGetSellerOrders = (params?: BaseAPIParam) => {
+  type resType = BasePaginatedResponse<'orders', Array<SellerOrders>>
+
   const getSellerProducts = async () => {
-    const res = await axiosInstance.get(`/seller/orders`, {
+    const res = await axiosInstance.get<unknown, resType>(`/seller/orders`, {
       showToast: false,
+      params,
     })
-    return res.data.orders as Array<SellerOrders>
+    return res.data
   }
   return useQuery({
-    queryKey: ['Seller', 'Orders'],
+    queryKey: ['Seller', 'Orders', params],
     queryFn: getSellerProducts,
   })
 }

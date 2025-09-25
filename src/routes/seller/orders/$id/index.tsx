@@ -65,8 +65,7 @@ function RouteComponent() {
               </span>
             </div>
 
-            <div className="mt-6 mb-8 ml-4 space-y-2">
-              <p className="text-sm">Buyer</p>
+            <div className="mt-6 mb-8 md:ml-4 space-y-2">
               <Profile
                 name={order.user.name}
                 slug="Buyer"
@@ -74,11 +73,10 @@ function RouteComponent() {
               />
             </div>
 
-            <div className="rounded-lg border overflow-hidden ml-4">
+            <div className="rounded-lg border overflow-hidden md:ml-4">
               <OrderTable products={order.products} />
             </div>
-            <div className="mt-6 mb-8 space-y-2 ml-4">
-              <p className="text-sm">Logistics Provider</p>
+            <div className="mt-6 mb-8 space-y-2 md:ml-4">
               <Profile
                 name={order.logisticsProvider?.name || ''}
                 slug="Logistics Provider"
