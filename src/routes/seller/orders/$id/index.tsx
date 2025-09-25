@@ -77,7 +77,8 @@ function RouteComponent() {
               <OrderTable products={order.products} />
             </div>
             <div className="mt-6 mb-8 space-y-2 md:ml-4">
-              {order.logisticsProvider ? (
+              {order.logisticsProvider &&
+              Object.keys(order.logisticsProvider).length ? (
                 <Profile
                   name={order.logisticsProvider.name || ''}
                   slug="Logistics Provider"
